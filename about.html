@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — F x 1 Digital</title>
+
+  <!-- Google Fonts: same as index + no new fonts needed for hero -->
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;700&family=Almarai:wght@400;700;800&family=Fahkwang:wght@400;600;700&family=Montserrat:wght@400;700&family=Work+Sans:wght@400;600&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ══════════════════════════════════════════
+       GLOBAL RESET + BASE
+    ══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #FFFFFF;
+      color: #171717;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; }
+
+    /* ══════════════════════════════════════════
+       WIX-MOTION FADE-IN
+    ══════════════════════════════════════════ */
+    .wix-motion {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 900ms cubic-bezier(0.445,0.05,0.55,0.95),
+                  transform 900ms cubic-bezier(0.445,0.05,0.55,0.95);
+    }
+    .wix-motion.motion-done {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .wix-motion-d1.motion-done { transition-delay: 80ms; }
+    .wix-motion-d2.motion-done { transition-delay: 180ms; }
+    .wix-motion-d3.motion-done { transition-delay: 280ms; }
+    .wix-motion-d4.motion-done { transition-delay: 380ms; }
+
+    /* ══════════════════════════════════════════
+       HEADER — sticky (identical to index.html)
+       bg: transparent → rgba(23,23,23,0.85) on scroll
+       height: 75px
+    ══════════════════════════════════════════ */
+    #header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 75px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 45px;
+      background: transparent;
+      transition: background 0.3s ease;
+    }
+    #header.scrolled { background: rgba(23, 23, 23, 0.85); backdrop-filter: blur(8px); }
+
+    /* Logo */
+    .header-logo {
+      font-family: 'Familjen Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.02em;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    /* Desktop nav */
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .header-nav a {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      color: #FFFFFF;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .header-nav a:hover { color: #3C3AFF; }
+    .header-nav a.active { color: #C084FC; } /* about page active state */
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #FFFFFF;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile overlay */
+    #mobileOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #FFFFFF;
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    #mobileOverlay.open { display: flex; }
+    .mobile-close {
+      position: absolute;
+      top: 24px; right: 24px;
+      font-size: 28px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #171717;
+      line-height: 1;
+    }
+    .mobile-nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .mobile-nav a {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: #171717;
+      text-decoration: none;
+    }
+    .mobile-nav a.active { color: #C084FC; }
+
+    @media (max-width: 900px) {
+      .header-nav { display: none; }
+      .hamburger  { display: flex; }
+      #header     { padding: 0 24px; }
+    }
+
+    /* ══════════════════════════════════════════
+       HERO SECTION — comp-lzpi25j1
+       bg: video (opacity 0.8) + no color overlay
+       min-height: ~532px
+       padding: 75px top · 45px LR · 0 bottom
+       Single col flex-col, content centered
+    ══════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      min-height: max(532px, 41.57vw); /* 0.4156767 × 1280 */
+      padding: 75px max(24px, 3.516vw) 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #0a0a1a; /* dark fallback */
+    }
+
+    /* Video layer — opacity 0.8 */
+    #hero .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      opacity: 0.8;
+      z-index: 0;
+    }
+
+    /* NO color overlay (fill-layer-background-overlay-color:transparent) */
+
+    /* Content box — ~84% wide on desktop, flex-col centered */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 84vw);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-bottom: 80px; /* breathing room at bottom */
+    }
+
+    /* H1 — Plus Jakarta Sans 700
+       max(12px, 4.75vw) ≈ 60px @ 1280px
+       color: #C084FC (purple) · center */
+    .hero-h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 4.7506vw); /* 0.0475059 × 1280 = 60.8px */
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: #C084FC;
+      text-align: center;
+      margin-bottom: max(0.5px, 0.9358vw); /* 0.0093582 × 1280 = 12px */
+    }
+
+    /* Subtitle — Plus Jakarta Sans
+       max(12px, 2.375vw) ≈ 30px @ 1280px
+       color: #BDBDFF (lavender) · center
+       inline bold: "private performance atelier" */
+    .hero-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: max(12px, 2.3753vw); /* 0.023753 × 1280 = 30.4px */
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      color: #BDBDFF;
+      text-align: center;
+      max-width: 860px;
+      margin: 0;
+    }
+    .hero-sub strong {
+      font-weight: 700;
+      color: #BDBDFF;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      #hero { padding: 75px 32px 0; min-height: 400px; }
+      .hero-content { width: 100%; padding-bottom: 60px; }
+      .hero-h1 { font-size: clamp(28px, 5vw, 48px); }
+      .hero-sub { font-size: clamp(16px, 2.5vw, 24px); }
+    }
+    @media (max-width: 600px) {
+      #hero { padding: 75px 20px 0; min-height: 320px; }
+      .hero-h1 { font-size: clamp(26px, 7vw, 36px); }
+      .hero-sub { font-size: clamp(15px, 4vw, 20px); }
+    }
+
+  
+    /* ══════════════════════════════════════════
+       SECTION 2 — THE ATELIER MANIFESTO
+       Option 2: Dark immersive full-width
+       bg: #171717 · centered · brand color highlights
+    ══════════════════════════════════════════ */
+    #manifesto {
+      background: #171717;
+      padding: 110px max(24px, 3.516vw) 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Eyebrow tag — "About F x 1 Digital" (không lặp heading) */
+    .manifesto-tag {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 28px;
+    }
+
+    /* H2 — heading lớn, #C084FC purple
+       max(12px, 4.75vw) ≈ 60px */
+    .manifesto-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(32px, 4.7506vw);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #C084FC;
+      margin-bottom: 44px;
+    }
+
+    /* Divider line */
+    .manifesto-rule {
+      width: 60px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.15);
+      margin: 0 auto 44px;
+    }
+
+    /* Paragraphs — max-width 680px, centered */
+    .manifesto-p {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: max(16px, 1.563vw);
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 680px;
+      margin: 0 auto 22px;
+    }
+    .manifesto-p:last-child { margin-bottom: 0; }
+
+    /* Bold spans — para 1: #BDBDFF lavender | para 2: #B3F5A0 mint */
+    .manifesto-p.p1 strong { color: #BDBDFF; font-weight: 700; }
+    .manifesto-p.p2 strong { color: #B3F5A0; font-weight: 700; }
+
+    @media (max-width: 900px) {
+      #manifesto { padding: 80px 32px 80px; }
+      .manifesto-h { font-size: clamp(28px, 5vw, 48px); margin-bottom: 32px; }
+      .manifesto-p { font-size: clamp(15px, 2vw, 20px); }
+    }
+    @media (max-width: 600px) {
+      #manifesto { padding: 64px 20px 64px; }
+      .manifesto-h { font-size: clamp(26px, 7vw, 36px); }
+      .manifesto-p { font-size: 16px; }
+    }
+
+  
+    /* ══════════════════════════════════════════
+       SECTION 3 — OUR 4 UNBREAKABLE LAWS
+       Option 2: Dark navy bg #0F2D51
+       4 cards in 2×2 grid, number #C084FC
+    ══════════════════════════════════════════ */
+    #laws {
+      background: #0F2D51;
+      padding: 100px max(24px, 5.362vw) 100px;
+    }
+
+    .laws-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 4.7506vw);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .laws-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .laws-card {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .laws-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: max(28px, 2.5vw);
+      line-height: 1;
+      color: #C084FC;
+    }
+
+    .laws-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(16px, 1.4vw);
+      line-height: 1.3;
+      color: #FFFFFF;
+    }
+
+    .laws-desc {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.65);
+      margin: 0;
+    }
+    .laws-desc strong {
+      font-weight: 700;
+      color: #BDBDFF;
+    }
+
+    @media (max-width: 900px) {
+      #laws       { padding: 72px 32px; }
+      .laws-h     { font-size: clamp(26px, 5vw, 44px); margin-bottom: 28px; }
+      .laws-title { font-size: clamp(15px, 2vw, 20px); }
+    }
+    @media (max-width: 600px) {
+      #laws       { padding: 56px 20px; }
+      .laws-grid  { grid-template-columns: 1fr; }
+      .laws-h     { font-size: clamp(24px, 7vw, 34px); }
+      .laws-desc  { font-size: 14px; }
+    }
+
+  
+    /* ══════════════════════════════════════════
+       SECTION 4 — YOUR SHADOW CMO & ATELIER
+       Option 3: #EDEDED bg · white cards · circular avatars
+       3×2 grid · gap 42px · padding 0 top / 45px LR / 100px bot
+    ══════════════════════════════════════════ */
+    #team {
+      background: #EDEDED;
+      padding: 80px max(24px, 3.516vw) 100px;
+    }
+
+    .team-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 3.6458vw); /* 0.0364584 × 1280 = 46.7px */
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #171717;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .team-card {
+      background: #FFFFFF;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 28px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 14px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .team-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Circular avatar — initials fallback, ready for img */
+    .team-avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #C084FC 0%, #818CF8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: #FFFFFF;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .team-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .team-info { display: flex; flex-direction: column; gap: 5px; }
+
+    .team-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.3;
+      color: #171717;
+    }
+
+    .team-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #666666;
+    }
+
+    @media (max-width: 900px) {
+      #team         { padding: 64px 24px 80px; }
+      .team-h       { font-size: clamp(24px, 4vw, 40px); margin-bottom: 36px; }
+      .team-grid    { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    }
+    @media (max-width: 600px) {
+      #team         { padding: 48px 16px 64px; }
+      .team-h       { font-size: clamp(22px, 6.5vw, 32px); }
+      .team-grid    { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .team-card    { padding: 22px 14px 18px; }
+      .team-avatar  { width: 68px; height: 68px; font-size: 18px; }
+      .team-name    { font-size: 13px; }
+      .team-title   { font-size: 11px; }
+    }
+
+  
+    /* ══════════════════════════════════════════
+       SECTION 5 — THE F1 AI STACK – 9 LAYERS DEEP
+       bg: #022543 midnight navy
+       Heading centered · 3×3 grid · gap 15px
+       Số 01-09: nhỏ, màu #C084FC purple
+       Tên stack: lớn, trắng
+    ══════════════════════════════════════════ */
+    #aistack {
+      background: #022543;
+      padding: 100px max(24px, 3.516vw) 80px;
+    }
+
+    .aistack-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 4.7506vw);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .aistack-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 36px;
+    }
+
+    .aistack-card {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* Số: nhỏ, #C084FC purple */
+    .aistack-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: #C084FC;
+    }
+
+    /* Tên stack: lớn, trắng */
+    .aistack-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: max(16px, 1.5vw);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      color: #FFFFFF;
+    }
+
+    /* Desc: nhỏ, mờ */
+    .aistack-desc {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 0;
+    }
+
+    /* Tagline phía dưới */
+    .aistack-foot {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.55);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 24px;
+      text-align: center;
+    }
+    .aistack-foot strong { color: #B3F5A0; font-weight: 700; }
+
+    @media (max-width: 900px) {
+      #aistack           { padding: 72px 24px 64px; }
+      .aistack-h         { font-size: clamp(26px, 5vw, 44px); margin-bottom: 36px; }
+      .aistack-grid      { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .aistack-title     { font-size: clamp(15px, 2vw, 20px); }
+    }
+    @media (max-width: 600px) {
+      #aistack           { padding: 56px 16px 48px; }
+      .aistack-h         { font-size: clamp(22px, 6.5vw, 32px); }
+      .aistack-grid      { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .aistack-title     { font-size: 15px; }
+      .aistack-desc      { font-size: 11px; }
+    }
+
+  
+    /* ══════════════════════════════════════════
+       SECTION 6 — BY INVITATION ONLY
+       Option 2: #171717 dark · heading #C084FC
+       "3 slots open" đỏ #EF3F3F · centered
+    ══════════════════════════════════════════ */
+    #invitation {
+      background: #171717;
+      padding: 100px max(24px, 3.516vw) 110px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 28px;
+    }
+
+    .inv-tag {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    /* Heading — #C084FC purple, ~60px */
+    .inv-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: max(12px, 4.7506vw);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #C084FC;
+    }
+
+    .inv-rule {
+      width: 48px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.12);
+      flex-shrink: 0;
+    }
+
+    /* Para 1 — ~46px, "12 brokers per year." bold trắng */
+    .inv-p1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: max(12px, 3.5897vw);
+      line-height: 1.3;
+      color: rgba(255, 255, 255, 0.75);
+      max-width: 820px;
+      margin: 0;
+    }
+    .inv-p1 strong {
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+
+    /* Para 2 — availability, "3 slots open" đỏ #EF3F3F */
+    .inv-p2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: max(12px, 2.2vw);
+      line-height: 1.4;
+      color: rgba(255, 255, 255, 0.5);
+      max-width: 720px;
+      margin: 0;
+    }
+    .inv-p2 strong {
+      font-weight: 700;
+      color: #EF3F3F;
+    }
+
+    @media (max-width: 900px) {
+      #invitation  { padding: 80px 32px 90px; gap: 22px; }
+      .inv-h       { font-size: clamp(28px, 5.5vw, 50px); }
+      .inv-p1      { font-size: clamp(20px, 3.5vw, 36px); }
+      .inv-p2      { font-size: clamp(16px, 2.2vw, 24px); }
+    }
+    @media (max-width: 600px) {
+      #invitation  { padding: 64px 20px 72px; gap: 18px; }
+      .inv-h       { font-size: clamp(26px, 7vw, 38px); }
+      .inv-p1      { font-size: clamp(18px, 5.5vw, 28px); }
+      .inv-p2      { font-size: clamp(15px, 4vw, 20px); }
+    }
+
+  
+    /* ══════════════════════════════════════════
+       SECTION 7 — SEE IT RUN ON YOUR DATA (CTA)
+       Video bg opacity 0.7 + white overlay
+       Single col centered · padding 76px/51px/101px
+       Heading: #EF3F3F red · 72px · 66.4% wide
+       Sub: #EF3F3F red · 18px bold · 94.2% wide
+       Button: #EF3F3F · white text · 214px × 42px
+    ══════════════════════════════════════════ */
+    #cta {
+      position: relative;
+      min-height: max(202px, 15.83vw);
+      padding: max(48px, 5.938vw) max(24px, 3.959vw) max(64px, 7.918vw);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #f0f0f0; /* fallback */
+    }
+
+    /* Video layer — opacity 0.7, white overlay effect */
+    #cta .cta-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.7;
+      z-index: 0;
+    }
+
+    /* White overlay — dims video to near-white */
+    #cta::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.6);
+      z-index: 1;
+    }
+
+    /* Content box — centered above video */
+    .cta-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+
+    /* Heading — #EF3F3F red · max(12px, 5.64vw) ≈ 72px
+       width 66.4% · bold · center */
+    .cta-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 5.641vw); /* 0.0564101 × 1280 = 72.2px */
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #EF3F3F;
+      width: 66.364%;
+      text-align: center;
+    }
+
+    /* Subtitle — #EF3F3F red · 18px bold · 94.2% wide */
+    .cta-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.5;
+      color: #EF3F3F;
+      width: 94.233%;
+      text-align: center;
+      margin: 0;
+    }
+
+    /* Button — red pill · 214px × 42px · white text 700 18px */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(239, 63, 63, 1);
+      border: 1px solid rgba(239, 63, 63, 1);
+      border-radius: 999px;
+      height: 42px;
+      width: 214px;
+      padding-left: 22px;
+      padding-right: 4px;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .cta-btn:hover {
+      background: rgba(189, 189, 255, 1);
+      border-color: rgba(189, 189, 255, 1);
+    }
+    .cta-btn:hover .cta-btn-label { color: #171717; }
+    .cta-btn:hover .cta-btn-icon  { background: rgba(23,23,23,0.12); }
+
+    .cta-btn-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.4em;
+      color: #FFFFFF;
+      white-space: nowrap;
+      transition: color 0.2s ease;
+    }
+
+    .cta-btn-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      flex-shrink: 0;
+      transition: background 0.2s ease;
+    }
+    .cta-btn-icon svg { width: 20px; height: 20px; }
+
+    @media (max-width: 900px) {
+      #cta      { padding: 60px 32px 72px; }
+      .cta-h    { font-size: clamp(28px, 5.5vw, 56px); width: 85%; }
+      .cta-sub  { font-size: 16px; width: 100%; }
+    }
+    @media (max-width: 600px) {
+      #cta      { padding: 48px 20px 56px; }
+      .cta-h    { font-size: clamp(24px, 7vw, 40px); width: 100%; }
+      .cta-sub  { font-size: 15px; }
+      .cta-btn  { width: 100%; max-width: 260px; }
+    }
+
+  /* ══════════════════════════════════════════
+   FOOTER — F x 1 Digital
+   Nằm trong sticky wrapper (comp-mi5s8big)
+   → Dark rounded card #171717 · radius 35px
+   → Nổi trên nền trắng của page
+   3 rows:
+     Row 1: Logo + Tagline (padding lớn, sang trọng)
+     Row 2: "Back to top" button
+     Row 3: T&C · Privacy · Copyright
+   ══════════════════════════════════════════ */
+#site-footer {
+  background: transparent; /* card tự có bg */
+  padding: 0 20px 40px;    /* breathing room quanh card */
+}
+
+/* Dark rounded card */
+.footer-card {
+  background: rgb(23, 23, 23); /* #171717 = color_15 */
+  border-radius: 35px;          /* 0.0273436 × 1280 */
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows:
+    minmax(395px, auto)  /* row 1: logo + tagline */
+    minmax(67px,  auto)  /* row 2: back to top    */
+    minmax(96px,  auto); /* row 3: links + copy   */
+}
+
+/* ── Row 1: Logo + Tagline ─────────────────
+   grid-area 1/1/2/2
+   padding: ~191px top · 45px LR · 100px bot */
+.footer-row1 {
+  grid-area: 1 / 1 / 2 / 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* content đẩy xuống dưới */
+  padding: max(100px, 14.9vw) max(24px, 3.5vw) max(60px, 7.8vw);
+  /* 0.149175×1280≈191px top | 0.0351568×1280≈45px LR | 0.0781259×1280≈100px bot */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Logo "F x 1 Digital"
+   Plus Jakarta Sans 700 · max(12px, 5.305vw) ≈ 68px · white */
+.footer-logo {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: max(12px, 5.3048vw); /* 0.0530483 × 1280 = 67.9px */
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* Tagline "No cold outreach..."
+   18px · white 70% · lh 1.5 */
+.footer-tagline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* ── Row 2: Back to top ─────────────────────
+   grid-area 2/1/3/2 · min-height 67px
+   button: bg #171717 · border rgba(255,255,255,0.2) · pill · 142px */
+.footer-row2 {
+  grid-area: 2 / 1 / 3 / 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 max(24px, 3.5vw);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-back-top {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  height: 42px;
+  width: 142px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.footer-back-top:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.footer-back-top-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+/* Arrow up icon */
+.footer-back-top-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+/* ── Row 3: Links + Copyright ───────────────
+   grid-area 3/1/4/2 · min-height 96px
+   flex-row: links left, copyright right
+   all text 13px white no-underline */
+.footer-row3 {
+  grid-area: 3 / 1 / 4 / 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0 max(24px, 3.5vw);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.footer-link {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-link:hover { color: #FFFFFF; }
+
+.footer-copy {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  #site-footer     { padding: 0 16px 32px; }
+  .footer-card     { border-radius: 24px; }
+  .footer-row1     { padding: 60px 32px 48px; }
+  .footer-logo     { font-size: clamp(32px, 6vw, 56px); }
+}
+@media (max-width: 600px) {
+  #site-footer     { padding: 0 12px 24px; }
+  .footer-card     { border-radius: 20px; }
+  .footer-row1     { padding: 48px 24px 40px; justify-content: flex-start; }
+  .footer-logo     { font-size: clamp(28px, 8vw, 44px); }
+  .footer-tagline  { font-size: 15px; }
+  .footer-row2     { padding: 0 24px; }
+  .footer-row3     { flex-direction: column; align-items: flex-start; padding: 20px 24px; }
+  .footer-links    { gap: 20px; }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       HEADER — sticky, identical to index.html
+       Nav links: Home · About · Proof · Audit 007 · Commission
+  ══════════════════════════════════════════════ -->
+  <header id="header">
+    <a href="index.html" class="header-logo">F x 1 Digital</a>
+
+    <nav aria-label="Main navigation">
+      <ul class="header-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="#">Proof</a></li>
+        <li><a href="#">Audit 007</a></li>
+        <li><a href="#">Commission</a></li>
+      </ul>
+    </nav>
+
+    <button class="hamburger" onclick="openMobileMenu()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Mobile overlay -->
+  <div id="mobileOverlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <button class="mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">&times;</button>
+    <ul class="mobile-nav">
+      <li><a href="index.html" onclick="closeMobileMenu()">Home</a></li>
+      <li><a href="about.html" class="active" onclick="closeMobileMenu()">About</a></li>
+      <li><a href="#" onclick="closeMobileMenu()">Proof</a></li>
+      <li><a href="#" onclick="closeMobileMenu()">Audit 007</a></li>
+      <li><a href="#" onclick="closeMobileMenu()">Commission</a></li>
+    </ul>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       HERO — comp-lzpi25j1
+       Video bg (opacity 0.8) + no color overlay
+       min-height ~532px · padding 75px top · 45px LR · 0 bottom
+  ══════════════════════════════════════════════ -->
+  <section id="hero">
+
+    <!-- Video BG: 1d0679_e2e71b3e6d2341628f90c4646aa1d000 — INSERT URL -->
+    <video
+      class="hero-video"
+      autoplay loop muted playsinline
+      aria-hidden="true">
+      <!-- <source src="YOUR_VIDEO_URL_HERE" type="video/mp4"> -->
+    </video>
+
+    <!-- Content — centered, ~84% wide -->
+    <div class="hero-content">
+
+      <!-- H1: #C084FC purple · max(12px, 4.75vw) ≈ 60px · 700 -->
+      <h1 class="hero-h1 wix-motion">
+        Your Future Marketing Department
+      </h1>
+
+      <!-- Subtitle: #BDBDFF lavender · max(12px, 2.375vw) ≈ 30px
+           inline bold: "private performance atelier" -->
+      <p class="hero-sub wix-motion wix-motion-d1">
+        We're not an agency. We're not freelancers.<br>
+        We're the&nbsp;<strong>private performance atelier</strong>&nbsp;that runs your entire growth engine — with AI, automation, and zero drama.
+      </p>
+
+    </div><!-- /.hero-content -->
+
+  </section>
+
+  <!-- ══════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════ -->
+  <script>
+    /* ── 1. Header scroll ───────── */
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    /* ── 2. Mobile menu ─────────── */
+    function openMobileMenu() {
+      document.getElementById('mobileOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ── 3. Wix-motion fade-in ──── */
+    /* Trigger all wix-motion elements on scroll into view */
+    const motionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('motion-done');
+          motionObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+
+    function initMotion() {
+      document.querySelectorAll('.wix-motion').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 100) {
+          el.classList.add('motion-done'); /* already visible — trigger immediately */
+        } else {
+          motionObserver.observe(el);
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMotion);
+    } else {
+      initMotion();
+    }
+  </script>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 2 — THE ATELIER MANIFESTO
+       Option 2: Dark immersive · bg #171717
+       Heading #C084FC · bold spans #BDBDFF / #B3F5A0
+  ══════════════════════════════════════════════ -->
+  <section id="manifesto">
+
+    <!-- Eyebrow: không lặp lại heading -->
+    <div class="manifesto-tag wix-motion">About F x 1 Digital</div>
+
+    <!-- Heading — #C084FC purple, max(32px, 4.75vw), center -->
+    <h2 class="manifesto-h wix-motion wix-motion-d1">
+      The Atelier Manifesto
+    </h2>
+
+    <!-- Thin divider -->
+    <div class="manifesto-rule wix-motion wix-motion-d2" aria-hidden="true"></div>
+
+    <!-- Para 1 — bold spans: #BDBDFF lavender -->
+    <p class="manifesto-p p1 wix-motion wix-motion-d2">
+      Most founders waste&nbsp;<strong>6 months and $500K</strong>&nbsp;building a marketing team that dies in 90 days.
+    </p>
+
+    <!-- Para 2 — bold spans: #B3F5A0 mint -->
+    <p class="manifesto-p p2 wix-motion wix-motion-d3">
+      We replace that chaos with a&nbsp;<strong>single system:</strong> one dashboard, one guarantee, one outcome —&nbsp;<strong>your P&L grows while you sleep.</strong>
+    </p>
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 3 — OUR 4 UNBREAKABLE LAWS
+       Option 2: Dark navy #0F2D51 · 2×2 card grid
+       Numbers #C084FC · bold spans #BDBDFF
+  ══════════════════════════════════════════════ -->
+  <section id="laws">
+
+    <h2 class="laws-h wix-motion">Our 4 Unbreakable Laws</h2>
+
+    <div class="laws-grid">
+
+      <div class="laws-card wix-motion wix-motion-d1">
+        <div class="laws-num">01</div>
+        <div class="laws-title">ROI or We Work Free</div>
+        <p class="laws-desc">Every campaign, every AI agent, every dollar must return <strong>minimum 3x</strong> — or we don't get paid.</p>
+      </div>
+
+      <div class="laws-card wix-motion wix-motion-d2">
+        <div class="laws-num">02</div>
+        <div class="laws-title">Zero Slack at 2 AM</div>
+        <p class="laws-desc">No dying accounts. No emergency calls. <strong>You get one dashboard. We run the war room.</strong></p>
+      </div>
+
+      <div class="laws-card wix-motion wix-motion-d2">
+        <div class="laws-num">03</div>
+        <div class="laws-title">Boardroom, Not Boiler Room</div>
+        <p class="laws-desc">We don't send reports. <strong>We send investor decks that close funding rounds.</strong></p>
+      </div>
+
+      <div class="laws-card wix-motion wix-motion-d3">
+        <div class="laws-num">04</div>
+        <div class="laws-title">Only 12 Brokers Per Year</div>
+        <p class="laws-desc">We don't scale clients. We scale your empire.</p>
+      </div>
+
+    </div><!-- /.laws-grid -->
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 4 — YOUR SHADOW CMO & ATELIER
+       Option 3: #EDEDED bg · white cards · circular avatars
+       3×2 grid · hover lift effect
+  ══════════════════════════════════════════════ -->
+  <section id="team">
+
+    <h2 class="team-h wix-motion">Your Shadow CMO &amp; Atelier</h2>
+
+    <div class="team-grid">
+
+      <!-- Elena Ramirez -->
+      <div class="team-card wix-motion wix-motion-d1">
+        <div class="team-avatar">
+          <img src="team 001.jpg" alt="Elena Ramirez" onerror="this.style.display='none'">
+          ER
+        </div>
+        <div class="team-info">
+          <div class="team-name">Elena Ramirez</div>
+          <div class="team-title">ex-Head of Performance, Tier-1 Broker</div>
+        </div>
+      </div>
+
+      <!-- Amit Patel -->
+      <div class="team-card wix-motion wix-motion-d1">
+        <div class="team-avatar">
+          <img src="team 002.jpg" alt="Amit Patel" onerror="this.style.display='none'">
+          AP
+        </div>
+        <div class="team-info">
+          <div class="team-name">Amit Patel</div>
+          <div class="team-title">AI Automation Architect, 42+ workflows</div>
+        </div>
+      </div>
+
+      <!-- Li Wei -->
+      <div class="team-card wix-motion wix-motion-d2">
+        <div class="team-avatar">
+          <img src="team 003.jpg" alt="Li Wei" onerror="this.style.display='none'">
+          LW
+        </div>
+        <div class="team-info">
+          <div class="team-name">Li Wei</div>
+          <div class="team-title">Performance Oracle, $2B+ ad spend audited</div>
+        </div>
+      </div>
+
+      <!-- Daniel Rodriquez -->
+      <div class="team-card wix-motion wix-motion-d2">
+        <div class="team-avatar">
+          <img src="team 004.jpg" alt="Daniel Rodriquez" onerror="this.style.display='none'">
+          DR
+        </div>
+        <div class="team-info">
+          <div class="team-name">Daniel Rodriquez</div>
+          <div class="team-title">Creative Alchemist, 1,200+ winning assets</div>
+        </div>
+      </div>
+
+      <!-- Fatima Hassan -->
+      <div class="team-card wix-motion wix-motion-d3">
+        <div class="team-avatar">
+          <img src="team 005.jpg" alt="Fatima Hassan" onerror="this.style.display='none'">
+          FH
+        </div>
+        <div class="team-info">
+          <div class="team-name">Fatima Hassan</div>
+          <div class="team-title">Head of Customer Experience</div>
+        </div>
+      </div>
+
+      <!-- Jonah Smith -->
+      <div class="team-card wix-motion wix-motion-d3">
+        <div class="team-avatar">
+          <img src="team 006.jpg" alt="Jonah Smith" onerror="this.style.display='none'">
+          JS
+        </div>
+        <div class="team-info">
+          <div class="team-name">Jonah Smith</div>
+          <div class="team-title">Senior Product Manager</div>
+        </div>
+      </div>
+
+    </div><!-- /.team-grid -->
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 5 — THE F1 AI STACK – 9 LAYERS DEEP
+       bg: #022543 · 3×3 grid · số purple nhỏ · tên lớn trắng
+       Layers: 09→01 (cao→thấp trong stack)
+  ══════════════════════════════════════════════ -->
+  <section id="aistack">
+
+    <!-- Heading — centered -->
+    <h2 class="aistack-h wix-motion">The F1 AI Stack – 9 Layers Deep</h2>
+
+    <!-- 3×3 grid — 9 layers, đánh số ngược 09→01 -->
+    <div class="aistack-grid">
+
+      <div class="aistack-card wix-motion wix-motion-d1">
+        <div class="aistack-num">09</div>
+        <div class="aistack-title">Predictive LTV</div>
+        <p class="aistack-desc">Forecasts lifetime value to optimize retargeting</p>
+      </div>
+
+      <div class="aistack-card wix-motion wix-motion-d1">
+        <div class="aistack-num">08</div>
+        <div class="aistack-title">IP Rotation</div>
+        <p class="aistack-desc">Auto-rotates IPs to prevent account bans</p>
+      </div>
+
+      <div class="aistack-card wix-motion wix-motion-d2">
+        <div class="aistack-num">07</div>
+        <div class="aistack-title">Account Farming</div>
+        <p class="aistack-desc">AI builds &amp; maintains 100+ clean accounts</p>
+      </div>
+
+      <div class="aistack-card wix-motion wix-motion-d2">
+        <div class="aistack-num">06</div>
+        <div class="aistack-title">AI Cloaking</div>
+        <p class="aistack-desc">Bypasses ad platform compliance checks</p>
+      </div>
+
+      <div class="aistack-card wix-motion wix-motion-d2">
+        <div class="aistack-num">05</div>
+        <div class="aistack-title">Creative Engine</div>
+        <p class="aistack-desc">Generates &amp; tests 100+ creatives daily</p>
+      </div>
+
+      <div class="aistack-card wix-motion wix-motion-d3">
+        <div class="aistack-num">04</div>
+        <div class="aistack-title">Bid Automation</div>
+        <p class="aistack-desc">Real-time bid optimization by ROAS</p>
+      </div>
+
+      <div class="aistack-card wix-motion wix-motion-d3">
+        <div class="aistack-num">03</div>
+        <div class="aistack-title">CRM Sync</div>
+        <p class="aistack-desc">Instant lead scoring &amp; CRM integration</p>
+      </div>
+
+      <div class="aistack-card wix-motion wix-motion-d3">
+        <div class="aistack-num">02</div>
+        <div class="aistack-title">Dashboard</div>
+        <p class="aistack-desc">Live alerts &amp; performance insights 24/7</p>
+      </div>
+
+      <div class="aistack-card wix-motion wix-motion-d4">
+        <div class="aistack-num">01</div>
+        <div class="aistack-title">Performance Oracle</div>
+        <p class="aistack-desc">Weekly prophecy decks for boardrooms</p>
+      </div>
+
+    </div><!-- /.aistack-grid -->
+
+    <!-- Tagline -->
+    <p class="aistack-foot wix-motion wix-motion-d4">
+      Same stack that scaled Client <strong>#01 to $2.4M</strong> monthly spend
+      with <strong>1,280 FTDs/month</strong>.<br>
+      Now deployed exclusively for select brokers.
+    </p>
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 6 — BY INVITATION ONLY
+       Option 2: #171717 · heading #C084FC
+       "3 slots open" → #EF3F3F · full centered
+  ══════════════════════════════════════════════ -->
+  <section id="invitation">
+
+    <!-- Eyebrow -->
+    <div class="inv-tag wix-motion">Exclusive access</div>
+
+    <!-- Heading — #C084FC purple, max(12px, 4.75vw) ≈ 60px -->
+    <h2 class="inv-h wix-motion wix-motion-d1">By Invitation Only</h2>
+
+    <!-- Divider -->
+    <div class="inv-rule wix-motion wix-motion-d1" aria-hidden="true"></div>
+
+    <!-- Para 1: bold "12 brokers per year." → white -->
+    <p class="inv-p1 wix-motion wix-motion-d2">
+      We accept maximum <strong>12 brokers per year.</strong><br>
+      One per vertical. No exceptions.
+    </p>
+
+    <!-- Para 2: bold "3 slots open" → #EF3F3F red urgency -->
+    <p class="inv-p2 wix-motion wix-motion-d3">
+      Current availability:&nbsp;<strong>3 slots open</strong>&nbsp;until December 31, 2025.
+    </p>
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 7 — SEE IT RUN ON YOUR DATA (CTA)
+       Video bg: 1d0679_b4f1eb9ef61544ba87d57dc31da2ec86
+       opacity 0.7 + white overlay
+       Heading #EF3F3F · 72px · 66.4% wide · centered
+       Sub #EF3F3F · 18px bold · 94.2% wide
+       Button: red pill · 214px × 42px
+  ══════════════════════════════════════════════ -->
+  <section id="cta">
+
+    <!-- Video BG: 1d0679_b4f1eb9ef61544ba87d57dc31da2ec86 -->
+    <video
+      class="cta-video"
+      autoplay loop muted playsinline
+      aria-hidden="true">
+      <!-- <source src="YOUR_CTA_VIDEO_URL" type="video/mp4"> -->
+    </video>
+
+    <!-- Content — centered, z-index 2 -->
+    <div class="cta-content">
+
+      <!-- Heading — #EF3F3F red · max(12px, 5.64vw) ≈ 72px · bold · 66.4% wide -->
+      <h2 class="cta-h wix-motion">
+        See It Run on Your Data
+      </h2>
+
+      <!-- Subtitle — #EF3F3F red · 18px bold · 94.2% wide -->
+      <p class="cta-sub wix-motion wix-motion-d1">
+        Audit 007 is free. We'll show you exactly where your $ is leaking — and how the F1 Stack fixes it.
+      </p>
+
+      <!-- Button — red pill · 214px × 42px · "Start Audit 007 (Free)" -->
+      <a href="#" class="cta-btn wix-motion wix-motion-d2">
+        <span class="cta-btn-label">Start Audit 007 (Free)</span>
+        <span class="cta-btn-icon">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="white">
+            <path d="M100 29.5c-38.874 0-70.5 31.626-70.5 70.5s31.626 70.5 70.5 70.5 70.5-31.626 70.5-70.5-31.626-70.5-70.5-70.5zm0 133c-34.463 0-62.5-28.037-62.5-62.5S65.537 37.5 100 37.5s62.5 28.037 62.5 62.5-28.037 62.5-62.5 62.5zm30.09-60.584c-.055.101-.099.205-.164.302a3.99 3.99 0 0 1-.501.613l-26.597 26.597c-.78.781-1.805 1.172-2.828 1.172s-2.048-.391-2.828-1.172a4 4 0 0 1 0-5.656L116.943 104H73.4a4 4 0 0 1 0-8h43.542l-19.77-19.771a4 4 0 1 1 5.656-5.656l26.597 26.597c.187.187.354.392.501.613.065.097.109.201.164.302.07.127.147.25.203.386.055.132.086.27.126.405.034.114.078.223.101.341.103.517.103 1.05 0 1.566-.023.118-.068.227-.101.341-.04.136-.071.273-.126.405-.056.136-.133.259-.203.386z"/>
+          </svg>
+        </span>
+      </a>
+
+    </div><!-- /.cta-content -->
+
+  </section>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER — F x 1 Digital
+     Dark rounded card #171717 · border-radius 35px
+     Nằm trong sticky wrapper (comp-mi5s8big)
+     3 rows: logo+tagline / back-to-top / links+copyright
+     ══════════════════════════════════════════════ -->
+<footer id="site-footer">
+  <div class="footer-card">
+
+    <!-- Row 1: Logo + Tagline
+         padding: ~191px top (luxury breathing room) · 45px LR · 100px bot
+         justify-content: flex-end (content ở dưới, space ở trên) -->
+    <div class="footer-row1">
+
+      <!-- Logo — Familjen Grotesk 700, max(12px, 5.3vw)≈68px, white -->
+      <a href="#" class="footer-logo">F x 1 Digital</a>
+
+      <!-- Tagline — 18px, rgba(255,255,255,0.7) -->
+      <p class="footer-tagline">
+        No cold outreach.&nbsp;All conversations begin with&nbsp;Audit 007.
+      </p>
+
+    </div><!-- /.footer-row1 -->
+
+    <!-- Row 2: Back to top button — right-aligned, min-height 67px -->
+    <div class="footer-row2">
+      <a href="#" class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+        <span class="footer-back-top-label">Back to top</span>
+        <span class="footer-back-top-icon">
+          <!-- Arrow up SVG -->
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 11V3M3 7l4-4 4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+    </div><!-- /.footer-row2 -->
+
+    <!-- Row 3: Links + Copyright — space-between, min-height 96px
+         All text: 13px · white · no underline -->
+    <div class="footer-row3">
+
+      <!-- Links left -->
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="#" class="footer-link">Terms &amp; Conditions</a>
+        <a href="#" class="footer-link">Privacy Policy</a>
+      </nav>
+
+      <!-- Copyright right -->
+      <span class="footer-copy">© 2035 by F1 Finance Digital</span>
+
+    </div><!-- /.footer-row3 -->
+
+  </div><!-- /.footer-card -->
+</footer>
+
+</body>
+</html>
