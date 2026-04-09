@@ -42,117 +42,111 @@
     .wix-motion-d4.motion-done { transition-delay: 380ms; }
 
     /* ══════════════════════════════════════════
-       HEADER — sticky (identical to index.html)
-       bg: transparent → rgba(23,23,23,0.85) on scroll
-       height: 75px
-    ══════════════════════════════════════════ */
-    #header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 75px;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 45px;
-      background: transparent;
-      transition: background 0.3s ease;
-    }
-    #header.scrolled { background: rgba(23, 23, 23, 0.85); backdrop-filter: blur(8px); }
+   HEADER / NAV — đồng nhất với index.html
+   — bg transparent at top
+   — bg rgba(23,23,23,0.85) when scrolled
+   ══════════════════════════════════════════ */
+#header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px;
+  background-color: transparent;
+  transition: background-color 0.35s ease;
+}
 
-    /* Logo */
-    .header-logo {
-      font-family: 'Familjen Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 22px;
-      letter-spacing: 0.02em;
-      color: #FFFFFF;
-      text-decoration: none;
-    }
+#header.scrolled {
+  background-color: rgba(23, 23, 23, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
 
-    /* Desktop nav */
-    .header-nav {
-      display: flex;
-      align-items: center;
-      gap: 36px;
-      list-style: none;
-    }
-    .header-nav a {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 400;
-      font-size: 15px;
-      color: #FFFFFF;
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-    .header-nav a:hover { color: #3C3AFF; }
-    .header-nav a.active { color: #C084FC; } /* about page active state */
+.logo {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  text-decoration: none;
+}
 
-    /* Hamburger */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 4px;
-      background: none;
-      border: none;
-    }
-    .hamburger span {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: #FFFFFF;
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
+.nav-desktop {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
 
-    /* Mobile overlay */
-    #mobileOverlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: #FFFFFF;
-      z-index: 999;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 32px;
-    }
-    #mobileOverlay.open { display: flex; }
-    .mobile-close {
-      position: absolute;
-      top: 24px; right: 24px;
-      font-size: 28px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #171717;
-      line-height: 1;
-    }
-    .mobile-nav {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 28px;
-      list-style: none;
-    }
-    .mobile-nav a {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700;
-      font-size: 28px;
-      color: #171717;
-      text-decoration: none;
-    }
-    .mobile-nav a.active { color: #C084FC; }
+.nav-desktop a {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #FFFFFF;
+  padding: 6px 16px;
+  border-radius: 4px;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  text-decoration: none;
+}
 
-    @media (max-width: 900px) {
-      .header-nav { display: none; }
-      .hamburger  { display: flex; }
-      #header     { padding: 0 24px; }
-    }
+.nav-desktop a:hover { color: #3C3AFF; }
+.nav-desktop a.active { color: #C084FC; }
 
-    /* ══════════════════════════════════════════
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+.nav-mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 200;
+  flex-direction: column;
+  padding: 80px 40px 40px;
+}
+.nav-mobile-overlay.open { display: flex; }
+.nav-mobile-overlay .close-btn {
+  position: absolute;
+  top: 20px; right: 24px;
+  font-size: 28px;
+  color: #171717;
+  cursor: pointer;
+  background: none;
+  border: none;
+  line-height: 1;
+}
+.nav-mobile-overlay a {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+  color: #171717;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  transition: color 0.2s;
+  text-decoration: none;
+}
+.nav-mobile-overlay a:hover { color: #3C3AFF; }
+.nav-mobile-overlay a.active { color: #C084FC; }
+
+/* ══════════════════════════════════════════
        HERO SECTION — comp-lzpi25j1
        bg: video (opacity 0.8) + no color overlay
        min-height: ~532px
@@ -318,17 +312,17 @@
 
   
     /* ══════════════════════════════════════════
-       SECTION 3 — OUR 4 UNBREAKABLE LAWS
-       Option 2: Dark navy bg #0F2D51
-       4 cards in 2×2 grid, number #C084FC
-    ══════════════════════════════════════════ */
+   SECTION 3 — OUR 4 UNBREAKABLE LAWS
+   Option 3C: #0B95CD cyan · full-width rows
+   Card trắng 15% · số decorative kanan mờ
+   ══════════════════════════════════════════ */
     #laws {
-      background: #0F2D51;
-      padding: 80px max(24px, 5.362vw) 80px;
+      background: #0B95CD;
+      padding: 80px max(24px, 3.516vw) 80px;
     }
 
     .laws-inner {
-      max-width: 760px;
+      max-width: 900px;
       margin: 0 auto;
     }
 
@@ -344,67 +338,66 @@
     }
 
     .laws-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
     }
 
     .laws-card {
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.15);
       border-radius: 12px;
-      padding: 28px 28px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: space-between;
-      aspect-ratio: 4 / 3;
+      padding: 24px 28px;
+      display: grid;
+      grid-template-columns: 1fr 80px;
+      gap: 16px;
+      align-items: center;
     }
 
     .laws-num {
+      font-size: 52px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.12);
+      line-height: 1;
+      text-align: right;
+      letter-spacing: -0.03em;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      letter-spacing: 0.06em;
-      color: #C084FC;
     }
 
     .laws-title {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700;
-      font-size: max(17px, 1.5625vw); /* 20px @ 1280px */
-      line-height: 1.25;
-      letter-spacing: -0.01em;
+      font-weight: 800;
+      font-size: max(16px, 1.5625vw);
+      line-height: 1.3;
       color: #FFFFFF;
+      margin-bottom: 6px;
     }
 
     .laws-desc {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 400;
-      font-size: 14px;
+      font-size: max(13px, 1.1vw);
       line-height: 1.6;
-      color: rgba(255, 255, 255, 0.65);
+      color: rgba(255, 255, 255, 0.75);
       margin: 0;
     }
     .laws-desc strong {
       font-weight: 700;
-      color: #BDBDFF;
+      color: #FFFFFF;
     }
 
     @media (max-width: 900px) {
-      #laws       { padding: 72px 32px; }
-      .laws-h     { font-size: clamp(26px, 5vw, 44px); margin-bottom: 28px; }
-      .laws-title { font-size: clamp(15px, 2vw, 20px); }
+      #laws      { padding: 64px 24px; }
+      .laws-h    { font-size: clamp(26px, 5vw, 44px); }
+      .laws-num  { font-size: 40px; }
     }
     @media (max-width: 600px) {
-      #laws       { padding: 56px 20px; }
-      .laws-grid  { grid-template-columns: 1fr; }
-      .laws-h     { font-size: clamp(24px, 7vw, 34px); }
-      .laws-desc  { font-size: 14px; }
-      .laws-card  { aspect-ratio: auto; }
+      #laws      { padding: 48px 16px; }
+      .laws-h    { font-size: clamp(22px, 7vw, 32px); }
+      .laws-card { grid-template-columns: 1fr 48px; padding: 20px; }
+      .laws-num  { font-size: 32px; }
     }
 
-  
-    /* ══════════════════════════════════════════
+/* ══════════════════════════════════════════
        SECTION 4 — YOUR SHADOW CMO & ATELIER
        Option 3: #EDEDED bg · white cards · circular avatars
        3×2 grid · gap 42px · padding 0 top / 45px LR / 100px bot
@@ -1024,32 +1017,26 @@
        Nav links: Home · About · Proof · Audit 007 · Commission
   ══════════════════════════════════════════════ -->
   <header id="header">
-    <a href="index.html" class="header-logo">F x 1 Digital</a>
-
-    <nav aria-label="Main navigation">
-      <ul class="header-nav">
-        <li><a href="about.html" class="active">About</a></li>
-        <li><a href="#">Proof</a></li>
-        <li><a href="#">Audit 007</a></li>
-        <li><a href="#">Commission</a></li>
-      </ul>
-    </nav>
-
-    <button class="hamburger" onclick="openMobileMenu()" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-  </header>
-
-  <!-- Mobile overlay -->
-  <div id="mobileOverlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
-    <button class="mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">&times;</button>
-    <ul class="mobile-nav">
-      <li><a href="about.html" class="active" onclick="closeMobileMenu()">About</a></li>
-      <li><a href="#" onclick="closeMobileMenu()">Proof</a></li>
-      <li><a href="#" onclick="closeMobileMenu()">Audit 007</a></li>
-      <li><a href="#" onclick="closeMobileMenu()">Commission</a></li>
-    </ul>
+  <a href="index.html" class="logo">F x 1 Digital</a>
+  <nav class="nav-desktop">
+    <a href="about.html" class="active">About</a>
+    <a href="#">Proof</a>
+    <a href="#">Audit 007</a>
+    <a href="#">Commission</a>
+  </nav>
+  <div class="hamburger" id="hamburgerBtn" onclick="openMobileMenu()">
+    <span></span><span></span><span></span>
   </div>
+</header>
+
+<!-- Mobile Menu Overlay -->
+<div class="nav-mobile-overlay" id="mobileOverlay">
+  <button class="close-btn" onclick="closeMobileMenu()">&#x2715;</button>
+  <a href="about.html" class="active" onclick="closeMobileMenu()">About</a>
+  <a href="#" onclick="closeMobileMenu()">Proof</a>
+  <a href="#" onclick="closeMobileMenu()">Audit 007</a>
+  <a href="#" onclick="closeMobileMenu()">Commission</a>
+</div>
 
   <!-- ══════════════════════════════════════════════
        HERO — comp-lzpi25j1
@@ -1089,49 +1076,48 @@
        JAVASCRIPT
   ══════════════════════════════ -->
   <script>
-    /* ── 1. Header scroll ───────── */
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 20);
+    /* ─── 1. Header scroll effect ───────────── */
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  /* ─── 2. Mobile menu ────────────────────── */
+  function openMobileMenu() {
+    document.getElementById('mobileOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMobileMenu() {
+    document.getElementById('mobileOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* ─── 3. Wix-motion fade-in ─────────────── */
+  const motionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('motion-done');
+        motionObserver.unobserve(entry.target);
+      }
     });
+  }, { threshold: 0.05 });
 
-    /* ── 2. Mobile menu ─────────── */
-    function openMobileMenu() {
-      document.getElementById('mobileOverlay').classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeMobileMenu() {
-      document.getElementById('mobileOverlay').classList.remove('open');
-      document.body.style.overflow = '';
-    }
+  function initMotion() {
+    document.querySelectorAll('.wix-motion').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight + 100) {
+        el.classList.add('motion-done');
+      } else {
+        motionObserver.observe(el);
+      }
+    });
+  }
 
-    /* ── 3. Wix-motion fade-in ──── */
-    /* Trigger all wix-motion elements on scroll into view */
-    const motionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('motion-done');
-          motionObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.05 });
-
-    function initMotion() {
-      document.querySelectorAll('.wix-motion').forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight + 100) {
-          el.classList.add('motion-done'); /* already visible — trigger immediately */
-        } else {
-          motionObserver.observe(el);
-        }
-      });
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initMotion);
-    } else {
-      initMotion();
-    }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMotion);
+  } else {
+    initMotion();
+  }
   </script>
 
 
@@ -1168,43 +1154,50 @@
 
   <!-- ══════════════════════════════════════════════
        SECTION 3 — OUR 4 UNBREAKABLE LAWS
-       Option 2: Dark navy #0F2D51 · 2×2 card grid
-       Numbers #C084FC · bold spans #BDBDFF
+       Option 3C: #0B95CD cyan · full-width rows
+       Title+desc bên trái · số decorative mờ bên phải
   ══════════════════════════════════════════════ -->
   <section id="laws">
-
     <div class="laws-inner">
-    <h2 class="laws-h wix-motion">Our 4 Unbreakable Laws</h2>
 
-    <div class="laws-grid">
+      <h2 class="laws-h wix-motion">Our 4 Unbreakable Laws</h2>
 
-      <div class="laws-card wix-motion wix-motion-d1">
-        <div class="laws-num">01</div>
-        <div class="laws-title">ROI or We Work Free</div>
-        <p class="laws-desc">Every campaign, every AI agent, every dollar must return <strong>minimum 3x</strong> — or we don't get paid.</p>
-      </div>
+      <div class="laws-grid">
 
-      <div class="laws-card wix-motion wix-motion-d2">
-        <div class="laws-num">02</div>
-        <div class="laws-title">Zero Slack at 2 AM</div>
-        <p class="laws-desc">No dying accounts. No emergency calls. <strong>You get one dashboard. We run the war room.</strong></p>
-      </div>
+        <div class="laws-card wix-motion wix-motion-d1">
+          <div>
+            <div class="laws-title">ROI or We Work Free</div>
+            <p class="laws-desc">Every campaign, every AI agent, every dollar must return <strong>minimum 3x</strong> — or we don't get paid.</p>
+          </div>
+          <div class="laws-num">01</div>
+        </div>
 
-      <div class="laws-card wix-motion wix-motion-d2">
-        <div class="laws-num">03</div>
-        <div class="laws-title">Boardroom, Not Boiler Room</div>
-        <p class="laws-desc">We don't send reports. <strong>We send investor decks that close funding rounds.</strong></p>
-      </div>
+        <div class="laws-card wix-motion wix-motion-d2">
+          <div>
+            <div class="laws-title">Zero Slack at 2 AM</div>
+            <p class="laws-desc">No dying accounts. No emergency calls. <strong>You get one dashboard. We run the war room.</strong></p>
+          </div>
+          <div class="laws-num">02</div>
+        </div>
 
-      <div class="laws-card wix-motion wix-motion-d3">
-        <div class="laws-num">04</div>
-        <div class="laws-title">Only 12 Brokers Per Year</div>
-        <p class="laws-desc">We don't scale clients. We scale your empire.</p>
-      </div>
+        <div class="laws-card wix-motion wix-motion-d3">
+          <div>
+            <div class="laws-title">Boardroom, Not Boiler Room</div>
+            <p class="laws-desc">We don't send reports. <strong>We send investor decks that close funding rounds.</strong></p>
+          </div>
+          <div class="laws-num">03</div>
+        </div>
 
-    </div><!-- /.laws-grid -->
+        <div class="laws-card wix-motion wix-motion-d4">
+          <div>
+            <div class="laws-title">Only 12 Brokers Per Year</div>
+            <p class="laws-desc">We don't scale clients. We scale your empire.</p>
+          </div>
+          <div class="laws-num">04</div>
+        </div>
+
+      </div><!-- /.laws-grid -->
     </div><!-- /.laws-inner -->
-
   </section>
 
 
