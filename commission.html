@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commission — F x 1 Digital</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;700&family=Almarai:wght@400;700;800&family=Fahkwang:wght@400;600;700&family=Montserrat:wght@400;700&family=Work+Sans:wght@400;600&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ══════════════════════════════════════════
+       GLOBAL RESET
+    ══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #FFFFFF;
+      color: #171717;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; }
+
+    /* ══════════════════════════════════════════
+       WIX-MOTION FADE-IN
+    ══════════════════════════════════════════ */
+    .wix-motion {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 900ms cubic-bezier(0.445,0.05,0.55,0.95),
+                  transform 900ms cubic-bezier(0.445,0.05,0.55,0.95);
+    }
+    .wix-motion.motion-done { opacity: 1; transform: translateY(0); }
+    .wix-motion-d1.motion-done { transition-delay: 80ms; }
+    .wix-motion-d2.motion-done { transition-delay: 180ms; }
+    .wix-motion-d3.motion-done { transition-delay: 280ms; }
+
+    /* ══════════════════════════════════════════
+       HEADER / NAV
+       BG trắng lúc đầu (hero trắng)
+       Active "Commission" → #EF3F3F red
+    ══════════════════════════════════════════ */
+    #header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 50px;
+      background-color: transparent;
+      transition: background-color 0.35s ease;
+    }
+    #header.scrolled {
+      background-color: rgba(23, 23, 23, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      font-family: 'Familjen Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #171717;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    #header.scrolled .logo { color: #FFFFFF; }
+
+    .nav-desktop {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .nav-desktop a {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: #171717;
+      padding: 6px 16px;
+      border-radius: 4px;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+    }
+    #header.scrolled .nav-desktop a { color: #FFFFFF; }
+    .nav-desktop a:hover  { color: #3C3AFF; }
+    .nav-desktop a.active { color: #EF3F3F; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #171717;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    #header.scrolled .hamburger span { background: #FFFFFF; }
+
+    .nav-mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      z-index: 200;
+      flex-direction: column;
+      padding: 80px 40px 40px;
+    }
+    .nav-mobile-overlay.open { display: flex; }
+    .nav-mobile-overlay .close-btn {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-size: 28px;
+      color: #171717;
+      cursor: pointer;
+      background: none;
+      border: none;
+      line-height: 1;
+    }
+    .nav-mobile-overlay a {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 30px;
+      font-weight: 400;
+      color: #171717;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      transition: color 0.2s;
+    }
+    .nav-mobile-overlay a:hover  { color: #3C3AFF; }
+    .nav-mobile-overlay a.active { color: #EF3F3F; }
+
+    @media (max-width: 900px) {
+      .nav-desktop { display: none; }
+      .hamburger   { display: flex; }
+      #header      { padding: 0 24px; }
+    }
+
+    /* ══════════════════════════════════════════
+       SECTION 1 — HERO
+       BG: #FFFFFF white · NO video
+       Min-height: ~532px · Padding: 75px/45px/0
+       H2:  #EF3F3F red · 60px · bold · center · mb 26px
+       Sub: #FEE48A beige · 72px · bold · LEFT align · mb 20px
+            "outcomes" + "custom commission plan" → <strong>
+       Tag: #FEE48A beige · 72px · bold · center
+    ══════════════════════════════════════════ */
+    #hero {
+      background: #FFFFFF;
+      min-height: max(532px, 41.57vw);
+      padding: 75px max(24px, 3.516vw) 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* left-aligned content box */
+      width: 100%;
+      padding-top: max(0.5px, 10.547vw);   /* ~135px */
+      padding-bottom: max(0.5px, 9.766vw); /* ~125px */
+    }
+
+    /* H2 — #EF3F3F red · max(12px,4.75vw)≈60px · bold · center */
+    .hero-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 3.125vw); /* 40px @ 1280px */
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #EF3F3F;
+      text-align: center;
+      width: 100%;
+      margin-bottom: max(0.5px, 2.0513vw); /* 26px @ 1280px */
+    }
+
+    /* Sub — #FEE48A beige · max(12px,5.64vw)≈72px · bold · LEFT
+       "outcomes" + "custom commission plan" → strong */
+    .hero-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 1.875vw); /* 24px @ 1280px */
+      line-height: 1.6;
+      letter-spacing: -0.01em;
+      color: #FEE48A;
+      text-align: left;
+      width: 100%;
+      margin-bottom: max(0.5px, 1.5835vw); /* 20px @ 1280px */
+    }
+    .hero-sub strong {
+      font-weight: 700;
+      color: #FEE48A;
+    }
+
+    /* Tag — #FEE48A beige · max(12px,5.64vw)≈72px · bold · center */
+    .hero-tag {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 1.5625vw); /* 20px @ 1280px */
+      line-height: 1.6;
+      letter-spacing: -0.01em;
+      color: #FEE48A;
+      text-align: center;
+      width: 100%;
+    }
+
+    @media (max-width: 900px) {
+      #hero         { padding: 75px 32px 0; min-height: 420px; }
+      .hero-h       { font-size: clamp(22px, 4vw, 36px); }
+      .hero-sub     { font-size: clamp(14px, 2.2vw, 22px); }
+      .hero-tag     { font-size: clamp(13px, 1.8vw, 18px); }
+    }
+    @media (max-width: 600px) {
+      #hero         { padding: 75px 20px 0; min-height: 340px; }
+      .hero-h       { font-size: clamp(20px, 6vw, 32px); }
+      .hero-sub     { font-size: clamp(14px, 4vw, 20px); }
+      .hero-tag     { font-size: clamp(13px, 3.5vw, 17px); }
+      .hero-sub     { text-align: left; }
+    }
+
+  
+    /* ══════════════════════════════════════════
+       SECTION 2 — COMMISSION TIERS
+       Option A: #FFFFFF white · 3-col cards
+       Ignition/Dominion: #BDBDFF lavender
+       Sovereign: #EDEDED gray
+       Padding: 101px top/bot · 45px LR
+    ══════════════════════════════════════════ */
+    #tiers {
+      background: #FFFFFF;
+      padding: max(60px, 7.919vw) max(24px, 3.516vw);
+    }
+
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .tier-card {
+      border-radius: 14px;
+      padding: 28px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .tier-card.lavender { background: #BDBDFF; }
+    .tier-card.gray     { background: #EDEDED; }
+
+    /* Number label */
+    .tier-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: rgba(23, 23, 23, 0.5);
+      margin-bottom: 10px;
+    }
+
+    /* Tier name — "Ignition Suite" etc */
+    .tier-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: max(18px, 1.875vw); /* 24px @ 1280px */
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: #171717;
+      margin-bottom: 6px;
+    }
+
+    /* Tagline — "Prove ROI in 30 Days" */
+    .tier-tag {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(13px, 1.25vw); /* 16px @ 1280px */
+      line-height: 1.4;
+      color: #171717;
+      margin-bottom: 18px;
+    }
+
+    /* "Ideal for" line */
+    .tier-ideal {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: #444;
+      line-height: 1.5;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    .tier-ideal strong { font-weight: 700; color: #171717; }
+
+    /* Feature list */
+    .tier-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      margin-bottom: 22px;
+    }
+
+    .tier-item {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #444;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .tier-item::before {
+      content: '→';
+      font-weight: 700;
+      color: #171717;
+      flex-shrink: 0;
+      line-height: 1.5;
+    }
+    .tier-item strong { font-weight: 700; color: #171717; }
+
+    /* Guarantee line */
+    .tier-guarantee {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: #171717;
+      padding: 10px 0;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      margin-bottom: 18px;
+    }
+
+    /* Button */
+    .tier-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #171717;
+      border-radius: 999px;
+      height: 44px;
+      padding-left: 20px;
+      padding-right: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease;
+      margin-top: auto;
+    }
+    .tier-btn:hover { background: #3C3AFF; }
+
+    .tier-btn-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: #FFFFFF;
+      white-space: nowrap;
+    }
+
+    .tier-btn-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+    }
+    .tier-btn-icon svg { width: 18px; height: 18px; fill: #fff; }
+
+    @media (max-width: 900px) {
+      #tiers          { padding: 64px 24px; }
+      .tiers-grid     { grid-template-columns: 1fr; gap: 12px; }
+      .tier-name      { font-size: clamp(18px, 3vw, 22px); }
+    }
+    @media (max-width: 600px) {
+      #tiers          { padding: 48px 16px; }
+      .tier-card      { padding: 22px 18px 18px; }
+    }
+
+  
+    /* ══════════════════════════════════════════
+       SECTION 3 — IN-HOUSE VS YOUR ATELIER
+       Option A: #EDEDED bg · 2 cards
+       In-House: white · ✕ đỏ
+       Atelier:  #BDBDFF lavender · ✓ xanh
+    ══════════════════════════════════════════ */
+    #comparison {
+      background: #EDEDED;
+      padding: max(60px, 7.919vw) max(24px, 3.516vw);
+    }
+
+    .cmp-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 4.7506vw); /* 60px — scale down later if needed */
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #171717;
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .cmp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      max-width: 900px;
+      margin: 0 auto;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .cmp-col {
+      padding: 28px 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cmp-col.inhouse { background: #FFFFFF; }
+    .cmp-col.atelier { background: #BDBDFF; }
+
+    .cmp-col-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: max(14px, 1.25vw); /* 16px @ 1280px */
+      line-height: 1.3;
+      color: #171717;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      margin-bottom: 4px;
+    }
+
+    .cmp-row {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #444;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    /* ✕ marker for in-house */
+    .cmp-row.bad::before {
+      content: '✕';
+      font-weight: 700;
+      font-size: 13px;
+      color: #EF3F3F;
+      flex-shrink: 0;
+      line-height: 1.5;
+    }
+
+    /* ✓ marker for atelier */
+    .cmp-row.good::before {
+      content: '✓';
+      font-weight: 700;
+      font-size: 13px;
+      color: #0F2D51;
+      flex-shrink: 0;
+      line-height: 1.5;
+    }
+
+    .cmp-row strong {
+      font-weight: 700;
+      color: #171717;
+    }
+
+    @media (max-width: 900px) {
+      #comparison  { padding: 64px 24px; }
+      .cmp-h       { font-size: clamp(22px, 5vw, 44px); margin-bottom: 28px; }
+      .cmp-grid    { grid-template-columns: 1fr; border-radius: 12px; }
+      .cmp-col.inhouse { border-radius: 12px 12px 0 0; }
+      .cmp-col.atelier { border-radius: 0 0 12px 12px; }
+    }
+    @media (max-width: 600px) {
+      #comparison  { padding: 48px 16px; }
+      .cmp-h       { font-size: clamp(20px, 7vw, 32px); }
+      .cmp-col     { padding: 22px 20px 24px; }
+    }
+
+  
+    /* ══════════════════════════════════════════
+       SECTION 4 — URGENCY CTA
+       BG: #BDBDFF lavender · centered · ~250px
+       Heading: #171717 · 36px · bold
+       Sub: #171717 muted · 18px
+       Button: #FFE58B beige · black · pill
+    ══════════════════════════════════════════ */
+    #urgency {
+      background: #FFFFFF;
+      padding: max(60px, 7.813vw) max(24px, 3.516vw);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+      min-height: max(250px, 19.53vw);
+      justify-content: center;
+    }
+
+    .urg-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(20px, 2.8125vw); /* 36px @ 1280px */
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #171717;
+    }
+
+    .urg-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: max(14px, 1.40625vw); /* 18px @ 1280px */
+      line-height: 1.5;
+      color: rgba(23, 23, 23, 0.65);
+      margin: 0;
+    }
+
+    .urg-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #171717;
+      border-radius: 999px;
+      height: 44px;
+      padding-left: 22px;
+      padding-right: 5px;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease;
+      margin-top: 6px;
+    }
+    .urg-btn:hover { background: #3C3AFF; }
+
+    .urg-btn-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #FFFFFF;
+      white-space: nowrap;
+    }
+    .urg-btn-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+    }
+    .urg-btn-icon svg { width: 18px; height: 18px; fill: #fff; }
+
+    @media (max-width: 900px) {
+      #urgency   { padding: 56px 32px; gap: 14px; }
+      .urg-h     { font-size: clamp(20px, 4vw, 30px); }
+      .urg-sub   { font-size: clamp(14px, 1.8vw, 17px); }
+    }
+    @media (max-width: 600px) {
+      #urgency   { padding: 44px 20px; }
+      .urg-h     { font-size: clamp(18px, 6vw, 26px); }
+    }
+
+     ══════════════════════════════════════════ */
+#site-footer {
+  background: transparent; /* card tự có bg */
+  padding: 0 20px 40px;    /* breathing room quanh card */
+}
+
+/* Dark rounded card */
+.footer-card {
+  background: rgb(23, 23, 23); /* #171717 = color_15 */
+  border-radius: 35px;          /* 0.0273436 × 1280 */
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows:
+    minmax(395px, auto)  /* row 1: logo + tagline */
+    minmax(67px,  auto)  /* row 2: back to top    */
+    minmax(96px,  auto); /* row 3: links + copy   */
+}
+
+/* ── Row 1: Logo + Tagline ─────────────────
+   grid-area 1/1/2/2
+   padding: ~191px top · 45px LR · 100px bot */
+.footer-row1 {
+  grid-area: 1 / 1 / 2 / 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* content đẩy xuống dưới */
+  padding: max(100px, 14.9vw) max(24px, 3.5vw) max(60px, 7.8vw);
+  /* 0.149175×1280≈191px top | 0.0351568×1280≈45px LR | 0.0781259×1280≈100px bot */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Logo "F x 1 Digital"
+   Plus Jakarta Sans 700 · max(12px, 5.305vw) ≈ 68px · white */
+.footer-logo {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: max(12px, 5.3048vw); /* 0.0530483 × 1280 = 67.9px */
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* Tagline "No cold outreach..."
+   18px · white 70% · lh 1.5 */
+.footer-tagline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* ── Row 2: Back to top ─────────────────────
+   grid-area 2/1/3/2 · min-height 67px
+   button: bg #171717 · border rgba(255,255,255,0.2) · pill · 142px */
+.footer-row2 {
+  grid-area: 2 / 1 / 3 / 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 max(24px, 3.5vw);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-back-top {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  height: 42px;
+  width: 142px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.footer-back-top:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.footer-back-top-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+/* Arrow up icon */
+.footer-back-top-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+/* ── Row 3: Links + Copyright ───────────────
+   grid-area 3/1/4/2 · min-height 96px
+   flex-row: links left, copyright right
+   all text 13px white no-underline */
+.footer-row3 {
+  grid-area: 3 / 1 / 4 / 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0 max(24px, 3.5vw);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.footer-link {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-link:hover { color: #FFFFFF; }
+
+.footer-copy {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       HEADER — white bg → dark on scroll
+       Active: "Commission" → #EF3F3F red
+  ══════════════════════════════════════════════ -->
+  <header id="header">
+    <a href="index.html" class="logo">F x 1 Digital</a>
+    <nav class="nav-desktop">
+      <a href="about.html">About</a>
+      <a href="proof.html">Proof</a>
+      <a href="audit007.html">Audit 007</a>
+      <a href="commission.html" class="active">Commission</a>
+    </nav>
+    <div class="hamburger" id="hamburgerBtn" onclick="openMobileMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="nav-mobile-overlay" id="mobileOverlay">
+    <button class="close-btn" onclick="closeMobileMenu()">&#x2715;</button>
+    <a href="about.html" onclick="closeMobileMenu()">About</a>
+    <a href="proof.html" onclick="closeMobileMenu()">Proof</a>
+    <a href="audit007.html" onclick="closeMobileMenu()">Audit 007</a>
+    <a href="commission.html" class="active" onclick="closeMobileMenu()">Commission</a>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 1 — HERO
+       BG: #FFFFFF white · NO video
+       H2:  #EF3F3F red · 60px · bold · center
+       Sub: #FEE48A beige · 72px · bold · LEFT
+            "<strong>outcomes</strong>" + "<strong>custom commission plan</strong>"
+       Tag: #FEE48A beige · 72px · bold · center
+  ══════════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-content">
+
+      <!-- H2: center · #EF3F3F · 60px -->
+      <h2 class="hero-h wix-motion">
+        Commission Your Growth Engine
+      </h2>
+
+      <!-- Sub: LEFT · #FEE48A · 72px
+           "outcomes" bold · "custom commission plan" bold -->
+      <p class="hero-sub wix-motion wix-motion-d1">
+        No prices. Only <strong>outcomes</strong>. Book Audit 007 → receive your <strong>custom commission plan</strong> in 7 days.
+      </p>
+
+      <!-- Tag: center · #FEE48A · 72px -->
+      <p class="hero-tag wix-motion wix-motion-d2">
+        Only 3 new commissions accepted per month.
+      </p>
+
+    </div><!-- /.hero-content -->
+  </section>
+
+  <!-- ══════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════ -->
+  <script>
+    /* ─── 1. Header scroll ───────────────────── */
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    /* ─── 2. Mobile menu ─────────────────────── */
+    function openMobileMenu() {
+      document.getElementById('mobileOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ─── 3. Wix-motion fade-in ─────────────── */
+    const motionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('motion-done');
+          motionObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+
+    function initMotion() {
+      document.querySelectorAll('.wix-motion').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 100) {
+          el.classList.add('motion-done');
+        } else {
+          motionObserver.observe(el);
+        }
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMotion);
+    } else {
+      initMotion();
+    }
+  </script>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 2 — COMMISSION TIERS
+       Option A: white bg · 3-col cards
+       Ignition/Dominion → #BDBDFF lavender
+       Sovereign → #EDEDED gray · button #171717
+  ══════════════════════════════════════════════ -->
+  <section id="tiers">
+    <div class="tiers-grid">
+
+      <!-- ── TIER 01: IGNITION SUITE ── -->
+      <div class="tier-card lavender wix-motion">
+        <div class="tier-num">01</div>
+        <div class="tier-name">Ignition Suite</div>
+        <div class="tier-tag">Prove ROI in 30 Days</div>
+        <div class="tier-ideal"><strong>Ideal for:</strong> Startups, market entry, or testing a new channel</div>
+        <div class="tier-list">
+          <div class="tier-item"><strong>Core Channels:</strong>&nbsp;Google Ads + Meta (full funnel)</div>
+          <div class="tier-item"><strong>AI Targeting:</strong>&nbsp;Lookalike 2.0 + interest stacking</div>
+          <div class="tier-item"><strong>Automation:</strong>&nbsp;Bid, budget, creative rotation</div>
+          <div class="tier-item"><strong>Lead Goal:</strong>&nbsp;First 100 qualified leads</div>
+          <div class="tier-item"><strong>Reporting:</strong>&nbsp;Weekly snapshot (leads, CPA, ROAS)</div>
+          <div class="tier-item"><strong>Support:</strong>&nbsp;Shared PM (24h response)</div>
+          <div class="tier-item"><strong>Setup:</strong>&nbsp;Live in 5 business days</div>
+        </div>
+        <div class="tier-guarantee">Guarantee: 2x leads or we extend free</div>
+        <a href="#" class="tier-btn">
+          <span class="tier-btn-label">Commission Ignition</span>
+          <span class="tier-btn-icon">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <path d="M100 29.5c-38.874 0-70.5 31.626-70.5 70.5s31.626 70.5 70.5 70.5 70.5-31.626 70.5-70.5-31.626-70.5-70.5-70.5zm0 133c-34.463 0-62.5-28.037-62.5-62.5S65.537 37.5 100 37.5s62.5 28.037 62.5 62.5-28.037 62.5-62.5 62.5zm30.09-60.584c-.055.101-.099.205-.164.302a3.99 3.99 0 0 1-.501.613l-26.597 26.597c-.78.781-1.805 1.172-2.828 1.172s-2.048-.391-2.828-1.172a4 4 0 0 1 0-5.656L116.943 104H73.4a4 4 0 0 1 0-8h43.542l-19.77-19.771a4 4 0 1 1 5.656-5.656l26.597 26.597c.187.187.354.392.501.613.065.097.109.201.164.302.07.127.147.25.203.386.055.132.086.27.126.405.034.114.078.223.101.341.103.517.103 1.05 0 1.566-.023.118-.068.227-.101.341-.04.136-.071.273-.126.405-.056.136-.133.259-.203.386z"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <!-- ── TIER 02: DOMINION ENGINE ── -->
+      <div class="tier-card lavender wix-motion wix-motion-d1">
+        <div class="tier-num">02</div>
+        <div class="tier-name">Dominion Engine</div>
+        <div class="tier-tag">Full AI Performance Team</div>
+        <div class="tier-ideal"><strong>Ideal for:</strong> Scaling brokers with $100K+/mo ad spend</div>
+        <div class="tier-list">
+          <div class="tier-item"><strong>Dedicated</strong>&nbsp;Project Concierge (your single point of truth)</div>
+          <div class="tier-item"><strong>AI Stack:</strong>&nbsp;9 custom agents (cloaking, farming, IP rotation)</div>
+          <div class="tier-item"><strong>Automation:</strong>&nbsp;42+ workflows (CRM sync, LTV triggers)</div>
+          <div class="tier-item"><strong>Channels:</strong>&nbsp;Google, Meta, TikTok, Native, Email</div>
+          <div class="tier-item"><strong>Lead Growth:</strong>&nbsp;300% guaranteed in 90 days</div>
+          <div class="tier-item"><strong>Reporting:</strong>&nbsp;Weekly board-ready prophecy deck</div>
+          <div class="tier-item"><strong>Setup:</strong>&nbsp;Live in 72 hours</div>
+        </div>
+        <div class="tier-guarantee">Guarantee: ROI > 300% in 30 days or we work free</div>
+        <a href="#" class="tier-btn">
+          <span class="tier-btn-label">Commission Dominion</span>
+          <span class="tier-btn-icon">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <path d="M100 29.5c-38.874 0-70.5 31.626-70.5 70.5s31.626 70.5 70.5 70.5 70.5-31.626 70.5-70.5-31.626-70.5-70.5-70.5zm0 133c-34.463 0-62.5-28.037-62.5-62.5S65.537 37.5 100 37.5s62.5 28.037 62.5 62.5-28.037 62.5-62.5 62.5zm30.09-60.584c-.055.101-.099.205-.164.302a3.99 3.99 0 0 1-.501.613l-26.597 26.597c-.78.781-1.805 1.172-2.828 1.172s-2.048-.391-2.828-1.172a4 4 0 0 1 0-5.656L116.943 104H73.4a4 4 0 0 1 0-8h43.542l-19.77-19.771a4 4 0 1 1 5.656-5.656l26.597 26.597c.187.187.354.392.501.613.065.097.109.201.164.302.07.127.147.25.203.386.055.132.086.27.126.405.034.114.078.223.101.341.103.517.103 1.05 0 1.566-.023.118-.068.227-.101.341-.04.136-.071.273-.126.405-.056.136-.133.259-.203.386z"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <!-- ── TIER 03: SOVEREIGN ATELIER ── -->
+      <div class="tier-card gray wix-motion wix-motion-d2">
+        <div class="tier-num">03</div>
+        <div class="tier-name">Sovereign Atelier</div>
+        <div class="tier-tag">Your Private Marketing Department</div>
+        <div class="tier-ideal"><strong>Ideal for:</strong> Market leaders, IPO-track, or multi-region empires</div>
+        <div class="tier-list">
+          <div class="tier-item"><strong>Entire Ecosystem:</strong>&nbsp;Ads, CRM, BI, content, creative, dev</div>
+          <div class="tier-item"><strong>Custom AI Agents:</strong>&nbsp;Predictive LTV, churn, fraud detection</div>
+          <div class="tier-item"><strong>Global Scaling:</strong>&nbsp;50+ GEOs, multi-language, compliance</div>
+          <div class="tier-item"><strong>Board-Level Counsel:</strong>&nbsp;Quarterly strategy + investor decks</div>
+          <div class="tier-item"><strong>Dedicated Team:</strong>&nbsp;12 specialists (your shadow CMO included)</div>
+          <div class="tier-item"><strong>Reporting:</strong>&nbsp;Real-time dashboard + monthly P&amp;L impact</div>
+          <div class="tier-item"><strong>Setup:</strong>&nbsp;Custom architecture in 10 business days</div>
+        </div>
+        <div class="tier-guarantee">Guarantee: 500% ROI in 90 days or full refund</div>
+        <a href="#" class="tier-btn">
+          <span class="tier-btn-label">Inquire Sovereign</span>
+          <span class="tier-btn-icon">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <path d="M100 29.5c-38.874 0-70.5 31.626-70.5 70.5s31.626 70.5 70.5 70.5 70.5-31.626 70.5-70.5-31.626-70.5-70.5-70.5zm0 133c-34.463 0-62.5-28.037-62.5-62.5S65.537 37.5 100 37.5s62.5 28.037 62.5 62.5-28.037 62.5-62.5 62.5zm30.09-60.584c-.055.101-.099.205-.164.302a3.99 3.99 0 0 1-.501.613l-26.597 26.597c-.78.781-1.805 1.172-2.828 1.172s-2.048-.391-2.828-1.172a4 4 0 0 1 0-5.656L116.943 104H73.4a4 4 0 0 1 0-8h43.542l-19.77-19.771a4 4 0 1 1 5.656-5.656l26.597 26.597c.187.187.354.392.501.613.065.097.109.201.164.302.07.127.147.25.203.386.055.132.086.27.126.405.034.114.078.223.101.341.103.517.103 1.05 0 1.566-.023.118-.068.227-.101.341-.04.136-.071.273-.126.405-.056.136-.133.259-.203.386z"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+
+    </div><!-- /.tiers-grid -->
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 3 — IN-HOUSE TEAM VS YOUR ATELIER
+       Option A: #EDEDED bg · 2 cols
+       Left:  white · ✕ đỏ (#EF3F3F)
+       Right: #BDBDFF lavender · ✓ xanh (#0F2D51)
+  ══════════════════════════════════════════════ -->
+  <section id="comparison">
+
+    <h2 class="cmp-h wix-motion">In-House Team vs Your Atelier</h2>
+
+    <div class="cmp-grid">
+
+      <!-- Left: In-House (bad) -->
+      <div class="cmp-col inhouse wix-motion wix-motion-d1">
+        <div class="cmp-col-h">In-House (8–12 people)</div>
+        <div class="cmp-row bad">$1.2M–$2M/year salary + tools</div>
+        <div class="cmp-row bad">3–6 months to hire &amp; ramp</div>
+        <div class="cmp-row bad">High turnover, dying accounts</div>
+        <div class="cmp-row bad">Zero AI ownership</div>
+        <div class="cmp-row bad">Full risk, no performance guarantee</div>
+      </div>
+
+      <!-- Right: Your Atelier (good) -->
+      <div class="cmp-col atelier wix-motion wix-motion-d2">
+        <div class="cmp-col-h">Your Atelier</div>
+        <div class="cmp-row good"><strong>1/3 the cost</strong></div>
+        <div class="cmp-row good"><strong>Live in 72 hours</strong></div>
+        <div class="cmp-row good"><strong>Zero risk</strong> (ROI or free)</div>
+        <div class="cmp-row good"><strong>Full AI + automation</strong> ownership</div>
+        <div class="cmp-row good"><strong>3 slots/month</strong> — exclusivity guaranteed</div>
+      </div>
+
+    </div><!-- /.cmp-grid -->
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 4 — ONLY 3 COMMISSIONS THIS MONTH
+       BG: #BDBDFF lavender · centered · ~250px
+       Heading: 36px · bold · dark
+       Sub: 18px · muted · center
+       Button: #171717 black pill · hover #3C3AFF
+  ══════════════════════════════════════════════ -->
+  <section id="urgency">
+
+    <h2 class="urg-h wix-motion">Only 3 Commissions This Month</h2>
+
+    <p class="urg-sub wix-motion wix-motion-d1">
+      After that? Waitlist. Next slot:&nbsp;November 18, 2025
+    </p>
+
+    <a href="#" class="urg-btn wix-motion wix-motion-d2">
+      <span class="urg-btn-label">Secure Your Commission</span>
+      <span class="urg-btn-icon">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100 29.5c-38.874 0-70.5 31.626-70.5 70.5s31.626 70.5 70.5 70.5 70.5-31.626 70.5-70.5-31.626-70.5-70.5-70.5zm0 133c-34.463 0-62.5-28.037-62.5-62.5S65.537 37.5 100 37.5s62.5 28.037 62.5 62.5-28.037 62.5-62.5 62.5zm30.09-60.584c-.055.101-.099.205-.164.302a3.99 3.99 0 0 1-.501.613l-26.597 26.597c-.78.781-1.805 1.172-2.828 1.172s-2.048-.391-2.828-1.172a4 4 0 0 1 0-5.656L116.943 104H73.4a4 4 0 0 1 0-8h43.542l-19.77-19.771a4 4 0 1 1 5.656-5.656l26.597 26.597c.187.187.354.392.501.613.065.097.109.201.164.302.07.127.147.25.203.386.055.132.086.27.126.405.034.114.078.223.101.341.103.517.103 1.05 0 1.566-.023.118-.068.227-.101.341-.04.136-.071.273-.126.405-.056.136-.133.259-.203.386z"/>
+        </svg>
+      </span>
+    </a>
+
+  </section>
+
+
+
+<footer id="site-footer">
+  <div class="footer-card">
+
+    <!-- Row 1: Logo + Tagline
+         padding: ~191px top (luxury breathing room) · 45px LR · 100px bot
+         justify-content: flex-end (content ở dưới, space ở trên) -->
+    <div class="footer-row1">
+
+      <!-- Logo — Familjen Grotesk 700, max(12px, 5.3vw)≈68px, white -->
+      <a href="#" class="footer-logo">F x 1 Digital</a>
+
+      <!-- Tagline — 18px, rgba(255,255,255,0.7) -->
+      <p class="footer-tagline">
+        No cold outreach.&nbsp;All conversations begin with&nbsp;Audit 007.
+      </p>
+
+    </div><!-- /.footer-row1 -->
+
+    <!-- Row 2: Back to top button — right-aligned, min-height 67px -->
+    <div class="footer-row2">
+      <a href="#" class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+        <span class="footer-back-top-label">Back to top</span>
+        <span class="footer-back-top-icon">
+          <!-- Arrow up SVG -->
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 11V3M3 7l4-4 4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+    </div><!-- /.footer-row2 -->
+
+    <!-- Row 3: Links + Copyright — space-between, min-height 96px
+         All text: 13px · white · no underline -->
+    <div class="footer-row3">
+
+      <!-- Links left -->
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="#" class="footer-link">Terms &amp; Conditions</a>
+        <a href="#" class="footer-link">Privacy Policy</a>
+      </nav>
+
+      <!-- Copyright right -->
+      <span class="footer-copy">© 2035 by F1 Finance Digital</span>
+
+    </div><!-- /.footer-row3 -->
+
+  </div><!-- /.footer-card -->
+</footer>
+
+</body>
+</html>
