@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proof — F x 1 Digital</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;700&family=Almarai:wght@400;700;800&family=Fahkwang:wght@400;600;700&family=Montserrat:wght@400;700&family=Work+Sans:wght@400;600&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ══════════════════════════════════════════
+       GLOBAL RESET + BASE
+    ══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #FFFFFF;
+      color: #171717;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; }
+
+    /* ══════════════════════════════════════════
+       WIX-MOTION FADE-IN
+       Dùng CSS transition (không phải animation-paused)
+    ══════════════════════════════════════════ */
+    .wix-motion {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 900ms cubic-bezier(0.445,0.05,0.55,0.95),
+                  transform 900ms cubic-bezier(0.445,0.05,0.55,0.95);
+    }
+    .wix-motion.motion-done { opacity: 1; transform: translateY(0); }
+    .wix-motion-d1.motion-done { transition-delay: 80ms; }
+    .wix-motion-d2.motion-done { transition-delay: 180ms; }
+    .wix-motion-d3.motion-done { transition-delay: 280ms; }
+    .wix-motion-d4.motion-done { transition-delay: 380ms; }
+
+    /* ══════════════════════════════════════════
+       HEADER / NAV — đồng nhất với index.html
+    ══════════════════════════════════════════ */
+    #header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 50px;
+      background-color: transparent;
+      transition: background-color 0.35s ease;
+    }
+    #header.scrolled {
+      background-color: rgba(23, 23, 23, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .logo {
+      font-family: 'Familjen Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .nav-desktop {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .nav-desktop a {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: #FFFFFF;
+      padding: 6px 16px;
+      border-radius: 4px;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+    }
+    .nav-desktop a:hover  { color: #3C3AFF; }
+    .nav-desktop a.active { color: #EF3F3F; } /* Proof page active = red */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #FFFFFF;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    .nav-mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      z-index: 200;
+      flex-direction: column;
+      padding: 80px 40px 40px;
+    }
+    .nav-mobile-overlay.open { display: flex; }
+    .nav-mobile-overlay .close-btn {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-size: 28px;
+      color: #171717;
+      cursor: pointer;
+      background: none;
+      border: none;
+      line-height: 1;
+    }
+    .nav-mobile-overlay a {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 30px;
+      font-weight: 400;
+      color: #171717;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      transition: color 0.2s;
+    }
+    .nav-mobile-overlay a:hover  { color: #3C3AFF; }
+    .nav-mobile-overlay a.active { color: #EF3F3F; }
+
+    @media (max-width: 900px) {
+      .nav-desktop { display: none; }
+      .hamburger   { display: flex; }
+      #header      { padding: 0 24px; }
+    }
+
+    /* ══════════════════════════════════════════
+       SECTION 1 — HERO
+       Video bg: 1d0679_9bafbf4c69244b3aa0b49720a0b672b3
+       opacity 0.7 + white overlay
+       min-height: ~532px · padding 75px top · 45px LR · 0 bottom
+       H1: #EF3F3F red · max(12px,4.75vw)≈60px · 70.7% wide
+       Sub: #EF3F3F red · max(12px,5.64vw)≈72px · 69.7% wide · bold "dominion."
+    ══════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      min-height: max(532px, 41.57vw);
+      padding: 75px max(24px, 3.516vw) 0;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: #0a0a1a;
+    }
+
+    /* Video layer */
+    #hero .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.7;
+      z-index: 0;
+    }
+
+    /* White dimming overlay */
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.55);
+      z-index: 1;
+    }
+
+    /* Content box — left-aligned (align-self:start, justify-self:start) */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-bottom: 80px;
+    }
+
+    /* H1 — #EF3F3F red · max(12px, 3.125vw) ≈ 40px @ 1280px · center */
+    .hero-h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 3.125vw); /* 40px @ 1280px */
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: #EF3F3F;
+      text-align: center;
+      max-width: 860px;
+      margin-bottom: 14px;
+    }
+
+    /* Sub — #EF3F3F red · max(12px, 4.75vw) ≈ 60px · center · bold "dominion." */
+    .hero-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: max(12px, 2.5vw); /* 32px @ 1280px — nhỏ hơn H1 40px */
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: #EF3F3F;
+      text-align: center;
+      max-width: 860px;
+      margin: 0;
+    }
+    .hero-sub strong {
+      font-weight: 700;
+      color: #EF3F3F;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      #hero           { padding: 75px 32px 0; min-height: 400px; }
+      .hero-h1        { font-size: clamp(18px, 3.5vw, 36px); }
+      .hero-sub       { font-size: clamp(14px, 2.5vw, 28px); }
+    }
+    @media (max-width: 600px) {
+      #hero           { padding: 75px 20px 0; min-height: 320px; }
+      .hero-h1        { font-size: clamp(16px, 5vw, 28px); }
+      .hero-sub       { font-size: clamp(13px, 4vw, 22px); }
+    }
+
+  
+    /* ══════════════════════════════════════════
+       SECTION 2 — CLIENT #01 STATS
+       Option C: #0F2D51 navy · số mint #B3F5A0
+       Grid: 2 cols × 3 rows
+         Row 1 (1/1/2/3): heading full-width · 100px
+         Row 2 left (2/1/3/2): stats $2.4M + 1,280
+         Row 2 right (2/2/3/3): stat $1.1K
+    ══════════════════════════════════════════ */
+    #client-stats {
+      background: #0F2D51;
+      padding: 0 max(24px, 3.516vw);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows:
+        minmax(100px, auto)
+        minmax(200px, auto);
+    }
+
+    /* ── Row 1: Heading full-width ─────────── */
+    .cs-row1 {
+      grid-area: 1 / 1 / 2 / 3;
+      display: flex;
+      align-items: center;
+      padding: 40px 0 32px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .cs-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 2.1875vw); /* 28px @ 1280px */
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* ── Row 2: Stats area ─────────────────── */
+    .cs-left {
+      grid-area: 2 / 1 / 3 / 2;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      padding-right: max(24px, 3.516vw);
+    }
+
+    .cs-right {
+      grid-area: 2 / 2 / 3 / 3;
+      display: flex;
+      align-items: center;
+      padding-left: max(24px, 3.516vw);
+    }
+
+    /* Individual stat block */
+    .cs-stat {
+      padding: 32px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .cs-stat:last-child { border-bottom: none; }
+    .cs-right .cs-stat  { border-bottom: none; padding: 0; }
+
+    /* Stat value — #B3F5A0 mint · max(12px, 5.36vw) ≈ 69px */
+    .cs-val {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 3.75vw); /* 48px @ 1280px */
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: #B3F5A0;
+      margin-bottom: 12px;
+    }
+
+    /* Stat label — white · bold · max(12px, 4.83vw) ≈ 62px */
+    .cs-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 1.875vw); /* 24px @ 1280px */
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      margin-bottom: 10px;
+    }
+
+    /* Stat sub — white muted · 15px */
+    .cs-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 1.4;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      #client-stats {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        padding: 0 32px;
+      }
+      .cs-row1   { grid-area: 1 / 1 / 2 / 2; padding: 40px 0 28px; }
+      .cs-heading{ font-size: clamp(18px, 2.5vw, 26px); }
+      .cs-left   { grid-area: 2 / 1 / 3 / 2; border-right: none; padding-right: 0; }
+      .cs-right  { grid-area: 3 / 1 / 4 / 2; padding-left: 0; }
+      .cs-right .cs-stat { padding: 32px 0 0; border-top: 1px solid rgba(255,255,255,0.1); }
+      .cs-val    { font-size: clamp(24px, 4vw, 44px); }
+      .cs-label  { font-size: clamp(14px, 2vw, 22px); }
+    }
+    @media (max-width: 600px) {
+      #client-stats { padding: 0 20px; }
+      .cs-heading   { font-size: clamp(16px, 4vw, 22px); }
+      .cs-val       { font-size: clamp(22px, 6vw, 36px); }
+      .cs-label     { font-size: clamp(13px, 3.5vw, 20px); }
+      .cs-sub       { font-size: 13px; }
+    }
+
+  
+    /* ══════════════════════════════════════════
+       SECTION 3 — F1 SYSTEM LIVE DEPLOYMENTS
+       Option C: #0F2D51 navy · 2 cards side-by-side
+       Label mint #B3F5A0 · quote trắng mờ
+    ══════════════════════════════════════════ */
+    #deployments {
+      background: #0F2D51;
+      padding: 80px max(24px, 3.516vw);
+    }
+
+    .dep-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 4.7506vw); /* 60px @ 1280px */
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .dep-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .dep-card {
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Label "CLIENT #01 / #02" — mint small caps */
+    .dep-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: #B3F5A0;
+      text-transform: uppercase;
+    }
+
+    /* Quote body — ~20px, white 85% */
+    .dep-body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: max(14px, 1.25vw); /* 16px @ 1280px */
+      line-height: 1.7;
+      letter-spacing: -0.01em;
+      color: rgba(255, 255, 255, 0.85);
+      margin: 0;
+    }
+
+    /* Attribution — 13px, white 40% */
+    .dep-attr {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 1.4;
+      color: rgba(255, 255, 255, 0.4);
+      margin: 0;
+      padding-top: 4px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    @media (max-width: 900px) {
+      #deployments  { padding: 64px 24px; }
+      .dep-h        { font-size: clamp(26px, 5vw, 48px); margin-bottom: 32px; }
+      .dep-grid     { grid-template-columns: 1fr; gap: 16px; }
+    }
+    @media (max-width: 600px) {
+      #deployments  { padding: 48px 16px; }
+      .dep-h        { font-size: clamp(22px, 7vw, 36px); }
+      .dep-body     { font-size: 14px; }
+    }
+
+  
+    /* ══════════════════════════════════════════
+       SECTION 4 — POWERED BY THE F1 AI STACK
+       Video bg: 1d0679_af0acbadd67f4508acbace4712cea04c
+       Opacity 0.9 · NO overlay · video fully visible
+       Padding: 0px · min-height 279px
+       H3: #EF3F3F red · ~44px · bold · center
+       H4: #0B95CD cyan · 18px · center
+       Link: #EF3F3F red · ~20px · underline · center
+    ══════════════════════════════════════════ */
+    #ai-stack-cta {
+      position: relative;
+      min-height: max(279px, 21.8vw);
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #0a0a1a;
+    }
+
+    #ai-stack-cta .aicta-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.9;
+      z-index: 0;
+    }
+
+    /* No overlay — video shows through at 90% */
+
+    .aicta-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 64px max(24px, 3.516vw);
+      gap: 16px;
+    }
+
+    /* H3 — #EF3F3F red · ~44px · bold · center */
+    .aicta-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(22px, 3.4375vw); /* 44px @ 1280px */
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      color: #EF3F3F;
+      text-align: center;
+    }
+
+    /* H4 — #0B95CD cyan · 18px · center */
+    .aicta-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: max(14px, 1.4252vw); /* 18px @ 1280px */
+      line-height: 1.6;
+      letter-spacing: -0.03em;
+      color: #0B95CD;
+      text-align: center;
+      max-width: 720px;
+      margin: 0;
+    }
+
+    /* Link "See the full stack →" — #EF3F3F · ~20px · underline */
+    .aicta-link {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: max(14px, 1.5625vw); /* 20px @ 1280px */
+      line-height: 1.4;
+      color: #EF3F3F;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: opacity 0.2s ease;
+      width: 56.197%;
+      text-align: center;
+    }
+    .aicta-link:hover { opacity: 0.75; }
+
+    @media (max-width: 900px) {
+      #ai-stack-cta    { min-height: 220px; }
+      .aicta-content   { padding: 48px 32px; gap: 14px; }
+      .aicta-h         { font-size: clamp(20px, 4vw, 36px); }
+      .aicta-sub       { font-size: clamp(14px, 1.8vw, 18px); }
+      .aicta-link      { font-size: clamp(14px, 2vw, 18px); width: 90%; }
+    }
+    @media (max-width: 600px) {
+      .aicta-content   { padding: 40px 20px; }
+      .aicta-h         { font-size: clamp(18px, 6vw, 28px); }
+      .aicta-link      { width: 100%; }
+    }
+
+  
+    /* ══════════════════════════════════════════
+       SECTION 5 — LIVE SYSTEM METRICS
+       Option A: #FFFFFF white · số đỏ #EF3F3F
+       2×2 metric grid + CTA box
+       Padding: 0px (full bleed) · min-height 500px
+    ══════════════════════════════════════════ */
+    #live-metrics {
+      background: #FFFFFF;
+      padding: 80px max(24px, 3.516vw) 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Heading — 60px · bold · center */
+    .lm-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 4.7506vw); /* 60px @ 1280px */
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #171717;
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    /* 2×2 metric grid — 50% per item */
+    .lm-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      width: 100%;
+      max-width: 960px;
+      margin-bottom: 24px;
+    }
+
+    .lm-card {
+      background: #F5F5F5;
+      border-radius: 12px;
+      padding: 36px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Metric value — font_4 ~35px · #EF3F3F red
+       Scale from small → large on scroll-in */
+    .lm-val {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(24px, 2.734vw); /* 35px @ 1280px */
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: #EF3F3F;
+      display: inline-block;
+      transform: scale(0.3);
+      opacity: 0;
+      transition: transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                  opacity 600ms ease;
+    }
+    .lm-val.val-done {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    /* Metric label — 25px · bold · dark */
+    .lm-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(14px, 1.9794vw); /* 25px @ 1280px */
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      color: #171717;
+      text-align: center;
+    }
+
+    /* CTA box — full-width, gray bg */
+    .lm-cta {
+      width: 100%;
+      background: #F5F5F5;
+      padding: 60px max(24px, 3.516vw) 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+      margin-top: 0;
+    }
+
+    /* CTA heading — font_3 ~44px · bold */
+    .lm-cta-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(20px, 3.4375vw); /* 44px @ 1280px */
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: #171717;
+    }
+
+    /* CTA sub — 18px · bold */
+    .lm-cta-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(14px, 1.4252vw); /* 18px @ 1280px */
+      line-height: 1.5;
+      color: #555555;
+      max-width: 600px;
+      margin: 0;
+    }
+
+    /* Button — #FFE58B beige · black text · pill · 42px */
+    .lm-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 229, 139, 1); /* #FFE58B */
+      border: 1px solid rgba(255, 229, 139, 1);
+      border-radius: 999px;
+      height: 42px;
+      padding-left: 24px;
+      padding-right: 4px;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    .lm-btn:hover { background: rgba(238, 213, 100, 1); }
+
+    .lm-btn-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: #000000;
+      white-space: nowrap;
+    }
+
+    .lm-btn-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.1);
+      flex-shrink: 0;
+    }
+    .lm-btn-icon svg { width: 20px; height: 20px; }
+
+    @media (max-width: 900px) {
+      #live-metrics  { padding: 64px 24px 0; }
+      .lm-h          { font-size: clamp(26px, 5vw, 48px); margin-bottom: 36px; }
+      .lm-grid       { gap: 12px; }
+      .lm-val        { font-size: clamp(20px, 3vw, 30px); }
+      .lm-label      { font-size: clamp(14px, 2vw, 20px); }
+      .lm-cta-h      { font-size: clamp(20px, 4vw, 36px); }
+    }
+    @media (max-width: 600px) {
+      #live-metrics  { padding: 48px 16px 0; }
+      .lm-h          { font-size: clamp(22px, 7vw, 36px); }
+      .lm-grid       { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .lm-card       { padding: 24px 16px; }
+      .lm-val        { font-size: clamp(18px, 6vw, 28px); }
+      .lm-label      { font-size: clamp(12px, 3.5vw, 18px); }
+      .lm-cta        { padding: 40px 20px 60px; }
+      .lm-cta-h      { font-size: clamp(18px, 6vw, 28px); }
+    }
+
+    @media (max-width: 900px) {
+      #commission   { padding: 72px 32px 56px; gap: 20px; }
+      .comm-h       { font-size: clamp(28px, 5.5vw, 56px); }
+      .comm-sub     { font-size: clamp(16px, 2vw, 20px); }
+      .comm-btn     { width: 100%; max-width: 320px; }
+      .comm-btn-label { font-size: 20px; }
+    }
+    @media (max-width: 600px) {
+      #commission   { padding: 56px 20px 44px; }
+      .comm-h       { font-size: clamp(24px, 7.5vw, 44px); }
+      .comm-sub     { font-size: 16px; }
+    }
+
+  /* ══════════════════════════════════════════
+   FOOTER — F x 1 Digital
+   Nằm trong sticky wrapper (comp-mi5s8big)
+   → Dark rounded card #171717 · radius 35px
+   → Nổi trên nền trắng của page
+   3 rows:
+     Row 1: Logo + Tagline (padding lớn, sang trọng)
+     Row 2: "Back to top" button
+     Row 3: T&C · Privacy · Copyright
+   ══════════════════════════════════════════ */
+#site-footer {
+  background: transparent; /* card tự có bg */
+  padding: 0 20px 40px;    /* breathing room quanh card */
+}
+
+/* Dark rounded card */
+.footer-card {
+  background: rgb(23, 23, 23); /* #171717 = color_15 */
+  border-radius: 35px;          /* 0.0273436 × 1280 */
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows:
+    minmax(395px, auto)  /* row 1: logo + tagline */
+    minmax(67px,  auto)  /* row 2: back to top    */
+    minmax(96px,  auto); /* row 3: links + copy   */
+}
+
+/* ── Row 1: Logo + Tagline ─────────────────
+   grid-area 1/1/2/2
+   padding: ~191px top · 45px LR · 100px bot */
+.footer-row1 {
+  grid-area: 1 / 1 / 2 / 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* content đẩy xuống dưới */
+  padding: max(100px, 14.9vw) max(24px, 3.5vw) max(60px, 7.8vw);
+  /* 0.149175×1280≈191px top | 0.0351568×1280≈45px LR | 0.0781259×1280≈100px bot */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Logo "F x 1 Digital"
+   Plus Jakarta Sans 700 · max(12px, 5.305vw) ≈ 68px · white */
+.footer-logo {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: max(12px, 5.3048vw); /* 0.0530483 × 1280 = 67.9px */
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* Tagline "No cold outreach..."
+   18px · white 70% · lh 1.5 */
+.footer-tagline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* ── Row 2: Back to top ─────────────────────
+   grid-area 2/1/3/2 · min-height 67px
+   button: bg #171717 · border rgba(255,255,255,0.2) · pill · 142px */
+.footer-row2 {
+  grid-area: 2 / 1 / 3 / 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 max(24px, 3.5vw);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-back-top {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  height: 42px;
+  width: 142px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.footer-back-top:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.footer-back-top-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+/* Arrow up icon */
+.footer-back-top-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+/* ── Row 3: Links + Copyright ───────────────
+   grid-area 3/1/4/2 · min-height 96px
+   flex-row: links left, copyright right
+   all text 13px white no-underline */
+.footer-row3 {
+  grid-area: 3 / 1 / 4 / 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0 max(24px, 3.5vw);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.footer-link {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-link:hover { color: #FFFFFF; }
+
+.footer-copy {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  #site-footer     { padding: 0 16px 32px; }
+  .footer-card     { border-radius: 24px; }
+  .footer-row1     { padding: 60px 32px 48px; }
+  .footer-logo     { font-size: clamp(32px, 6vw, 56px); }
+}
+@media (max-width: 600px) {
+  #site-footer     { padding: 0 12px 24px; }
+  .footer-card     { border-radius: 20px; }
+  .footer-row1     { padding: 48px 24px 40px; justify-content: flex-start; }
+  .footer-logo     { font-size: clamp(28px, 8vw, 44px); }
+  .footer-tagline  { font-size: 15px; }
+  .footer-row2     { padding: 0 24px; }
+  .footer-row3     { flex-direction: column; align-items: flex-start; padding: 20px 24px; }
+  .footer-links    { gap: 20px; }
+}
+
+
+      #cta {
+      position: relative;
+      min-height: max(202px, 15.83vw);
+      padding: max(48px, 5.938vw) max(24px, 3.959vw) max(64px, 7.918vw);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #f0f0f0; /* fallback */
+    }
+
+    /* Video layer — opacity 0.7, white overlay effect */
+    #cta .cta-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.7;
+      z-index: 0;
+    }
+
+    /* White overlay — dims video to near-white */
+    #cta::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.6);
+      z-index: 1;
+    }
+
+    /* Content box — centered above video */
+    .cta-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+
+    /* Heading — #EF3F3F red · max(12px, 5.64vw) ≈ 72px
+       width 66.4% · bold · center */
+    .cta-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 5.641vw); /* 0.0564101 × 1280 = 72.2px */
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #EF3F3F;
+      width: 66.364%;
+      text-align: center;
+    }
+
+    /* Subtitle — #EF3F3F red · 18px bold · 94.2% wide */
+    .cta-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.5;
+      color: #EF3F3F;
+      width: 94.233%;
+      text-align: center;
+      margin: 0;
+    }
+
+    /* Button — red pill · 214px × 42px · white text 700 18px */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(239, 63, 63, 1);
+      border: 1px solid rgba(239, 63, 63, 1);
+      border-radius: 999px;
+      height: 42px;
+      width: 214px;
+      padding-left: 22px;
+      padding-right: 4px;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .cta-btn:hover {
+      background: rgba(189, 189, 255, 1);
+      border-color: rgba(189, 189, 255, 1);
+    }
+    .cta-btn:hover .cta-btn-label { color: #171717; }
+    .cta-btn:hover .cta-btn-icon  { background: rgba(23,23,23,0.12); }
+
+    .cta-btn-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.4em;
+      color: #FFFFFF;
+      white-space: nowrap;
+      transition: color 0.2s ease;
+    }
+
+    .cta-btn-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      flex-shrink: 0;
+      transition: background 0.2s ease;
+    }
+    .cta-btn-icon svg { width: 20px; height: 20px; }
+
+    @media (max-width: 900px) {
+      #cta      { padding: 60px 32px 72px; }
+      .cta-h    { font-size: clamp(28px, 5.5vw, 56px); width: 85%; }
+      .cta-sub  { font-size: 16px; width: 100%; }
+    }
+    @media (max-width: 600px) {
+      #cta      { padding: 48px 20px 56px; }
+      .cta-h    { font-size: clamp(24px, 7vw, 40px); width: 100%; }
+      .cta-sub  { font-size: 15px; }
+      .cta-btn  { width: 100%; max-width: 260px; }
+    }
+
+
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       HEADER — sticky, đồng nhất với index.html
+       Active: "Proof" → màu #EF3F3F red
+  ══════════════════════════════════════════════ -->
+  <header id="header">
+    <a href="index.html" class="logo">F x 1 Digital</a>
+    <nav class="nav-desktop">
+      <a href="about.html">About</a>
+      <a href="proof.html" class="active">Proof</a>
+      <a href="#">Audit 007</a>
+      <a href="#">Commission</a>
+    </nav>
+    <div class="hamburger" id="hamburgerBtn" onclick="openMobileMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="nav-mobile-overlay" id="mobileOverlay">
+    <button class="close-btn" onclick="closeMobileMenu()">&#x2715;</button>
+    <a href="about.html" onclick="closeMobileMenu()">About</a>
+    <a href="proof.html" class="active" onclick="closeMobileMenu()">Proof</a>
+    <a href="#" onclick="closeMobileMenu()">Audit 007</a>
+    <a href="#" onclick="closeMobileMenu()">Commission</a>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 1 — HERO
+       Video: 1d0679_9bafbf4c69244b3aa0b49720a0b672b3
+       opacity 0.7 + white overlay
+       H1 + Sub đều màu #EF3F3F đỏ
+       Sub (72px) > H1 (60px) — intentional
+  ══════════════════════════════════════════════ -->
+  <section id="hero">
+
+    <!-- Video BG: 1d0679_9bafbf4c69244b3aa0b49720a0b672b3 -->
+    <video
+      class="hero-video"
+      autoplay loop muted playsinline
+      aria-hidden="true">
+      <!-- <source src="YOUR_VIDEO_URL" type="video/mp4"> -->
+    </video>
+
+    <!-- Content — left-aligned, padding-bottom 80px -->
+    <div class="hero-content">
+
+      <!-- H1: "F1 Finance Digital – Client Results"
+           #EF3F3F red · max(12px,4.75vw)≈60px · 700 · 70.7% wide -->
+      <h1 class="hero-h1 wix-motion">
+        F1 Finance Digital – Client Results
+      </h1>
+
+      <!-- Sub: "We don't chase volume. We chase dominion."
+           #EF3F3F red · max(12px,5.64vw)≈72px · 69.7% wide
+           bold: "dominion." -->
+      <p class="hero-sub wix-motion wix-motion-d1">
+        We don't chase volume. We chase&nbsp;<strong>dominion.</strong><br>
+        Here are the brokers who trusted the F1 system first.
+      </p>
+
+    </div><!-- /.hero-content -->
+
+  </section>
+
+  <!-- ══════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════ -->
+  <script>
+    /* ─── 1. Header scroll effect ───────────── */
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    /* ─── 2. Mobile menu ────────────────────── */
+    function openMobileMenu() {
+      document.getElementById('mobileOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ─── 3. Wix-motion fade-in ─────────────── */
+    const motionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('motion-done');
+          motionObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+
+    function initMotion() {
+      document.querySelectorAll('.wix-motion').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 100) {
+          el.classList.add('motion-done');
+        } else {
+          motionObserver.observe(el);
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMotion);
+    } else {
+      initMotion();
+    }
+
+    /* ─── 4. Counter animation ───────────────
+       Runs when .lm-val[data-counter] enters viewport
+       Counts from 0 → target over 1.8s with easeOut  */
+    function animateCounter(el) {
+      const target   = parseFloat(el.dataset.target);
+      const prefix   = el.dataset.prefix  || '';
+      const suffix   = el.dataset.suffix  || '';
+      const decimals = parseInt(el.dataset.decimals) || 0;
+      const duration = 1800;
+      const start    = performance.now();
+
+      function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+      function step(now) {
+        const elapsed  = Math.min(now - start, duration);
+        const progress = ease(elapsed / duration);
+        const value    = progress * target;
+        el.textContent = prefix + value.toFixed(decimals) + suffix;
+        if (elapsed < duration) requestAnimationFrame(step);
+        else el.textContent = prefix + target.toFixed(decimals) + suffix;
+      }
+      requestAnimationFrame(step);
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting && !entry.target.dataset.counted) {
+          entry.target.dataset.counted = 'true';
+          /* Stagger scale: each card slightly delayed */
+          const delay = parseInt(entry.target.dataset.delay || 0);
+          setTimeout(() => {
+            entry.target.classList.add('val-done');
+            animateCounter(entry.target);
+          }, delay);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+
+    function initCounters() {
+      document.querySelectorAll('[data-counter]').forEach(el => {
+        el.textContent = (el.dataset.prefix || '') + '0' + (el.dataset.suffix || '');
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && !el.dataset.counted) {
+          /* Already visible on load — trigger immediately */
+          el.dataset.counted = 'true';
+          const delay = parseInt(el.dataset.delay || 0);
+          setTimeout(() => {
+            el.classList.add('val-done');
+            animateCounter(el);
+          }, delay);
+        } else {
+          counterObserver.observe(el);
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCounters);
+    } else {
+      initCounters();
+    }
+
+  </script>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 2 — CLIENT #01 STATS
+       Option C: #0F2D51 navy · số #B3F5A0 mint
+       2 cols × 2 rows:
+         Row 1 full: heading (~103px)
+         Row 2 left: $2.4M + 1,280
+         Row 2 right: $1.1K
+  ══════════════════════════════════════════════ -->
+  <section id="client-stats">
+
+    <!-- Row 1: Heading full-width (1/1/2/3) -->
+    <div class="cs-row1">
+      <h2 class="cs-heading wix-motion">
+        Client #01 – Tier-1 Broker (2023–2025)
+      </h2>
+    </div>
+
+    <!-- Row 2 Left (2/1/3/2): stat $2.4M + stat 1,280 -->
+    <div class="cs-left">
+
+      <!-- Stat 1: $2.4M -->
+      <div class="cs-stat wix-motion wix-motion-d1">
+        <div class="cs-val">$2.4M</div>
+        <div class="cs-label">Monthly Ad Spend Managed</div>
+        <p class="cs-sub">Google + Meta + Native</p>
+      </div>
+
+      <!-- Stat 2: 1,280 -->
+      <div class="cs-stat wix-motion wix-motion-d2">
+        <div class="cs-val">1,280</div>
+        <div class="cs-label">First-Time Deposits / Month</div>
+        <p class="cs-sub">Across 12 GEOs</p>
+      </div>
+
+    </div><!-- /.cs-left -->
+
+    <!-- Row 2 Right (2/2/3/3): stat $1.1K -->
+    <div class="cs-right">
+      <div class="cs-stat wix-motion wix-motion-d2">
+        <div class="cs-val">$1.1K</div>
+        <div class="cs-label">Average CPA</div>
+        <p class="cs-sub">Forex + Crypto verticals</p>
+      </div>
+    </div><!-- /.cs-right -->
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 3 — F1 SYSTEM LIVE DEPLOYMENTS
+       Option C: #0F2D51 navy · 2 cards side-by-side
+       Label mint #B3F5A0 · quote body trắng mờ
+  ══════════════════════════════════════════════ -->
+  <section id="deployments">
+
+    <h2 class="dep-h wix-motion">F1 System – Live Deployments</h2>
+
+    <div class="dep-grid">
+
+      <!-- Client #01 -->
+      <div class="dep-card wix-motion wix-motion-d1">
+        <div class="dep-label">Client #01</div>
+        <p class="dep-body">
+          "Onboarded Client #01 — a Tier-1 broker with legacy ad accounts:<br>
+          → Scaled monthly spend from $800K → $2.4M in 9 months<br>
+          → Reduced CPA from $3.2K → $1.1K using AI cloaking + account farming<br>
+          → Delivered 1,280 FTDs/month with 3.8x average ROAS"
+        </p>
+        <p class="dep-attr">— Client #01 • 2023–2025 • Identity protected by NDA</p>
+      </div>
+
+      <!-- Client #02 -->
+      <div class="dep-card wix-motion wix-motion-d2">
+        <div class="dep-label">Client #02</div>
+        <p class="dep-body">
+          "Client #02 — inherited Meta account in crisis:<br>
+          → $150K/mo spend, CPA $5.8K, 0 FTDs in 60 days<br>
+          → After F1 system activation: CPA dropped to $1.4K in 18 days<br>
+          → Generated 42 FTDs in first 30 days • ROAS 4.1x with full automation"
+        </p>
+        <p class="dep-attr">— Client #02 • October 2025 • Data anonymized per compliance</p>
+      </div>
+
+    </div><!-- /.dep-grid -->
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 4 — POWERED BY THE F1 AI STACK
+       Video: 1d0679_af0acbadd67f4508acbace4712cea04c
+       Opacity 0.9 · NO overlay · padding 0
+       H3 đỏ · H4 cyan · Link đỏ underline
+  ══════════════════════════════════════════════ -->
+  <section id="ai-stack-cta">
+
+    <!-- Video BG — opacity 0.9, no overlay -->
+    <video
+      class="aicta-video"
+      autoplay loop muted playsinline
+      aria-hidden="true">
+      <!-- <source src="YOUR_AICTA_VIDEO_URL" type="video/mp4"> -->
+    </video>
+
+    <div class="aicta-content">
+
+      <!-- H3: "Powered by The F1 AI Stack" — #EF3F3F · ~44px -->
+      <h3 class="aicta-h wix-motion">
+        Powered by The F1 AI Stack
+      </h3>
+
+      <!-- H4: body text — #0B95CD cyan · 18px -->
+      <p class="aicta-sub wix-motion wix-motion-d1">
+        Every result above — from CPA&nbsp;$5.8K&nbsp;→&nbsp;$1.4K&nbsp;to&nbsp;42&nbsp;FTDs in 30 days —<br>
+        was generated by this 9-layer AI system.
+      </p>
+
+      <!-- Text link — #EF3F3F · ~20px · underline -->
+      <a href="about.html#aistack" class="aicta-link wix-motion wix-motion-d2">
+        See the full stack →
+      </a>
+
+    </div><!-- /.aicta-content -->
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 5 — LIVE SYSTEM METRICS (Last 30 Days)
+       Option A: #FFFFFF white · số đỏ · button beige
+       2×2 metric grid + CTA box full-width
+  ══════════════════════════════════════════════ -->
+  <section id="live-metrics">
+
+    <!-- Heading -->
+    <h2 class="lm-h wix-motion">Live System Metrics (Last 30 Days)</h2>
+
+    <!-- 2×2 Metric grid -->
+    <div class="lm-grid">
+
+      <div class="lm-card wix-motion wix-motion-d1">
+        <div class="lm-val" data-counter data-delay="0" data-target="1.8" data-prefix="$" data-suffix="M" data-decimals="1">$1.8M</div>
+        <div class="lm-label">Ad Spend Processed</div>
+      </div>
+
+      <div class="lm-card wix-motion wix-motion-d1">
+        <div class="lm-val" data-counter data-delay="100" data-target="412" data-prefix="" data-suffix="" data-decimals="0">412</div>
+        <div class="lm-label">Qualified Leads</div>
+      </div>
+
+      <div class="lm-card wix-motion wix-motion-d2">
+        <div class="lm-val" data-counter data-delay="200" data-target="3.8" data-prefix="" data-suffix="x" data-decimals="1">3.8x</div>
+        <div class="lm-label">Average ROAS</div>
+      </div>
+
+      <div class="lm-card wix-motion wix-motion-d2">
+        <div class="lm-val" data-counter data-delay="300" data-target="97" data-prefix="" data-suffix="%" data-decimals="0">97%</div>
+        <div class="lm-label">Account Health Score</div>
+      </div>
+
+    </div><!-- /.lm-grid -->
+
+    <!-- CTA box — full-width, gray bg -->
+    <div class="lm-cta wix-motion wix-motion-d3">
+
+      <!-- CTA heading — font_3 ~44px bold -->
+      <h3 class="lm-cta-h">Be the Next Live Result</h3>
+
+      <!-- CTA sub — 18px bold -->
+      <p class="lm-cta-sub">
+        Slot 3 of 12 for 2025 is open. Start with a free audit of your ad accounts.
+      </p>
+
+      <!-- Button: #FFE58B beige · black · pill · 42px -->
+      <a href="#" class="lm-btn">
+        <span class="lm-btn-label">Start with Audit 007 (Free)</span>
+        <span class="lm-btn-icon">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="black">
+            <path d="M100 29.5c-38.874 0-70.5 31.626-70.5 70.5s31.626 70.5 70.5 70.5 70.5-31.626 70.5-70.5-31.626-70.5-70.5-70.5zm0 133c-34.463 0-62.5-28.037-62.5-62.5S65.537 37.5 100 37.5s62.5 28.037 62.5 62.5-28.037 62.5-62.5 62.5zm30.09-60.584c-.055.101-.099.205-.164.302a3.99 3.99 0 0 1-.501.613l-26.597 26.597c-.78.781-1.805 1.172-2.828 1.172s-2.048-.391-2.828-1.172a4 4 0 0 1 0-5.656L116.943 104H73.4a4 4 0 0 1 0-8h43.542l-19.77-19.771a4 4 0 1 1 5.656-5.656l26.597 26.597c.187.187.354.392.501.613.065.097.109.201.164.302.07.127.147.25.203.386.055.132.086.27.126.405.034.114.078.223.101.341.103.517.103 1.05 0 1.566-.023.118-.068.227-.101.341-.04.136-.071.273-.126.405-.056.136-.133.259-.203.386z"/>
+          </svg>
+        </span>
+      </a>
+
+    </div><!-- /.lm-cta -->
+
+  </section>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER — F x 1 Digital
+     Dark rounded card #171717 · border-radius 35px
+     Nằm trong sticky wrapper (comp-mi5s8big)
+     3 rows: logo+tagline / back-to-top / links+copyright
+
+
+
+
+
+<!-- ══════════════════════════════════════════════
+       SECTION 7 — SEE IT RUN ON YOUR DATA (CTA)
+       Video bg: 1d0679_b4f1eb9ef61544ba87d57dc31da2ec86
+       opacity 0.7 + white overlay
+       Heading #EF3F3F · 72px · 66.4% wide · centered
+       Sub #EF3F3F · 18px bold · 94.2% wide
+       Button: red pill · 214px × 42px
+  ══════════════════════════════════════════════ -->
+  <section id="cta">
+
+    <!-- Video BG: 1d0679_b4f1eb9ef61544ba87d57dc31da2ec86 -->
+    <video
+      class="cta-video"
+      autoplay loop muted playsinline
+      aria-hidden="true">
+      <!-- <source src="YOUR_CTA_VIDEO_URL" type="video/mp4"> -->
+    </video>
+
+    <!-- Content — centered, z-index 2 -->
+    <div class="cta-content">
+
+      <!-- Heading — #EF3F3F red · max(12px, 5.64vw) ≈ 72px · bold · 66.4% wide -->
+      <h2 class="cta-h wix-motion">
+        See It Run on Your Data
+      </h2>
+
+      <!-- Subtitle — #EF3F3F red · 18px bold · 94.2% wide -->
+      <p class="cta-sub wix-motion wix-motion-d1">
+        Audit 007 is free. We'll show you exactly where your $ is leaking — and how the F1 Stack fixes it.
+      </p>
+
+      <!-- Button — red pill · 214px × 42px · "Start Audit 007 (Free)" -->
+      <a href="#" class="cta-btn wix-motion wix-motion-d2">
+        <span class="cta-btn-label">Start Audit 007 (Free)</span>
+        <span class="cta-btn-icon">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="white">
+            <path d="M100 29.5c-38.874 0-70.5 31.626-70.5 70.5s31.626 70.5 70.5 70.5 70.5-31.626 70.5-70.5-31.626-70.5-70.5-70.5zm0 133c-34.463 0-62.5-28.037-62.5-62.5S65.537 37.5 100 37.5s62.5 28.037 62.5 62.5-28.037 62.5-62.5 62.5zm30.09-60.584c-.055.101-.099.205-.164.302a3.99 3.99 0 0 1-.501.613l-26.597 26.597c-.78.781-1.805 1.172-2.828 1.172s-2.048-.391-2.828-1.172a4 4 0 0 1 0-5.656L116.943 104H73.4a4 4 0 0 1 0-8h43.542l-19.77-19.771a4 4 0 1 1 5.656-5.656l26.597 26.597c.187.187.354.392.501.613.065.097.109.201.164.302.07.127.147.25.203.386.055.132.086.27.126.405.034.114.078.223.101.341.103.517.103 1.05 0 1.566-.023.118-.068.227-.101.341-.04.136-.071.273-.126.405-.056.136-.133.259-.203.386z"/>
+          </svg>
+        </span>
+      </a>
+
+    </div><!-- /.cta-content -->
+
+  </section>
+
+
+<footer id="site-footer">
+  <div class="footer-card">
+
+    <!-- Row 1: Logo + Tagline
+         padding: ~191px top (luxury breathing room) · 45px LR · 100px bot
+         justify-content: flex-end (content ở dưới, space ở trên) -->
+    <div class="footer-row1">
+
+      <!-- Logo — Familjen Grotesk 700, max(12px, 5.3vw)≈68px, white -->
+      <a href="#" class="footer-logo">F x 1 Digital</a>
+
+      <!-- Tagline — 18px, rgba(255,255,255,0.7) -->
+      <p class="footer-tagline">
+        No cold outreach.&nbsp;All conversations begin with&nbsp;Audit 007.
+      </p>
+
+    </div><!-- /.footer-row1 -->
+
+    <!-- Row 2: Back to top button — right-aligned, min-height 67px -->
+    <div class="footer-row2">
+      <a href="#" class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+        <span class="footer-back-top-label">Back to top</span>
+        <span class="footer-back-top-icon">
+          <!-- Arrow up SVG -->
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 11V3M3 7l4-4 4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+    </div><!-- /.footer-row2 -->
+
+    <!-- Row 3: Links + Copyright — space-between, min-height 96px
+         All text: 13px · white · no underline -->
+    <div class="footer-row3">
+
+      <!-- Links left -->
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="#" class="footer-link">Terms &amp; Conditions</a>
+        <a href="#" class="footer-link">Privacy Policy</a>
+      </nav>
+
+      <!-- Copyright right -->
+      <span class="footer-copy">© 2035 by F1 Finance Digital</span>
+
+    </div><!-- /.footer-row3 -->
+
+  </div><!-- /.footer-card -->
+</footer>
+
+</body>
+</html>
