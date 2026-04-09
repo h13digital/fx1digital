@@ -351,6 +351,8 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+      aspect-ratio: 1;
+      justify-content: flex-start;
     }
 
     .laws-num {
@@ -386,12 +388,14 @@
       #laws       { padding: 72px 32px; }
       .laws-h     { font-size: clamp(26px, 5vw, 44px); margin-bottom: 28px; }
       .laws-title { font-size: clamp(15px, 2vw, 20px); }
+      .laws-card  { aspect-ratio: auto; }
     }
     @media (max-width: 600px) {
       #laws       { padding: 56px 20px; }
       .laws-grid  { grid-template-columns: 1fr; }
       .laws-h     { font-size: clamp(24px, 7vw, 34px); }
       .laws-desc  { font-size: 14px; }
+      .laws-card  { aspect-ratio: auto; }
     }
 
   
@@ -529,10 +533,12 @@
     .aistack-card {
       background: rgba(255, 255, 255, 0.06);
       border-radius: 10px;
-      padding: 20px 18px;
+      padding: 24px 22px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
+      aspect-ratio: 1;
+      justify-content: flex-start;
     }
 
     /* Số: nhỏ, #C084FC purple */
@@ -582,6 +588,7 @@
       .aistack-h         { font-size: clamp(26px, 5vw, 44px); margin-bottom: 36px; }
       .aistack-grid      { grid-template-columns: repeat(2, 1fr); gap: 12px; }
       .aistack-title     { font-size: clamp(15px, 2vw, 20px); }
+      .aistack-card      { aspect-ratio: 1; }
     }
     @media (max-width: 600px) {
       #aistack           { padding: 56px 16px 48px; }
@@ -589,6 +596,7 @@
       .aistack-grid      { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .aistack-title     { font-size: 15px; }
       .aistack-desc      { font-size: 11px; }
+      .aistack-card      { aspect-ratio: auto; }
     }
 
   
