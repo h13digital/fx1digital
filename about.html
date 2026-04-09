@@ -351,7 +351,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      aspect-ratio: 1;
+      aspect-ratio: 4/3;
       justify-content: flex-start;
     }
 
@@ -537,7 +537,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      aspect-ratio: 1;
+      aspect-ratio: 4/3;
       justify-content: flex-start;
     }
 
@@ -588,7 +588,7 @@
       .aistack-h         { font-size: clamp(26px, 5vw, 44px); margin-bottom: 36px; }
       .aistack-grid      { grid-template-columns: repeat(2, 1fr); gap: 12px; }
       .aistack-title     { font-size: clamp(15px, 2vw, 20px); }
-      .aistack-card      { aspect-ratio: 1; }
+      .aistack-card      { aspect-ratio: 4/3; }
     }
     @media (max-width: 600px) {
       #aistack           { padding: 56px 16px 48px; }
@@ -1006,7 +1006,6 @@
 
     <nav aria-label="Main navigation">
       <ul class="header-nav">
-        <li><a href="index.html">Home</a></li>
         <li><a href="about.html" class="active">About</a></li>
         <li><a href="#">Proof</a></li>
         <li><a href="#">Audit 007</a></li>
@@ -1023,7 +1022,6 @@
   <div id="mobileOverlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
     <button class="mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">&times;</button>
     <ul class="mobile-nav">
-      <li><a href="index.html" onclick="closeMobileMenu()">Home</a></li>
       <li><a href="about.html" class="active" onclick="closeMobileMenu()">About</a></li>
       <li><a href="#" onclick="closeMobileMenu()">Proof</a></li>
       <li><a href="#" onclick="closeMobileMenu()">Audit 007</a></li>
