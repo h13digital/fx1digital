@@ -13,6 +13,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
+  overflow-x: hidden;
   font-family: 'Plus Jakarta Sans', sans-serif;
   background: #111;
   color: #fff;
@@ -150,7 +151,8 @@ a { text-decoration: none; color: inherit; }
 #hero {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: clamp(480px, 94.09vh, 900px);
+  min-height: 100svh; /* iOS safe */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -331,7 +333,7 @@ a { text-decoration: none; color: inherit; }
    ══════════════════════════════════════════ */
 #section2 {
   background-color: rgb(11, 149, 205); /* --bg-overlay-color from source */
-  min-height: 94.09vh;
+  min-height: clamp(400px, 94.09vh, 900px);
   width: 100%;
   display: flex;
   align-items: center;
@@ -2274,9 +2276,9 @@ a { text-decoration: none; color: inherit; }
   <!-- Desktop Nav -->
   <nav class="nav-desktop">
     <a href="about.html">About</a>
-    <a href="proof.html">Proof</a>
-    <a href="audit007.html">Audit 007</a>
-    <a href="commission.html">Commission</a>
+    <a href="#">Proof</a>
+    <a href="#">Audit 007</a>
+    <a href="#">Commission</a>
   </nav>
 
   <!-- Hamburger (mobile) -->
@@ -2291,9 +2293,9 @@ a { text-decoration: none; color: inherit; }
 <div class="nav-mobile-overlay" id="mobileOverlay">
   <button class="close-btn" onclick="closeMobileMenu()">&#x2715;</button>
   <a href="about.html" onclick="closeMobileMenu()">About</a>
-  <a href="proof.html" onclick="closeMobileMenu()">Proof</a>
-  <a href="audit007.html" onclick="closeMobileMenu()">Audit 007</a>
-  <a href="commission.html" onclick="closeMobileMenu()">Commission</a>
+  <a href="#" onclick="closeMobileMenu()">Proof</a>
+  <a href="#" onclick="closeMobileMenu()">Audit 007</a>
+  <a href="#" onclick="closeMobileMenu()">Commission</a>
 </div>
 
 <!-- ══════════════════════════════
