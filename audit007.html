@@ -150,9 +150,9 @@
        Min-height: ~532px
        H2 "Audit 007": #3C3AFF blue · max(12px,4.75vw)≈60px · bold
        P sub: #3C3AFF blue · max(12px,5.64vw)≈72px · bold
-             "7 days" + "private report" → <strong>
+             "7 days" + "campaign diagnosis" → <strong>
        Button: #FFE58B beige · black · w:225px · h:42px
-               "2 Slots Left – Closes in [HH:MM:SS]" + envelope icon
+               "Book Now – Closes in [HH:MM:SS]" + envelope icon
     ══════════════════════════════════════════ */
     #hero {
       background: #FFFFFF;
@@ -184,7 +184,7 @@
     }
 
     /* P sub — #3C3AFF blue · max(12px, 1.9794vw) = 25px · normal
-       "7 days of your ad accounts" + "private report" → bold span */
+       "7 days of your ad accounts" + "campaign diagnosis" → bold span */
     .hero-sub {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 400;
@@ -796,7 +796,7 @@
        SECTION 1 — HERO
        BG: #FFFFFF white · NO video
        H2: "Audit 007" · #3C3AFF blue · 60px · bold
-       Sub: 72px · bold · "7 days" + "private report" strong
+       Sub: 72px · bold · "7 days" + "campaign diagnosis" strong
        Button: beige #FFE58B · countdown timer · envelope icon
   ══════════════════════════════════════════════ -->
   <section id="hero">
@@ -928,21 +928,21 @@
         </p>
       </div>
 
-      <!-- Item 2: AI Fix Blueprint -->
+      <!-- Item 2: Fix Roadmap -->
       <div class="ri-card wix-motion wix-motion-d2">
         <div class="ri-num">02</div>
-        <div class="ri-title">AI Fix Blueprint</div>
+        <div class="ri-title">Fix Roadmap</div>
         <p class="ri-desc">
-          Step-by-step: cloaking, automation, LTV triggers to deploy in 72h.
+          Hourly bid automation, lead scoring in 2 seconds, and 100+ creative variants — exactly what to deploy and in what order. Ready to activate in 72h.
         </p>
       </div>
 
-      <!-- Item 3: Custom Commission -->
+      <!-- Item 3: Package Recommendation -->
       <div class="ri-card wix-motion wix-motion-d3">
         <div class="ri-num">03</div>
-        <div class="ri-title">Custom Commission</div>
+        <div class="ri-title">Package Recommendation</div>
         <p class="ri-desc">
-          Your exact tier + projected ROI + setup timeline.
+          Which package fits your stage, projected CPA improvement, and setup timeline.
         </p>
       </div>
 
@@ -961,18 +961,18 @@
 
     <!-- Heading — #EF3F3F · clamp(22px,60px) -->
     <h2 class="aip-h wix-motion">
-      Your Audit Is Powered by The F1 AI Stack
+      Your Audit Is Powered by the Fx1 Stack
     </h2>
 
     <!-- Sub — white · 25px · font_8 -->
     <p class="aip-sub wix-motion wix-motion-d1">
-      We don't guess. We&nbsp;predict&nbsp;where your $ is leaking —<br>
-      using the same 9-layer AI that scaled&nbsp;Client #01 to 1,280 FTDs/month.
+      We don't guess. We&nbsp;identify&nbsp;exactly where your $ is leaking —<br>
+      using the same 7-layer stack that took Client #02 from $5.8K CPA to $1.4K in 18 days.
     </p>
 
     <!-- Footer line — white · 18px -->
     <p class="aip-foot wix-motion wix-motion-d2">
-      Full stack revealed in your sealed dossier.
+      Full stack breakdown included in your report.
     </p>
 
   </section>
@@ -988,8 +988,19 @@
     <h2 class="bt-h wix-motion">Book Before Timer Hits Zero</h2>
 
     <p class="bt-sub wix-motion wix-motion-d1">
-      Next available:&nbsp;November 18, 2025
+      Next available:&nbsp;<span id="audit-deadline"></span>
     </p>
+
+    <script>
+      (function() {
+        var now = new Date();
+        var lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        var months = ['January','February','March','April','May','June',
+                      'July','August','September','October','November','December'];
+        var el = document.getElementById('audit-deadline');
+        if (el) el.textContent = months[lastDay.getMonth()] + ' ' + lastDay.getDate() + ', ' + lastDay.getFullYear();
+      })();
+    </script>
 
     <a href="#" class="bt-btn wix-motion wix-motion-d2">
       <span class="bt-btn-label">Open Calendar</span>
@@ -1009,14 +1020,14 @@
   ══════════════════════════════════════════════ -->
   <section id="guarantee">
 
-    <h2 class="gu-h wix-motion">If We Can't Find 2x Gains…</h2>
+    <h2 class="gu-h wix-motion">No diagnosis fee. No retainer required.</h2>
 
     <p class="gu-sub wix-motion wix-motion-d1">
-      We pay for your next $5,000 ad test.
+      The audit costs nothing. If you move forward with Rappidly and CPA doesn't drop 40% in 30 days — we refund the first month in full.
     </p>
 
     <p class="gu-sub2 wix-motion wix-motion-d2">
-      No questions. No strings.
+      No conditions. No dispute process. Refund in 5 business days.
     </p>
 
   </section>
@@ -1032,7 +1043,10 @@
       <!-- Logo — Familjen Grotesk 700, max(12px, 5.3vw)≈68px, white -->
       <a href="#" class="footer-logo">F x 1 Digital</a>
 
-      <!-- Tagline — 18px, rgba(255,255,255,0.7) -->
+      <p style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:400;color:rgba(255,255,255,0.55);margin-top:12px;letter-spacing:0.01em;">
+        Lower CPA. More FTDs. 30 days or we refund the first month.
+      </p>
+
       <p class="footer-tagline">
         No cold outreach.&nbsp;All conversations begin with&nbsp;Audit 007.
       </p>
@@ -1063,7 +1077,7 @@
       </nav>
 
       <!-- Copyright right -->
-      <span class="footer-copy">© <span id="footer-year"></span> by Fx1 Digital</span>
+      <span class="footer-copy">© <span id="footer-year"></span> Fx1 Digital</span>
 <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 
     </div><!-- /.footer-row3 -->
