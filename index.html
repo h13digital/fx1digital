@@ -2116,7 +2116,7 @@ a { text-decoration: none; color: inherit; }
      Row 3: T&C · Privacy · Copyright
    ══════════════════════════════════════════ */
 #site-footer {
-  background: transparent; /* card tự có bg */
+  background: #FFFFFF; /* match about.html — body là #111 nên phải set tường minh */
   padding: 0 20px 40px;    /* breathing room quanh card */
 }
 
@@ -3272,7 +3272,8 @@ a { text-decoration: none; color: inherit; }
       </nav>
 
       <!-- Copyright right -->
-      <span class="footer-copy">© 2035 by F1 Finance Digital</span>
+      <span class="footer-copy">© <span id="footer-year"></span> by Fx1 Digital</span>
+<script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 
     </div><!-- /.footer-row3 -->
 
@@ -3281,49 +3282,3 @@ a { text-decoration: none; color: inherit; }
 
 </body>
 </html>
-
-    /* ═══════════════════════════════════════════
-       FOOTER — MOBILE OPTIMIZATIONS
-    ═══════════════════════════════════════════ */
-    @media (max-width: 900px) {
-      #site-footer        { padding: 0 16px 32px; }
-      .footer-card        { border-radius: 24px; }
-      .footer-card        {
-        grid-template-rows:
-          minmax(240px, auto)  /* row1: logo+tagline */
-          minmax(64px,  auto)  /* row2: back to top  */
-          minmax(auto,  auto); /* row3: links+copy   */
-      }
-      .footer-row1        { padding: 56px 24px 40px; }
-      .footer-logo        { font-size: clamp(32px, 8vw, 52px); margin-bottom: 14px; }
-      .footer-tagline     { font-size: 16px; }
-      .footer-row2        { justify-content: center; padding: 0 24px; }
-      .footer-back-top    { width: 160px; }
-      .footer-row3        { padding: 0 24px; min-height: 80px; }
-    }
-
-    @media (max-width: 600px) {
-      #site-footer        { padding: 0 12px 24px; }
-      .footer-card        { border-radius: 18px; }
-      .footer-card        {
-        grid-template-rows:
-          minmax(200px, auto)
-          minmax(60px,  auto)
-          minmax(auto,  auto);
-      }
-      .footer-row1        { padding: 44px 20px 32px; }
-      .footer-logo        { font-size: clamp(28px, 9vw, 44px); margin-bottom: 10px; }
-      .footer-tagline     { font-size: 15px; }
-      .footer-row2        { min-height: 60px; }
-      .footer-row3        {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 10px;
-        padding: 16px 20px;
-        min-height: auto;
-      }
-      .footer-links       { gap: 20px; justify-content: center; }
-      .footer-copy        { font-size: 12px; }
-    }
-
