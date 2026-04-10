@@ -1008,6 +1008,32 @@
   .footer-links    { gap: 20px; }
 }
 
+
+    /* ── MOBILE FIXES about.html ── */
+    html, body { overflow-x: hidden; }
+    img { max-width: 100%; height: auto; }
+
+    @media (max-width: 900px) {
+      #hero { min-height: max(400px, 60svh); }
+      .hero-content { padding-bottom: 60px; }
+    }
+    @media (max-width: 600px) {
+      #hero { padding: 75px 20px 0; min-height: max(340px, 55svh); }
+      .hero-h1 { font-size: clamp(22px, 7vw, 36px); }
+      .hero-sub { font-size: clamp(18px, 5.5vw, 28px); }
+      /* team: 2col → 1col on small phones */
+      .team-grid { grid-template-columns: 1fr; }
+      /* aistack: 2col → 1col on small phones */
+      .aistack-grid { grid-template-columns: 1fr; gap: 8px; }
+      .aistack-card { aspect-ratio: auto; min-height: 120px; }
+      /* laws grid */
+      .laws-grid { grid-template-columns: 1fr; }
+      .laws-card { aspect-ratio: auto; }
+      /* invitation */
+      .inv-h  { font-size: clamp(24px, 8vw, 40px); }
+      .inv-p1 { font-size: clamp(16px, 5vw, 24px); }
+    }
+
   </style>
 </head>
 <body>
@@ -1020,9 +1046,9 @@
   <a href="index.html" class="logo">F x 1 Digital</a>
   <nav class="nav-desktop">
     <a href="about.html" class="active">About</a>
-    <a href="proof.html">Proof</a>
-    <a href="audit007.html">Audit 007</a>
-    <a href="commission.html">Commission</a>
+    <a href="#">Proof</a>
+    <a href="#">Audit 007</a>
+    <a href="#">Commission</a>
   </nav>
   <div class="hamburger" id="hamburgerBtn" onclick="openMobileMenu()">
     <span></span><span></span><span></span>
@@ -1033,9 +1059,9 @@
 <div class="nav-mobile-overlay" id="mobileOverlay">
   <button class="close-btn" onclick="closeMobileMenu()">&#x2715;</button>
   <a href="about.html" class="active" onclick="closeMobileMenu()">About</a>
-  <a href="proof.html" onclick="closeMobileMenu()">Proof</a>
-  <a href="audit007.html" onclick="closeMobileMenu()">Audit 007</a>
-  <a href="commission.html" onclick="closeMobileMenu()">Commission</a>
+  <a href="#" onclick="closeMobileMenu()">Proof</a>
+  <a href="#" onclick="closeMobileMenu()">Audit 007</a>
+  <a href="#" onclick="closeMobileMenu()">Commission</a>
 </div>
 
   <!-- ══════════════════════════════════════════════

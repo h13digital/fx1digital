@@ -689,7 +689,7 @@
     @media (max-width: 900px) {
       #live-metrics  { padding: 64px 24px 0; }
       .lm-h          { font-size: clamp(26px, 5vw, 48px); margin-bottom: 36px; }
-      .lm-grid       { gap: 12px; }
+      .lm-grid       { grid-template-columns: 1fr; gap: 12px; }
       .lm-val        { font-size: clamp(20px, 3vw, 30px); }
       .lm-label      { font-size: clamp(14px, 2vw, 20px); }
       .lm-cta-h      { font-size: clamp(20px, 4vw, 36px); }
@@ -1020,6 +1020,33 @@
     }
 
 
+
+    /* ── MOBILE FIXES proof.html ── */
+    html, body { overflow-x: hidden; }
+
+    @media (max-width: 900px) {
+      #hero { min-height: max(400px, 60svh); padding: 75px 32px 0; }
+    }
+    @media (max-width: 600px) {
+      #hero { padding: 75px 20px 0; min-height: max(320px, 55svh); }
+      .hero-h1 { font-size: clamp(20px, 6vw, 32px); }
+      .hero-sub { font-size: clamp(14px, 4.5vw, 22px); }
+      /* client stats */
+      .cs-val   { font-size: clamp(22px, 6vw, 36px); }
+      .cs-label { font-size: clamp(14px, 3.5vw, 20px); }
+      .cs-heading { font-size: clamp(18px, 5.5vw, 28px); }
+      /* live metrics */
+      .lm-h     { font-size: clamp(20px, 6vw, 32px); margin-bottom: 28px; }
+      .lm-val   { font-size: clamp(18px, 5.5vw, 26px); }
+      .lm-label { font-size: clamp(12px, 3.5vw, 18px); }
+      /* CTA section */
+      .lm-cta   { padding: 40px 20px 56px; }
+      .lm-cta-h { font-size: clamp(18px, 5.5vw, 28px); }
+      /* ai stack cta */
+      #ai-stack-cta { min-height: auto; padding: 48px 20px; }
+      .aicta-h  { font-size: clamp(18px, 5vw, 28px); }
+    }
+
   </style>
 </head>
 <body>
@@ -1033,8 +1060,8 @@
     <nav class="nav-desktop">
       <a href="about.html">About</a>
       <a href="proof.html" class="active">Proof</a>
-      <a href="audit007.html">Audit 007</a>
-      <a href="commission.html">Commission</a>
+      <a href="#">Audit 007</a>
+      <a href="#">Commission</a>
     </nav>
     <div class="hamburger" id="hamburgerBtn" onclick="openMobileMenu()">
       <span></span><span></span><span></span>
@@ -1046,8 +1073,8 @@
     <button class="close-btn" onclick="closeMobileMenu()">&#x2715;</button>
     <a href="about.html" onclick="closeMobileMenu()">About</a>
     <a href="proof.html" class="active" onclick="closeMobileMenu()">Proof</a>
-    <a href="audit007.html" onclick="closeMobileMenu()">Audit 007</a>
-    <a href="commission.html" onclick="closeMobileMenu()">Commission</a>
+    <a href="#" onclick="closeMobileMenu()">Audit 007</a>
+    <a href="#" onclick="closeMobileMenu()">Commission</a>
   </div>
 
   <!-- ══════════════════════════════════════════════

@@ -689,6 +689,33 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
+
+    /* ── MOBILE FIXES audit007.html ── */
+    html, body { overflow-x: hidden; }
+
+    @media (max-width: 900px) {
+      #hero { min-height: max(420px, 60svh); }
+    }
+    @media (max-width: 600px) {
+      #hero { padding: 75px 20px 0; min-height: max(340px, 55svh); }
+      .hero-h  { font-size: clamp(22px, 7vw, 34px); }
+      .hero-sub { font-size: clamp(12px, 3.5vw, 18px); }
+      /* report includes */
+      #report-includes { padding: 48px 16px; }
+      .ri-h    { font-size: clamp(22px, 7vw, 36px); margin-bottom: 24px; }
+      .ri-grid { grid-template-columns: 1fr; gap: 10px; }
+      .ri-num  { font-size: 20px; }
+      /* ai powered */
+      #ai-powered { padding: 40px 20px; gap: 12px; }
+      .aip-h  { font-size: clamp(18px, 5.5vw, 28px); }
+      .aip-sub { font-size: clamp(14px, 4vw, 18px); }
+      /* book timer + guarantee */
+      #book-timer, #guarantee { padding: 40px 20px; gap: 12px; }
+      .bt-h, .gu-h { font-size: clamp(20px, 6vw, 30px); }
+      .bt-sub, .gu-sub, .gu-sub2 { font-size: clamp(13px, 4vw, 17px); }
+      .bt-btn  { width: 100%; max-width: 280px; }
+    }
+
   </style>
 </head>
 <body>
@@ -703,7 +730,7 @@
       <a href="about.html">About</a>
       <a href="proof.html">Proof</a>
       <a href="audit007.html" class="active">Audit 007</a>
-      <a href="commission.html">Commission</a>
+      <a href="#">Commission</a>
     </nav>
     <div class="hamburger" id="hamburgerBtn" onclick="openMobileMenu()">
       <span></span><span></span><span></span>
@@ -716,7 +743,7 @@
     <a href="about.html" onclick="closeMobileMenu()">About</a>
     <a href="proof.html" onclick="closeMobileMenu()">Proof</a>
     <a href="audit007.html" class="active" onclick="closeMobileMenu()">Audit 007</a>
-    <a href="commission.html" onclick="closeMobileMenu()">Commission</a>
+    <a href="#" onclick="closeMobileMenu()">Commission</a>
   </div>
 
   <!-- ══════════════════════════════════════════════
