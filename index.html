@@ -125,23 +125,23 @@ a { text-decoration: none; color: inherit; }
   position: absolute;
   top: 20px; right: 24px;
   font-size: 28px;
-  color: rgb(var(--color_15));
+  color: #171717;
   cursor: pointer;
   background: none;
   border: none;
   line-height: 1;
 }
 .nav-mobile-overlay a {
-  font-family: var(--font-body);
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 30px;
   font-weight: 400;
-  color: rgb(var(--color_15));
+  color: #171717;
   padding: 14px 0;
   border-bottom: 1px solid rgba(0,0,0,0.08);
   transition: color 0.2s;
 }
 .nav-mobile-overlay a:hover {
-  color: rgb(var(--color_18));
+  color: #3C3AFF;
 }
 
 /* ══════════════════════════════════════════
@@ -2244,14 +2244,10 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* Responsive */
-@media (max-width: 900px) {
-  #site-footer     { padding: 0 16px 32px; }
   .footer-card     { border-radius: 24px; }
   .footer-row1     { padding: 60px 32px 48px; }
   .footer-logo     { font-size: clamp(32px, 6vw, 56px); }
 }
-@media (max-width: 600px) {
-  #site-footer     { padding: 0 12px 24px; }
   .footer-card     { border-radius: 20px; }
   .footer-row1     { padding: 48px 24px 40px; justify-content: flex-start; }
   .footer-logo     { font-size: clamp(28px, 8vw, 44px); }
@@ -2271,14 +2267,14 @@ a { text-decoration: none; color: inherit; }
 <header id="header">
 
   <!-- Logo -->
-  <a href="#" class="logo">F x 1 Digital</a>
+  <a href="index.html" class="logo">F x 1 Digital</a>
 
   <!-- Desktop Nav -->
   <nav class="nav-desktop">
     <a href="about.html">About</a>
-    <a href="#">Proof</a>
-    <a href="#">Audit 007</a>
-    <a href="#">Commission</a>
+    <a href="proof.html">Proof</a>
+    <a href="audit007.html">Audit 007</a>
+    <a href="commission.html">Commission</a>
   </nav>
 
   <!-- Hamburger (mobile) -->
@@ -2293,9 +2289,9 @@ a { text-decoration: none; color: inherit; }
 <div class="nav-mobile-overlay" id="mobileOverlay">
   <button class="close-btn" onclick="closeMobileMenu()">&#x2715;</button>
   <a href="about.html" onclick="closeMobileMenu()">About</a>
-  <a href="#" onclick="closeMobileMenu()">Proof</a>
-  <a href="#" onclick="closeMobileMenu()">Audit 007</a>
-  <a href="#" onclick="closeMobileMenu()">Commission</a>
+  <a href="proof.html" onclick="closeMobileMenu()">Proof</a>
+  <a href="audit007.html" onclick="closeMobileMenu()">Audit 007</a>
+  <a href="commission.html" onclick="closeMobileMenu()">Commission</a>
 </div>
 
 <!-- ══════════════════════════════

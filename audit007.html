@@ -716,6 +716,52 @@
       .bt-btn  { width: 100%; max-width: 280px; }
     }
 
+
+    /* ═══════════════════════════════════════════
+       FOOTER — MOBILE OPTIMIZATIONS
+    ═══════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      #site-footer        { padding: 0 16px 32px; }
+      .footer-card        { border-radius: 24px; }
+      .footer-card        {
+        grid-template-rows:
+          minmax(240px, auto)  /* row1: logo+tagline */
+          minmax(64px,  auto)  /* row2: back to top  */
+          minmax(auto,  auto); /* row3: links+copy   */
+      }
+      .footer-row1        { padding: 56px 24px 40px; }
+      .footer-logo        { font-size: clamp(32px, 8vw, 52px); margin-bottom: 14px; }
+      .footer-tagline     { font-size: 16px; }
+      .footer-row2        { justify-content: center; padding: 0 24px; }
+      .footer-back-top    { width: 160px; }
+      .footer-row3        { padding: 0 24px; min-height: 80px; }
+    }
+
+    @media (max-width: 600px) {
+      #site-footer        { padding: 0 12px 24px; }
+      .footer-card        { border-radius: 18px; }
+      .footer-card        {
+        grid-template-rows:
+          minmax(200px, auto)
+          minmax(60px,  auto)
+          minmax(auto,  auto);
+      }
+      .footer-row1        { padding: 44px 20px 32px; }
+      .footer-logo        { font-size: clamp(28px, 9vw, 44px); margin-bottom: 10px; }
+      .footer-tagline     { font-size: 15px; }
+      .footer-row2        { min-height: 60px; }
+      .footer-row3        {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+        padding: 16px 20px;
+        min-height: auto;
+      }
+      .footer-links       { gap: 20px; justify-content: center; }
+      .footer-copy        { font-size: 12px; }
+    }
+
   </style>
 </head>
 <body>
@@ -730,7 +776,7 @@
       <a href="about.html">About</a>
       <a href="proof.html">Proof</a>
       <a href="audit007.html" class="active">Audit 007</a>
-      <a href="#">Commission</a>
+      <a href="commission.html">Commission</a>
     </nav>
     <div class="hamburger" id="hamburgerBtn" onclick="openMobileMenu()">
       <span></span><span></span><span></span>
@@ -743,7 +789,7 @@
     <a href="about.html" onclick="closeMobileMenu()">About</a>
     <a href="proof.html" onclick="closeMobileMenu()">Proof</a>
     <a href="audit007.html" class="active" onclick="closeMobileMenu()">Audit 007</a>
-    <a href="#" onclick="closeMobileMenu()">Commission</a>
+    <a href="commission.html" onclick="closeMobileMenu()">Commission</a>
   </div>
 
   <!-- ══════════════════════════════════════════════
