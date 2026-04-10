@@ -14,7 +14,7 @@
        GLOBAL RESET + BASE
     ══════════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scrollbar-gutter: stable; }
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background: #FFFFFF;
@@ -210,7 +210,7 @@
       border: 1px solid rgba(255, 229, 139, 1);
       border-radius: 999px;
       height: 42px;
-      width: 280px;
+      min-width: 350px;
       padding-left: 20px;
       padding-right: 4px;
       gap: 8px;
@@ -257,13 +257,13 @@
       #hero         { padding: 75px 32px 0; min-height: 420px; }
       .hero-h       { font-size: clamp(28px, 5.5vw, 52px); }
       .hero-sub     { font-size: clamp(14px, 2.2vw, 22px); }
-      .hero-btn     { width: 260px; }
+      .hero-btn     { min-width: 320px; }
     }
     @media (max-width: 600px) {
       #hero         { padding: 75px 20px 0; min-height: 340px; }
       .hero-h       { font-size: clamp(24px, 8vw, 40px); }
       .hero-sub     { font-size: clamp(13px, 4vw, 18px); }
-      .hero-btn     { width: 240px; font-size: 13px; }
+      .hero-btn     { min-width: 300px; font-size: 13px; }
     }
 
     /* ══════════════════════════════════════════

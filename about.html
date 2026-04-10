@@ -13,7 +13,7 @@
        GLOBAL RESET + BASE
     ══════════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scrollbar-gutter: stable; }
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background: #FFFFFF;
@@ -789,7 +789,7 @@
       border: 1px solid rgba(239, 63, 63, 1);
       border-radius: 999px;
       height: 42px;
-      width: 214px;
+      min-width: 280px;
       padding-left: 22px;
       padding-right: 4px;
       gap: 10px;
@@ -838,7 +838,7 @@
       #cta      { padding: 48px 20px 56px; }
       .cta-h    { font-size: clamp(24px, 7vw, 40px); width: 100%; }
       .cta-sub  { font-size: 15px; }
-      .cta-btn  { width: 100%; max-width: 260px; }
+      .cta-btn  { width: 100%; min-width: 280px; }
     }
 
   /* ══════════════════════════════════════════
@@ -1564,8 +1564,7 @@
       </nav>
 
       <!-- Copyright right -->
-      <span class="footer-copy">© <span id="footer-year"></span> by Fx1 Digital</span>
-<script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
+      <span class="footer-copy">© 2035 by F1 Finance Digital</span>
 
     </div><!-- /.footer-row3 -->
 
