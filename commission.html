@@ -654,6 +654,52 @@
     }
     .urg-btn-icon svg { width: 18px; height: 18px; fill: #fff; }
 
+    /* Countdown timer */
+    .urg-countdown {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 4px;
+    }
+    .urg-countdown-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #EF3F3F;
+      border-radius: 8px;
+      padding: 8px 14px;
+      min-width: 62px;
+    }
+    .urg-countdown-num {
+      font-family: 'Azeret Mono', monospace;
+      font-size: max(20px, 1.875vw);
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .urg-countdown-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .urg-countdown-sep {
+      font-size: max(20px, 1.875vw);
+      font-weight: 700;
+      color: #EF3F3F;
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+    @media (max-width: 600px) {
+      .urg-countdown-block { min-width: 52px; padding: 6px 10px; }
+      .urg-countdown-num   { font-size: 18px; }
+    }
+
     @media (max-width: 900px) {
       #urgency   { padding: 56px 32px; gap: 14px; }
       .urg-h     { font-size: clamp(20px, 4vw, 30px); }
@@ -1106,14 +1152,57 @@
       After that? Waitlist. Next slot:&nbsp;<span class="urg-deadline" id="comm-deadline"></span>
     </p>
 
+    <!-- Countdown timer -->
+    <div class="urg-countdown wix-motion wix-motion-d1">
+      <div class="urg-countdown-block">
+        <span class="urg-countdown-num" id="urg-days">00</span>
+        <span class="urg-countdown-label">Days</span>
+      </div>
+      <span class="urg-countdown-sep">:</span>
+      <div class="urg-countdown-block">
+        <span class="urg-countdown-num" id="urg-hours">00</span>
+        <span class="urg-countdown-label">Hours</span>
+      </div>
+      <span class="urg-countdown-sep">:</span>
+      <div class="urg-countdown-block">
+        <span class="urg-countdown-num" id="urg-mins">00</span>
+        <span class="urg-countdown-label">Mins</span>
+      </div>
+      <span class="urg-countdown-sep">:</span>
+      <div class="urg-countdown-block">
+        <span class="urg-countdown-num" id="urg-secs">00</span>
+        <span class="urg-countdown-label">Secs</span>
+      </div>
+    </div>
+
     <script>
       (function() {
+        // Deadline: last day of current month, 23:59:59
         var now = new Date();
-        var lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        var deadline = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+
+        // Display deadline date
         var months = ['January','February','March','April','May','June',
                       'July','August','September','October','November','December'];
         var el = document.getElementById('comm-deadline');
-        if (el) el.textContent = months[lastDay.getMonth()] + ' ' + lastDay.getDate() + ', ' + lastDay.getFullYear();
+        if (el) el.textContent = months[deadline.getMonth()] + ' ' + deadline.getDate() + ', ' + deadline.getFullYear();
+
+        // Countdown tick
+        function pad(n) { return String(n).padStart(2, '0'); }
+        function tick() {
+          var diff = deadline - new Date();
+          if (diff <= 0) diff = 0;
+          var d = Math.floor(diff / 86400000);
+          var h = Math.floor((diff % 86400000) / 3600000);
+          var m = Math.floor((diff % 3600000) / 60000);
+          var s = Math.floor((diff % 60000) / 1000);
+          document.getElementById('urg-days').textContent  = pad(d);
+          document.getElementById('urg-hours').textContent = pad(h);
+          document.getElementById('urg-mins').textContent  = pad(m);
+          document.getElementById('urg-secs').textContent  = pad(s);
+        }
+        tick();
+        setInterval(tick, 1000);
       })();
     </script>
 
