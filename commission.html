@@ -216,7 +216,7 @@
     .hero-sub {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 700;
-      font-size: max(12px, 1.875vw); /* 24px @ 1280px */
+      font-size: max(12px, 1.9794vw); /* ~25px @ 1280px — synced with audit007 */
       line-height: 1.6;
       letter-spacing: -0.01em;
       color: #FEE48A;
@@ -1162,11 +1162,6 @@
     <!-- Countdown timer -->
     <div class="urg-countdown wix-motion wix-motion-d1">
       <div class="urg-countdown-block">
-        <span class="urg-countdown-num" id="urg-days">00</span>
-        <span class="urg-countdown-label">Days</span>
-      </div>
-      <span class="urg-countdown-sep">:</span>
-      <div class="urg-countdown-block">
         <span class="urg-countdown-num" id="urg-hours">00</span>
         <span class="urg-countdown-label">Hours</span>
       </div>
@@ -1184,30 +1179,51 @@
 
     <script>
       (function() {
-        // Deadline: last day of current month, 23:59:59
-        var now = new Date();
-        var deadline = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
-
-        // Display deadline date
         var months = ['January','February','March','April','May','June',
                       'July','August','September','October','November','December'];
-        var el = document.getElementById('comm-deadline');
-        if (el) el.textContent = months[deadline.getMonth()] + ' ' + deadline.getDate() + ', ' + deadline.getFullYear();
 
-        // Countdown tick
+        // Monthly deadline text (last day of current month)
+        function getMonthDeadline() {
+          var now = new Date();
+          return new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+        }
+
+        // Daily deadline: end of today 23:59:59
+        function getDayDeadline() {
+          var now = new Date();
+          return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+        }
+
+        function updateDeadlineText() {
+          var d = getMonthDeadline();
+          var el = document.getElementById('comm-deadline');
+          if (el) el.textContent = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+        }
+
         function pad(n) { return String(n).padStart(2, '0'); }
+
+        updateDeadlineText();
+        var dayDeadline = getDayDeadline();
+
         function tick() {
-          var diff = deadline - new Date();
-          if (diff <= 0) diff = 0;
-          var d = Math.floor(diff / 86400000);
-          var h = Math.floor((diff % 86400000) / 3600000);
+          var now = new Date();
+          var diff = dayDeadline - now;
+
+          // Day ended → reset to next day
+          if (diff <= 0) {
+            dayDeadline = getDayDeadline();
+            updateDeadlineText();
+            diff = dayDeadline - now;
+          }
+
+          var h = Math.floor(diff / 3600000);
           var m = Math.floor((diff % 3600000) / 60000);
           var s = Math.floor((diff % 60000) / 1000);
-          document.getElementById('urg-days').textContent  = pad(d);
           document.getElementById('urg-hours').textContent = pad(h);
           document.getElementById('urg-mins').textContent  = pad(m);
           document.getElementById('urg-secs').textContent  = pad(s);
         }
+
         tick();
         setInterval(tick, 1000);
       })();

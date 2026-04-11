@@ -188,7 +188,7 @@
     .hero-h {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 700;
-      font-size: max(12px, 4.7506vw);
+      font-size: clamp(40px, 5.46vw, 70px); /* 70px at 1280px — synced with index */
       line-height: 1.05;
       letter-spacing: -0.02em;
       color: #EF3F3F;
@@ -211,12 +211,12 @@
     }
 
     @media (max-width: 900px) {
-      #hero      { padding: 75px 32px 60px; min-height: max(380px, 55svh); }
+      #hero      { padding: 75px 32px 60px; min-height: 70svh; }
       .hero-h    { font-size: clamp(28px, 5.5vw, 52px); width: 80%; }
       .hero-sub  { font-size: clamp(15px, 2.2vw, 22px); width: 95%; }
     }
     @media (max-width: 600px) {
-      #hero      { padding: 75px 20px 48px; min-height: max(300px, 50svh); }
+      #hero      { padding: 75px 20px 48px; min-height: 70svh; }
       .hero-h    { font-size: clamp(24px, 8vw, 40px); width: 100%; }
       .hero-sub  { font-size: clamp(14px, 4vw, 18px); width: 100%; }
     }
@@ -500,7 +500,8 @@
       border: 1px solid rgba(239, 63, 63, 1);
       border-radius: 999px;
       height: 42px;
-      width: 214px;
+      width: auto;
+      min-width: fit-content;
       padding-left: 22px;
       padding-right: 4px;
       gap: 10px;
@@ -831,6 +832,52 @@
     /* Hero content nằm trên fade */
     #hero .hero-content { z-index: 2; }
 
+
+    /* ── BLINKING DOT — layer-num ::after ── */
+    .layer-num::after {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #EF3F3F;
+      margin-left: 6px;
+      vertical-align: middle;
+      opacity: 0.6;
+      animation: blink-dot 1.2s ease-in-out infinite;
+    }
+    @keyframes blink-dot {
+      0%, 100% { opacity: 0.15; transform: scale(0.8); }
+      50%       { opacity: 0.9;  transform: scale(1.2); }
+    }
+    .layer-card:nth-child(2) .layer-num::after { animation-delay: 0.15s; }
+    .layer-card:nth-child(3) .layer-num::after { animation-delay: 0.30s; }
+    .layer-card:nth-child(4) .layer-num::after { animation-delay: 0.45s; }
+    .layer-card:nth-child(5) .layer-num::after { animation-delay: 0.60s; }
+    .layer-card:nth-child(6) .layer-num::after { animation-delay: 0.75s; }
+    .layer-card:nth-child(7) .layer-num::after { animation-delay: 0.90s; }
+    .layer-card:nth-child(8) .layer-num::after { animation-delay: 1.05s; }
+    .layer-card:nth-child(9) .layer-num::after { animation-delay: 1.20s; }
+
+    /* ── TYPING EFFECT — hero text ── */
+    .hero-h,
+    .hero-sub { opacity: 0; }
+    .hero-h.typed,
+    .hero-sub.typed { opacity: 1; }
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 0.85em;
+      background: currentColor;
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink-cursor 0.7s step-end infinite;
+    }
+    @keyframes blink-cursor {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
   </style>
 </head>
 <body>
@@ -872,11 +919,11 @@
     <div class="hero-content">
 
       <!-- H2: font_2 · #EF3F3F · max(12px,4.75vw) · 54.76% wide -->
-      <h2 class="hero-h wix-motion">The F&nbsp;x&nbsp;1 AI Stack</h2>
+      <h2 class="hero-h">The F&nbsp;x&nbsp;1 AI Stack</h2>
 
       <!-- Sub: font_4 · #0B95CD · 25px · 90.05% wide
            Source: br giữa 2 dòng + nbsp trước — và $5.8K -->
-      <p class="hero-sub wix-motion wix-motion-d1">
+      <p class="hero-sub">
         9 Layers Deep&nbsp;— the same system that scaled&nbsp;Client #01 to $2.4M monthly spend<br>
         and dropped CPA from&nbsp;$5.8K → $1.4K&nbsp;in 18 days.
       </p>
@@ -1140,44 +1187,51 @@
   <script>
     /* ─── Countdown timer for stack-live section ─── */
     (function() {
-      function getDeadline() {
+      var months = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+
+      // Monthly deadline text
+      function getMonthDeadline() {
         var now = new Date();
-        var y = now.getFullYear();
-        var m = now.getMonth(); // 0-indexed
-        // Last day of current month
-        var lastDay = new Date(y, m + 1, 0);
+        var lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
         lastDay.setHours(23, 59, 59, 999);
         return lastDay;
       }
 
-      var months = ['January','February','March','April','May','June',
-                    'July','August','September','October','November','December'];
+      // Daily deadline: end of today
+      function getDayDeadline() {
+        var now = new Date();
+        return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+      }
 
-      function updateDeadlineLabel(deadline) {
+      function updateDeadlineLabel() {
+        var d = getMonthDeadline();
         var el = document.getElementById('sl-deadline');
         if (!el) return;
-        el.textContent = months[deadline.getMonth()] + ' ' + deadline.getDate() + ', ' + deadline.getFullYear();
+        el.textContent = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
       }
 
       function pad(n) { return String(n).padStart(2, '0'); }
 
-      var deadline = getDeadline();
-      updateDeadlineLabel(deadline);
+      updateDeadlineLabel();
+      var dayDeadline = getDayDeadline();
 
       function tick() {
         var el = document.getElementById('sl-countdown');
         if (!el) return;
         var now = new Date();
-        // If past deadline, roll to next month
-        if (now > deadline) {
-          deadline = getDeadline();
-          updateDeadlineLabel(deadline);
+        var diff = dayDeadline - now;
+
+        // Day passed → reset to next day
+        if (diff <= 0) {
+          dayDeadline = getDayDeadline();
+          updateDeadlineLabel();
+          diff = dayDeadline - now;
         }
-        var diff = deadline - now;
-        if (diff <= 0) { el.textContent = '00:00:00'; return; }
-        var h = Math.floor(diff / 3600000);
+
+        var h   = Math.floor(diff / 3600000);
         var min = Math.floor((diff % 3600000) / 60000);
-        var s = Math.floor((diff % 60000) / 1000);
+        var s   = Math.floor((diff % 60000) / 1000);
         el.textContent = pad(h) + ':' + pad(min) + ':' + pad(s);
       }
       tick();
@@ -1195,6 +1249,58 @@
     document.addEventListener('DOMContentLoaded', playAllVideos);
     document.addEventListener('touchstart', playAllVideos, { once: true });
     window.addEventListener('load', playAllVideos);
+  })();
+</script>
+
+<script>
+  /* ── TYPING EFFECT — hero section ── */
+  (function() {
+    function typeText(el, text, speed, onDone) {
+      el.classList.add('typed');
+      el.innerHTML = '';
+      const cursor = document.createElement('span');
+      cursor.className = 'typing-cursor';
+      el.appendChild(cursor);
+      let i = 0;
+      function tick() {
+        if (i < text.length) {
+          el.insertBefore(document.createTextNode(text[i]), cursor);
+          i++;
+          const delay = speed + Math.random() * 18;
+          setTimeout(tick, delay);
+        } else {
+          setTimeout(function() {
+            cursor.remove();
+            if (onDone) onDone();
+          }, 400);
+        }
+      }
+      tick();
+    }
+    window.addEventListener('load', function() {
+      const heroH   = document.querySelector('.hero-h');
+      const heroSub = document.querySelector('.hero-sub');
+      if (!heroH || !heroSub) return;
+      const hText   = heroH.innerText;
+      const subText = heroSub.innerText;
+      typeText(heroH, hText, 35, function() {
+        setTimeout(function() {
+          typeText(heroSub, subText, 18, null);
+        }, 200);
+      });
+    });
+  })();
+
+  /* ── iOS video autoplay fix ── */
+  (function() {
+    function playAll() {
+      document.querySelectorAll('video').forEach(function(v) {
+        v.muted = true; v.play().catch(function(){});
+      });
+    }
+    document.addEventListener('DOMContentLoaded', playAll);
+    document.addEventListener('touchstart', playAll, { once: true });
+    window.addEventListener('load', playAll);
   })();
 </script>
 </body>
