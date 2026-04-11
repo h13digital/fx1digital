@@ -2031,11 +2031,12 @@ a { text-decoration: none; color: inherit; }
    ══════════════════════════════════════════ */
 #section11 {
   background: linear-gradient(0deg, #FFE58B 2.81%, #FFFFFF 100%);
-  padding: 40px; /* 0.0312493 × 1280 */
+  padding: 40px;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto auto;
   row-gap: 0;
+  border-radius: 0 0 45px 45px;
 }
 
 /* ── Row 1: Heading ──────────────────────── */
@@ -2399,18 +2400,18 @@ a { text-decoration: none; color: inherit; }
   <div class="s2-inner">
 
     <!-- H1 — Almarai bold, white, centered -->
-    <h2 class="s2-heading">
+    <h2 class="s2-heading wix-motion">
       3.8x ROAS. In 30 days. Founders sleep soundly.
     </h2>
 
     <!-- Body — 16px, letter-spacing 0.2em, white, centered -->
-    <p class="s2-body">
+    <p class="s2-body wix-motion wix-motion-d1">
       The market shifts at 2am. Most systems catch up at 9am.<br>
       Fx1 catches it in 30 minutes — and acts before it costs you.
     </p>
 
     <!-- Button — white pill, cyan text + icon -->
-    <a href="#" class="s2-btn" aria-label="Book Audit 007 — See Where You're Leaking">
+    <a href="#" class="s2-btn wix-motion wix-motion-d2" aria-label="Book Audit 007 — See Where You're Leaking">
       <span class="s2-btn-label">See Where You're Leaking</span>
       <span class="s2-btn-icon">
         <!-- Circle arrow SVG from source -->
@@ -3008,8 +3009,8 @@ a { text-decoration: none; color: inherit; }
      2-row grid: heading + 5 SVG logos (flex-row, 20% each)
      SVGs extracted from Wix mobile version (all 5 confirmed)
      ══════════════════════════════════════════════ -->
+<div style="background:#FFFFFF;">
 <section id="section11">
-
   <!-- Row 1: Heading — 58.2% wide, centered -->
   <div class="s11-row1">
     <h2 class="s11-heading wix-motion">Trusted by founders at</h2>
@@ -3219,9 +3220,6 @@ a { text-decoration: none; color: inherit; }
       <a href="#" class="footer-logo">F x 1 Digital</a>
 
       <!-- Sub-tagline — positioning reinforcement under logo -->
-      <p style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:400;color:rgba(255,255,255,0.55);margin-top:12px;letter-spacing:0.01em;">
-        Lower CPA. More FTDs. 30 days or we refund the first month.
-      </p>
 
       <!-- Tagline — 18px, rgba(255,255,255,0.7) -->
       <p class="footer-tagline">
@@ -3254,13 +3252,14 @@ a { text-decoration: none; color: inherit; }
       </nav>
 
       <!-- Copyright right -->
-      <span class="footer-copy">© <span id="footer-year"></span> Fx1 Digital Agency</span>
+      <span class="footer-copy">© <span id="footer-year"></span> Fx1 Digital</span>
 <script>document.getElementById("footer-year").textContent = new Date().getFullYear();</script>
 
     </div><!-- /.footer-row3 -->
 
   </div><!-- /.footer-card -->
 </footer>
+</div><!-- /.white-wrapper -->
 
 </body>
 </html>
