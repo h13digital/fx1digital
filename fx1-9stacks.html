@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>F x 1 AI Stack — F x 1 Digital</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;700&family=Almarai:wght@400;700;800&family=Fahkwang:wght@400;600;700&family=Montserrat:wght@400;700&family=Work+Sans:wght@400;600&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ══════════════════════════════════════════
+       GLOBAL RESET
+    ══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #FFFFFF;
+      color: #171717;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* ══════════════════════════════════════════
+       WIX-MOTION FADE-IN
+    ══════════════════════════════════════════ */
+    .wix-motion {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 900ms cubic-bezier(0.445,0.05,0.55,0.95),
+                  transform 900ms cubic-bezier(0.445,0.05,0.55,0.95);
+    }
+    .wix-motion.motion-done { opacity: 1; transform: translateY(0); }
+    .wix-motion-d1.motion-done { transition-delay: 80ms; }
+    .wix-motion-d2.motion-done { transition-delay: 180ms; }
+    .wix-motion-d3.motion-done { transition-delay: 280ms; }
+
+    /* ══════════════════════════════════════════
+       HEADER / NAV
+       Hero = white → scrolled dark
+       Active = none (fx1aistack belum ada di nav)
+    /* ══════════════════════════════════════════ */
+    #header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 50px;
+      background-color: transparent;
+      transition: background-color 0.35s ease;
+    }
+    #header.scrolled {
+      background-color: rgba(23, 23, 23, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      font-family: 'Familjen Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #171717;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    #header.scrolled .logo { color: #FFFFFF; }
+
+    .nav-desktop {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .nav-desktop a {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: #171717;
+      padding: 6px 16px;
+      border-radius: 4px;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+    }
+    #header.scrolled .nav-desktop a { color: #FFFFFF; }
+    .nav-desktop a:hover  { color: #3C3AFF; }
+    .nav-desktop a.active { color: #EF3F3F; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #171717;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    #header.scrolled .hamburger span { background: #FFFFFF; }
+
+    .nav-mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      z-index: 200;
+      flex-direction: column;
+      padding: 80px 40px 40px;
+    }
+    .nav-mobile-overlay.open { display: flex; }
+    .nav-mobile-overlay .close-btn {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-size: 28px;
+      color: #171717;
+      cursor: pointer;
+      background: none;
+      border: none;
+      line-height: 1;
+    }
+    .nav-mobile-overlay a {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 30px;
+      font-weight: 400;
+      color: #171717;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .nav-mobile-overlay a:hover  { color: #3C3AFF; }
+    .nav-mobile-overlay a.active { color: #EF3F3F; }
+
+    @media (max-width: 900px) {
+      .nav-desktop { display: none; }
+      .hamburger   { display: flex; }
+      #header      { padding: 0 24px; }
+    }
+
+        /* ══════════════════════════════════════════
+       SECTION 1 — HERO
+       BG: F1 image opacity 0.25 via ::before
+       Wave SVG divider at bottom via separate div
+       Padding: 75px top · 45px LR · 60px bottom
+    /* ══════════════════════════════════════════ */
+    #hero {
+      background: #FFFFFF;
+      position: relative;
+      min-height: max(532px, 41.57vw); /* source: 0.415677 × 1280 = 532px */
+      padding: 75px max(24px, 3.516vw) max(48px, 3.75vw);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('https://cdn.jsdelivr.net/gh/h13digital/Image-Video@main/fx1-9stacks.avif');
+      background-size: cover;
+      background-position: 50% 50%;
+      opacity: 0.25;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+    }
+    /* H2 — #EF3F3F · 60px · center · 54.76% wide */
+    .hero-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 4.7506vw);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #EF3F3F;
+      text-align: center;
+      width: 54.76%;
+      margin-bottom: max(0.5px, 1.758vw);
+    }
+
+    /* Sub — #0B95CD cyan · 25px · center · 90.05% wide */
+    .hero-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: max(12px, 1.9794vw);
+      line-height: 1.55;
+      letter-spacing: -0.01em;
+      color: #0B95CD;
+      text-align: center;
+      width: 90.05%;
+      margin: 0;
+    }
+
+    @media (max-width: 900px) {
+      #hero      { padding: 75px 32px 60px; min-height: max(380px, 55svh); }
+      .hero-h    { font-size: clamp(28px, 5.5vw, 52px); width: 80%; }
+      .hero-sub  { font-size: clamp(15px, 2.2vw, 22px); width: 95%; }
+    }
+    @media (max-width: 600px) {
+      #hero      { padding: 75px 20px 48px; min-height: max(300px, 50svh); }
+      .hero-h    { font-size: clamp(24px, 8vw, 40px); width: 100%; }
+      .hero-sub  { font-size: clamp(14px, 4vw, 18px); width: 100%; }
+    }
+
+/* ══════════════════════════════════════════
+       SECTION 2 — 9 LAYERS STACK
+       BG: #0B95CD cyan
+       Layout: 2-col repeater · gap 50px
+       Card: #FFFFFF white · min-height 203px
+       All text: #171717 · 18px · bold (override)
+       Footer: "Every Layer..." #FFFFFF · 60px · center
+    /* ══════════════════════════════════════════ */
+    #layers {
+      background: #0B95CD;
+      padding: max(60px, 5.47vw) max(24px, 3.516vw) max(60px, 6.25vw);
+      position: relative;
+    }
+
+    .layers-grid {
+      overflow: visible;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: max(24px, 3.947vw); /* ~50px @ 1280px */
+      max-width: 960px;
+      margin: 0 auto 64px;
+    }
+
+    /* Card — #FFFFFF white · min-height 203px
+       position:relative + overflow:visible → số có thể nhô lên trên */
+    .layer-card {
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 56px 28px 24px; /* top lớn để nhường chỗ cho số */
+      min-height: max(203px, 15.86vw);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: visible;
+    }
+
+
+
+    /* NUMBER — position:absolute · straddling top border of card
+       Centered horizontally · top = -(half of font-size) · rotate -2deg */
+    .layer-num {
+      position: absolute;
+      top: -0.5em;           /* nửa trên nền cyan, nửa dưới card trắng */
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(40px, 5.5vw); /* ~70px @ 1280px */
+      line-height: 1;
+      color: #EF3F3F;
+      letter-spacing: -0.03em;
+      opacity: 0.25;
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* TITLE — 22px bold #171717 */
+    .layer-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 1.3;
+      color: #171717;
+      margin: 0;
+    }
+
+    /* DESC — 18px bold #171717 */
+    .layer-desc {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 1.5;
+      color: #171717;
+      margin: 0;
+      flex: 1;
+    }
+
+    /* IMPACT — 18px bold #171717 */
+    .layer-impact {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.3;
+      color: #171717;
+      margin: 0;
+      padding-top: 8px;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+      margin-top: auto;
+    }
+
+    /* Card 01 — centered, same width as half-grid */
+    .layer-card-center {
+      grid-column: 1 / -1;
+      width: calc(50% - max(12px, 1.974vw));
+      margin: 0 auto;
+    }
+
+    /* Footer — "Every Layer..." #FFFFFF · 60px · center */
+    .layers-footer {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 4.7506vw); /* 60.8px @ 1280px */
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 900px) {
+      #layers          { padding: 56px 24px 48px; }
+      .layers-grid     { grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 48px; }
+      .layer-card      { padding: 20px 18px 16px; min-height: auto; }
+      .layer-num       { font-size: clamp(36px, 5vw, 52px); top: -0.5em; }
+      .layer-title,
+      .layer-desc,
+      .layer-impact    { font-size: 15px; }
+      .layers-footer   { font-size: clamp(26px, 5vw, 48px); }
+    }
+    @media (max-width: 600px) {
+      #layers          { padding: 44px 16px 36px; }
+      .layers-grid     { grid-template-columns: 1fr; gap: 12px; margin-bottom: 36px; }
+      .layer-num       { font-size: clamp(32px, 7vw, 44px); top: -0.5em; }
+      .layer-title,
+      .layer-desc,
+      .layer-impact    { font-size: 14px; }
+      .layers-footer   { font-size: clamp(22px, 7vw, 36px); }
+    }
+
+
+    /* ══════════════════════════════════════════
+       SECTION 3 — THIS STACK IS LIVE
+       BG: #BDBDFF lavender · padding 50px × 45px
+       H2: #171717 · 60px · bold · center
+       Sub1: 25px · normal · center
+       Sub2: 25px · normal · center · "3 slots open" bold
+    /* ══════════════════════════════════════════ */
+    #stack-live {
+      background: #BDBDFF;
+      padding: max(50px, 3.959vw) max(24px, 3.516vw);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+      min-height: max(200px, 15.63vw);
+      justify-content: center;
+    }
+
+    .sl-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 4.7506vw); /* 60px @ 1280px */
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #171717;
+      text-align: center;
+    }
+
+    .sl-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: max(14px, 1.9531vw); /* 25px @ 1280px */
+      line-height: 1.55;
+      color: #171717;
+      text-align: center;
+      max-width: 760px;
+      margin: 0;
+    }
+
+    .sl-avail {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: max(14px, 1.9531vw); /* 25px @ 1280px */
+      line-height: 1.55;
+      color: #171717;
+      text-align: center;
+      margin: 0;
+    }
+    .sl-avail strong { font-weight: 700; color: #171717; }
+
+    @media (max-width: 900px) {
+      #stack-live  { padding: 56px 32px; gap: 14px; }
+      .sl-h        { font-size: clamp(26px, 5vw, 48px); }
+      .sl-sub,
+      .sl-avail    { font-size: clamp(15px, 2.2vw, 22px); max-width: 100%; }
+    }
+    @media (max-width: 600px) {
+      #stack-live  { padding: 44px 20px; }
+      .sl-h        { font-size: clamp(22px, 7vw, 36px); }
+      .sl-sub,
+      .sl-avail    { font-size: clamp(14px, 4vw, 18px); }
+    }
+
+    /* ══════════════════════════════════════════
+       CTA SECTION
+    ══════════════════════════════════════════ */
+    #cta {
+      position: relative;
+      min-height: max(202px, 15.83vw);
+      padding: max(48px, 5.938vw) max(24px, 3.959vw) max(64px, 7.918vw);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #f0f0f0; /* fallback */
+    }
+
+    /* Video layer — opacity 0.7, white overlay effect */
+    #cta .cta-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.7;
+      z-index: 0;
+    }
+
+    /* White overlay — dims video to near-white */
+    #cta::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.6);
+      z-index: 1;
+    }
+
+    /* Content box — centered above video */
+    .cta-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+
+    /* Heading — #EF3F3F red · max(12px, 5.64vw) ≈ 72px
+       width 66.4% · bold · center */
+    .cta-h {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: max(12px, 5.641vw); /* 0.0564101 × 1280 = 72.2px */
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #EF3F3F;
+      width: 66.364%;
+      text-align: center;
+    }
+
+    /* Subtitle — #EF3F3F red · 18px bold · 94.2% wide */
+    .cta-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.5;
+      color: #EF3F3F;
+      width: 94.233%;
+      text-align: center;
+      margin: 0;
+    }
+
+    /* Button — red pill · 214px × 42px · white text 700 18px */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(239, 63, 63, 1);
+      border: 1px solid rgba(239, 63, 63, 1);
+      border-radius: 999px;
+      height: 42px;
+      width: 214px;
+      padding-left: 22px;
+      padding-right: 4px;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .cta-btn:hover {
+      background: rgba(189, 189, 255, 1);
+      border-color: rgba(189, 189, 255, 1);
+    }
+    .cta-btn:hover .cta-btn-label { color: #171717;
+  white-space: nowrap;
+}
+    .cta-btn:hover .cta-btn-icon  { background: rgba(23,23,23,0.12); }
+
+    .cta-btn-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.4em;
+      color: #FFFFFF;
+      white-space: nowrap;
+      transition: color 0.2s ease;
+    }
+
+    .cta-btn-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      flex-shrink: 0;
+      transition: background 0.2s ease;
+    }
+    .cta-btn-icon svg { width: 20px; height: 20px; }
+
+
+/* ══════════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════════ */
+#site-footer {
+  background: transparent; /* card tự có bg */
+  padding: 0 20px 40px;    /* breathing room quanh card */
+}
+
+/* Dark rounded card */
+.footer-card {
+  background: rgb(23, 23, 23); /* #171717 = color_15 */
+  border-radius: 35px;          /* 0.0273436 × 1280 */
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows:
+    minmax(395px, auto)  /* row 1: logo + tagline */
+    minmax(67px,  auto)  /* row 2: back to top    */
+    minmax(96px,  auto); /* row 3: links + copy   */
+}
+
+/* ── Row 1: Logo + Tagline ─────────────────
+   grid-area 1/1/2/2
+   padding: ~191px top · 45px LR · 100px bot */
+.footer-row1 {
+  grid-area: 1 / 1 / 2 / 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* content đẩy xuống dưới */
+  padding: max(100px, 14.9vw) max(24px, 3.5vw) max(60px, 7.8vw);
+  /* 0.149175×1280≈191px top | 0.0351568×1280≈45px LR | 0.0781259×1280≈100px bot */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Logo "F x 1 Digital"
+   Plus Jakarta Sans 700 · max(12px, 5.305vw) ≈ 68px · white */
+.footer-logo {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: max(12px, 5.3048vw); /* 0.0530483 × 1280 = 67.9px */
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* Tagline "No cold outreach..."
+   18px · white 70% · lh 1.5 */
+.footer-tagline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* ── Row 2: Back to top ─────────────────────
+   grid-area 2/1/3/2 · min-height 67px
+   button: bg #171717 · border rgba(255,255,255,0.2) · pill · 142px */
+.footer-row2 {
+  grid-area: 2 / 1 / 3 / 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 max(24px, 3.5vw);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-back-top {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  height: 42px;
+  width: 142px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.footer-back-top:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.footer-back-top-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+/* Arrow up icon */
+.footer-back-top-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+/* ── Row 3: Links + Copyright ───────────────
+   grid-area 3/1/4/2 · min-height 96px
+   flex-row: links left, copyright right
+   all text 13px white no-underline */
+.footer-row3 {
+  grid-area: 3 / 1 / 4 / 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0 max(24px, 3.5vw);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.footer-link {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-link:hover { color: #FFFFFF; }
+
+.footer-copy {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+    /* ═══════════════════════════════════════════
+       FOOTER — MOBILE OPTIMIZATIONS
+    ═══════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      #site-footer        { padding: 0 16px 32px; }
+      .footer-card        { border-radius: 24px; }
+      .footer-card        {
+        grid-template-rows:
+          minmax(240px, auto)  /* row1: logo+tagline */
+          minmax(64px,  auto)  /* row2: back to top  */
+          minmax(auto,  auto); /* row3: links+copy   */
+      }
+      .footer-row1        { padding: 56px 24px 40px; }
+      .footer-logo        { font-size: clamp(32px, 8vw, 52px); margin-bottom: 14px; }
+      .footer-tagline     { font-size: 16px; }
+      .footer-row2        { justify-content: center; padding: 0 24px; }
+      .footer-back-top    { width: 160px; }
+      .footer-row3        { padding: 0 24px; min-height: 80px; }
+    }
+
+    @media (max-width: 600px) {
+      #site-footer        { padding: 0 12px 24px; }
+      .footer-card        { border-radius: 18px; }
+      .footer-card        {
+        grid-template-rows:
+          minmax(200px, auto)
+          minmax(60px,  auto)
+          minmax(auto,  auto);
+      }
+      .footer-row1        { padding: 44px 20px 32px; }
+      .footer-logo        { font-size: clamp(28px, 9vw, 44px); margin-bottom: 10px; }
+      .footer-tagline     { font-size: 15px; }
+      .footer-row2        { min-height: 60px; }
+      .footer-row3        {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+        padding: 16px 20px;
+        min-height: auto;
+      }
+      .footer-links       { gap: 20px; justify-content: center; }
+      .footer-copy        { font-size: 12px; }
+    }
+
+    @media (max-width: 900px) {
+      #cta      { padding: 60px 32px 72px; }
+      .cta-h    { font-size: clamp(28px, 5.5vw, 56px); width: 85%; }
+      .cta-sub  { font-size: 16px; width: 100%; }
+    }
+    @media (max-width: 600px) {
+      #cta      { padding: 48px 20px 56px; }
+      .cta-h    { font-size: clamp(24px, 7vw, 40px); width: 100%; }
+      .cta-sub  { font-size: 15px; }
+      .cta-btn  { width: 100%; max-width: 260px; }
+    }
+
+    @media (max-width: 600px) {
+      .layer-card-center { width: 100%; }
+    }
+
+    /* ══════════════════════════════════════════
+       GRADIENT TRANSITIONS — v1 UI experiment
+       S2 top:   white → #0B95CD (fade in)
+       S2 bottom + S3 top: #0B95CD → #BDBDFF
+       S3 bottom: #BDBDFF → white (fade out)
+    ══════════════════════════════════════════ */
+
+    /* Fade-in ở đầu S2: trắng → cyan */
+    #layers::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 160px;
+      background: linear-gradient(to bottom, #FFFFFF 0%, #0B95CD 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Fade-out ở cuối S2: cyan → lavender */
+    #layers::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(to bottom, #0B95CD 0%, #BDBDFF 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* layers content phải nằm trên gradient */
+    #layers > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Fade-in ở đầu S3: lavender tiếp nối từ S2 (không cần thêm vì S2::after lo) */
+    /* stack-live content phải nằm trên gradient */
+    #stack-live > * {
+      position: relative;
+      z-index: 1;
+    }
+
+
+    /* Đầu S4 (CTA): lavender #BDBDFF → transparent · tiếp nối S3 */
+    #cta::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 140px;
+      background: linear-gradient(to bottom, #BDBDFF 0%, rgba(189,189,255,0) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Cuối S4 (CTA): fade to white ở bottom */
+    .cta-bottom-fade {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 140px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #FFFFFF 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Content above gradients */
+    .cta-content { position: relative; z-index: 3 !important; }
+
+
+    /* Cuối S1 (Hero): fade to white · nối tiếp S2 */
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 140px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #FFFFFF 100%);
+      z-index: 1; /* above bg image (z:0), below content (z:1) */
+      pointer-events: none;
+    }
+
+    /* Hero content nằm trên fade */
+    #hero .hero-content { z-index: 2; }
+
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       HEADER — white bg → dark on scroll
+       No active item (fx1aistack is standalone)
+  ══════════════════════════════════════════════ -->
+  <header id="header">
+    <a href="index.html" class="logo">F x 1 Digital</a>
+    <nav class="nav-desktop">
+      <a href="about.html">About</a>
+      <a href="proof.html">Proof</a>
+      <a href="audit007.html">Audit 007</a>
+      <a href="commission.html">Commission</a>
+    </nav>
+    <div class="hamburger" onclick="openMobileMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="nav-mobile-overlay" id="mobileOverlay">
+    <button class="close-btn" onclick="closeMobileMenu()">&#x2715;</button>
+    <a href="about.html" onclick="closeMobileMenu()">About</a>
+    <a href="proof.html" onclick="closeMobileMenu()">Proof</a>
+    <a href="audit007.html" onclick="closeMobileMenu()">Audit 007</a>
+    <a href="commission.html" onclick="closeMobileMenu()">Commission</a>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 1 — HERO
+       BG: #FFFFFF white · NO video
+       H2:  #EF3F3F red · 60px · center
+       Sub: #0B95CD cyan · 25px · center · <br> mid
+  ══════════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-content">
+
+      <!-- H2: font_2 · #EF3F3F · max(12px,4.75vw) · 54.76% wide -->
+      <h2 class="hero-h wix-motion">The F&nbsp;x&nbsp;1 AI Stack</h2>
+
+      <!-- Sub: font_4 · #0B95CD · 25px · 90.05% wide
+           Source: br giữa 2 dòng + nbsp trước — và $5.8K -->
+      <p class="hero-sub wix-motion wix-motion-d1">
+        9 Layers Deep&nbsp;— the same system that scaled&nbsp;Client #01 to $2.4M monthly spend<br>
+        and dropped CPA from&nbsp;$5.8K → $1.4K&nbsp;in 18 days.
+      </p>
+
+    </div><!-- /.hero-content -->
+  </section>
+
+  <!-- ══════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════ -->
+  <script>
+    /* ─── 1. Header scroll ───────────────────── */
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    /* ─── 2. Mobile menu ─────────────────────── */
+    function openMobileMenu() {
+      document.getElementById('mobileOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ─── 3. Wix-motion fade-in ─────────────── */
+    const motionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('motion-done');
+          motionObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+
+    function initMotion() {
+      document.querySelectorAll('.wix-motion').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 100) {
+          el.classList.add('motion-done');
+        } else {
+          motionObserver.observe(el);
+        }
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMotion);
+    } else {
+      initMotion();
+    }
+  </script>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 2 — 9 LAYERS STACK
+       BG: #0B95CD cyan · 2-col repeater
+       Card: #FFFFFF white · all text 18px bold #171717
+       Footer: "Every Layer..." #FFFFFF 60px center
+  ══════════════════════════════════════════════ -->
+  <section id="layers">
+
+    <!-- Section heading — "Every Layer..." #FFFFFF 60px center -->
+    <p class="layers-footer wix-motion" style="margin-bottom: max(36px, 3.5vw);">
+      Every Layer. Every Function. Every Result.
+    </p>
+
+    <div class="layers-grid">
+
+      <!-- 09 — Predictive LTV Engine -->
+      <div class="layer-card wix-motion">
+        <div class="layer-num">09</div>
+        <p class="layer-title">Predictive LTV Engine</p>
+        <p class="layer-desc">AI forecasts customer lifetime value using behavioral + deposit patterns. Prioritizes high-LTV leads for retargeting.</p>
+        <p class="layer-impact">→ +28% ROAS on retargeting campaigns</p>
+      </div>
+
+      <!-- 08 — IP Rotation & Farming -->
+      <div class="layer-card wix-motion wix-motion-d1">
+        <div class="layer-num">08</div>
+        <p class="layer-title">IP Rotation &amp;&nbsp;Farming</p>
+        <p class="layer-desc">Auto-creates &amp; rotates 100+ clean ad accounts with unique IPs, cookies, and device fingerprints.</p>
+        <p class="layer-impact">→ 97% account health score</p>
+      </div>
+
+      <!-- 07 — AI Cloaking Core -->
+      <div class="layer-card wix-motion">
+        <div class="layer-num">07</div>
+        <p class="layer-title">AI Cloaking Core</p>
+        <p class="layer-desc">Real-time cloaking bypasses Meta &amp; Google compliance without triggering bans.</p>
+        <p class="layer-impact">→ Zero bans in 90 days</p>
+      </div>
+
+      <!-- 06 — Creative Engine -->
+      <div class="layer-card wix-motion wix-motion-d1">
+        <div class="layer-num">06</div>
+        <p class="layer-title">Creative Engine</p>
+        <p class="layer-desc">Generates 100+ ad variants daily. Auto-tests. Kills losers. Scales winners.</p>
+        <p class="layer-impact">→ CTR +31% vs manual</p>
+      </div>
+
+      <!-- 05 — Bid & Budget Automation -->
+      <div class="layer-card wix-motion">
+        <div class="layer-num">05</div>
+        <p class="layer-title">Bid &amp; Budget Automation</p>
+        <p class="layer-desc">AI adjusts bids in real-time based on ROAS, CPA, and GEO performance.</p>
+        <p class="layer-impact">→ CPA reduced 42% on average</p>
+      </div>
+
+      <!-- 04 — CRM Sync Layer -->
+      <div class="layer-card wix-motion wix-motion-d1">
+        <div class="layer-num">04</div>
+        <p class="layer-title">CRM Sync Layer</p>
+        <p class="layer-desc">Instant lead scoring + CRM push. No delays. No manual work.</p>
+        <p class="layer-impact">→ Lead-to-FTD time: 3.2 days</p>
+      </div>
+
+      <!-- 03 — Real-Time Dashboard -->
+      <div class="layer-card wix-motion">
+        <div class="layer-num">03</div>
+        <p class="layer-title">Real-Time Dashboard</p>
+        <p class="layer-desc">Live alerts: CPA spike, account health, FTD velocity. No Slack at 2 AM.</p>
+        <p class="layer-impact">→ 100% founder visibility</p>
+      </div>
+
+      <!-- 02 — Performance Oracle -->
+      <div class="layer-card wix-motion wix-motion-d1">
+        <div class="layer-num">02</div>
+        <p class="layer-title">Performance Oracle</p>
+        <p class="layer-desc">Weekly AI-generated prophecy decks — boardroom-ready, P&amp;L-focused.</p>
+        <p class="layer-impact">→ Used to close $12M funding round</p>
+      </div>
+
+      <!-- 01 — Core AI Engine · centered -->
+      <div class="layer-card wix-motion layer-card-center">
+        <div class="layer-num">01</div>
+        <p class="layer-title">Core AI Engine</p>
+        <p class="layer-desc">Orchestrates all 8 layers. Self-optimizing. Learns from every dollar spent.</p>
+        <p class="layer-impact">→ 3.8x average ROAS across clients</p>
+      </div>
+
+    </div><!-- /.layers-grid -->
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 3 — THIS STACK IS LIVE
+       BG: #BDBDFF lavender · centered
+       H2: #171717 · 60px · bold
+       Sub1 & Sub2: 25px normal · "3 slots open" bold
+  ══════════════════════════════════════════════ -->
+  <section id="stack-live">
+
+    <h2 class="sl-h wix-motion">This Stack Is Live</h2>
+
+    <p class="sl-sub wix-motion wix-motion-d1">
+      Every result on&nbsp;Proof.html&nbsp;— from&nbsp;<strong>42 FTDs in 30 days</strong>&nbsp;to&nbsp;<strong>$1.1K CPA</strong>&nbsp;—<br>
+      was generated by this exact system. No exceptions.
+    </p>
+
+    <p class="sl-avail wix-motion wix-motion-d2">
+      Current availability:&nbsp;<strong>3 slots open</strong>&nbsp;until December 31, 2025.
+    </p>
+
+  </section>
+
+
+<section id="cta">
+
+    <!-- Video BG: 1d0679_b4f1eb9ef61544ba87d57dc31da2ec86 -->
+    <video
+      class="cta-video"
+      autoplay loop muted playsinline
+      aria-hidden="true">
+      <source src="https://raw.githubusercontent.com/h13digital/Image-Video/main/fx1-about-section-007.mp4" type="video/mp4">
+    </video>
+
+    <!-- Content — centered, z-index 2 -->
+    <div class="cta-content">
+
+      <!-- Heading — #EF3F3F red · max(12px, 5.64vw) ≈ 72px · bold · 66.4% wide -->
+      <h2 class="cta-h wix-motion">
+        See It Run on Your Data
+      </h2>
+
+      <!-- Subtitle — #EF3F3F red · 18px bold · 94.2% wide -->
+      <p class="cta-sub wix-motion wix-motion-d1">
+        Audit 007 is free. We'll show you exactly where your $ is leaking — and how the F1 Stack fixes it.
+      </p>
+
+      <!-- Button — red pill · 214px × 42px · "Start Audit 007 (Free)" -->
+      <a href="#" class="cta-btn wix-motion wix-motion-d2">
+        <span class="cta-btn-label">Start Audit 007 (Free)</span>
+        <span class="cta-btn-icon">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="white">
+            <path d="M100 29.5c-38.874 0-70.5 31.626-70.5 70.5s31.626 70.5 70.5 70.5 70.5-31.626 70.5-70.5-31.626-70.5-70.5-70.5zm0 133c-34.463 0-62.5-28.037-62.5-62.5S65.537 37.5 100 37.5s62.5 28.037 62.5 62.5-28.037 62.5-62.5 62.5zm30.09-60.584c-.055.101-.099.205-.164.302a3.99 3.99 0 0 1-.501.613l-26.597 26.597c-.78.781-1.805 1.172-2.828 1.172s-2.048-.391-2.828-1.172a4 4 0 0 1 0-5.656L116.943 104H73.4a4 4 0 0 1 0-8h43.542l-19.77-19.771a4 4 0 1 1 5.656-5.656l26.597 26.597c.187.187.354.392.501.613.065.097.109.201.164.302.07.127.147.25.203.386.055.132.086.27.126.405.034.114.078.223.101.341.103.517.103 1.05 0 1.566-.023.118-.068.227-.101.341-.04.136-.071.273-.126.405-.056.136-.133.259-.203.386z"/>
+          </svg>
+        </span>
+      </a>
+
+    </div><!-- /.cta-content -->
+
+    <div class="cta-bottom-fade" aria-hidden="true"></div>
+  </section>
+
+<footer id="site-footer">
+  <div class="footer-card">
+
+    <!-- Row 1: Logo + Tagline
+         padding: ~191px top (luxury breathing room) · 45px LR · 100px bot
+         justify-content: flex-end (content ở dưới, space ở trên) -->
+    <div class="footer-row1">
+
+      <!-- Logo — Familjen Grotesk 700, max(12px, 5.3vw)≈68px, white -->
+      <a href="#" class="footer-logo">F x 1 Digital</a>
+
+      <!-- Tagline — 18px, rgba(255,255,255,0.7) -->
+      <p class="footer-tagline">
+        No cold outreach.&nbsp;All conversations begin with&nbsp;Audit 007.
+      </p>
+
+    </div><!-- /.footer-row1 -->
+
+    <!-- Row 2: Back to top button — right-aligned, min-height 67px -->
+    <div class="footer-row2">
+      <a href="#" class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+        <span class="footer-back-top-label">Back to top</span>
+        <span class="footer-back-top-icon">
+          <!-- Arrow up SVG -->
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 11V3M3 7l4-4 4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+    </div><!-- /.footer-row2 -->
+
+    <!-- Row 3: Links + Copyright — space-between, min-height 96px
+         All text: 13px · white · no underline -->
+    <div class="footer-row3">
+
+      <!-- Links left -->
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="#" class="footer-link">Terms &amp; Conditions</a>
+        <a href="#" class="footer-link">Privacy Policy</a>
+      </nav>
+
+      <!-- Copyright right -->
+      <span class="footer-copy">© 2035 by F1 Finance Digital</span>
+
+    </div><!-- /.footer-row3 -->
+
+  </div><!-- /.footer-card -->
+</footer>
+
+</body>
+</html>
