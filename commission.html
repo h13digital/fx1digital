@@ -286,6 +286,7 @@
     .tier-card.cyan     { background: #0B95CD; }
     .tier-card.navy     { background: #0F2D51; }
     .tier-card.red      { background: #EF3F3F; }
+    .tier-card.black    { background: #171717; }
 
     /* Number label */
     .tier-num {
@@ -387,50 +388,50 @@
     }
     .tier-btn:hover { background: #3C3AFF; }
 
-    /* White text for dark background cards (cyan + navy) */
+    /* White text for dark background cards (cyan + navy + black) */
     .tier-card.cyan .tier-num,
     .tier-card.navy .tier-num,
-    .tier-card.red  .tier-num  { color: rgba(255,255,255,0.55); }
+    .tier-card.black .tier-num  { color: rgba(255,255,255,0.55); }
 
     .tier-card.cyan .tier-name,
     .tier-card.navy .tier-name,
-    .tier-card.red  .tier-name { color: #FFFFFF; }
+    .tier-card.black .tier-name { color: #FFFFFF; }
 
     .tier-card.cyan .tier-tag,
     .tier-card.navy .tier-tag,
-    .tier-card.red  .tier-tag  { color: rgba(255,255,255,0.85); }
+    .tier-card.black .tier-tag  { color: rgba(255,255,255,0.85); }
 
     .tier-card.cyan .tier-ideal,
     .tier-card.navy .tier-ideal,
-    .tier-card.red  .tier-ideal { color: rgba(255,255,255,0.8); border-bottom-color: rgba(255,255,255,0.2); }
+    .tier-card.black .tier-ideal { color: rgba(255,255,255,0.8); border-bottom-color: rgba(255,255,255,0.2); }
 
     .tier-card.cyan .tier-ideal strong,
     .tier-card.navy .tier-ideal strong,
-    .tier-card.red  .tier-ideal strong { color: #FFFFFF; }
+    .tier-card.black .tier-ideal strong { color: #FFFFFF; }
 
     .tier-card.cyan .tier-item,
     .tier-card.navy .tier-item,
-    .tier-card.red  .tier-item  { color: rgba(255,255,255,0.8); }
+    .tier-card.black .tier-item  { color: rgba(255,255,255,0.8); }
 
     .tier-card.cyan .tier-item::before,
     .tier-card.navy .tier-item::before,
-    .tier-card.red  .tier-item::before { color: #FFFFFF; }
+    .tier-card.black .tier-item::before { color: #FFFFFF; }
 
     .tier-card.cyan .tier-item strong,
     .tier-card.navy .tier-item strong,
-    .tier-card.red  .tier-item strong  { color: #FFFFFF; }
+    .tier-card.black .tier-item strong  { color: #FFFFFF; }
 
     .tier-card.cyan .tier-guarantee,
     .tier-card.navy .tier-guarantee,
-    .tier-card.red  .tier-guarantee { color: #FFFFFF; border-top-color: rgba(255,255,255,0.2); }
+    .tier-card.black .tier-guarantee { color: #FFFFFF; border-top-color: rgba(255,255,255,0.2); }
 
     .tier-card.cyan .tier-btn,
     .tier-card.navy .tier-btn,
-    .tier-card.red  .tier-btn  { background: rgba(255,255,255,0.15); }
+    .tier-card.black .tier-btn  { background: rgba(255,255,255,0.15); }
 
     .tier-card.cyan .tier-btn:hover,
     .tier-card.navy .tier-btn:hover,
-    .tier-card.red  .tier-btn:hover { background: rgba(255,255,255,0.3); }
+    .tier-card.black .tier-btn:hover { background: rgba(255,255,255,0.3); }
 
     .tier-btn-label {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -586,27 +587,42 @@
 
     .urg-h {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700;
-      font-size: max(20px, 2.8125vw); /* 36px @ 1280px */
+      font-weight: 800;
+      font-size: max(20px, 2.8125vw);
       line-height: 1.1;
       letter-spacing: -0.02em;
       color: #171717;
+      background: rgba(239, 63, 63, 0.08);
+      border-radius: 8px;
+      padding: 8px 20px;
+    }
+
+    .urg-h .urg-highlight {
+      color: #EF3F3F;
     }
 
     .urg-sub {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 400;
-      font-size: max(14px, 1.40625vw); /* 18px @ 1280px */
+      font-size: max(14px, 1.40625vw);
       line-height: 1.5;
       color: rgba(23, 23, 23, 0.65);
       margin: 0;
+      background: rgba(239, 63, 63, 0.06);
+      border-radius: 6px;
+      padding: 6px 16px;
+    }
+
+    .urg-sub .urg-deadline {
+      color: #EF3F3F;
+      font-weight: 700;
     }
 
     .urg-btn {
       display: inline-flex;
       align-items: center;
       justify-content: space-between;
-      background: #171717;
+      background: #EF3F3F;
       border-radius: 999px;
       height: 44px;
       padding-left: 22px;
@@ -617,7 +633,7 @@
       transition: background 0.2s ease;
       margin-top: 6px;
     }
-    .urg-btn:hover { background: #3C3AFF; }
+    .urg-btn:hover { background: #C0000A; }
 
     .urg-btn-label {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -1012,7 +1028,7 @@
       </div>
 
       <!-- ── TIER 03: UPGRADE PATH ── -->
-      <div class="tier-card red wix-motion wix-motion-d2">
+      <div class="tier-card black wix-motion wix-motion-d2">
         <div class="tier-num">03</div>
         <div class="tier-name">Stablly → Rappidly</div>
         <div class="tier-tag">Upgrade Path — available from month 6</div>
@@ -1084,10 +1100,10 @@
   ══════════════════════════════════════════════ -->
   <section id="urgency">
 
-    <h2 class="urg-h wix-motion">Only 3 Commissions This Month</h2>
+    <h2 class="urg-h wix-motion">Only <span class="urg-highlight">3</span> Commissions This Month</h2>
 
     <p class="urg-sub wix-motion wix-motion-d1">
-      After that? Waitlist. Next slot:&nbsp;<span id="comm-deadline"></span>
+      After that? Waitlist. Next slot:&nbsp;<span class="urg-deadline" id="comm-deadline"></span>
     </p>
 
     <script>
