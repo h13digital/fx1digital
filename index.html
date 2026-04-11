@@ -47,52 +47,44 @@ a { text-decoration: none; color: inherit; }
   align-items: center;
   justify-content: space-between;
   padding: 0 50px;
-
-  /* Transparent by default */
-  background-color: rgba(var(--color_11), 0);
+  background-color: transparent;
   transition: background-color 0.35s ease;
 }
-
-/* When scrolled — dark bg */
 #header.scrolled {
-  background-color: rgba(var(--color_15), 0.85);
+  background-color: rgba(23, 23, 23, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* LOGO — Familjen Grotesk bold, white */
 .logo {
-  font-family: var(--font-heading);
+  font-family: 'Familjen Grotesk', sans-serif;
   font-size: 22px;
   font-weight: 700;
-  color: rgb(var(--color_11));
+  color: #FFFFFF;
   letter-spacing: 0.04em;
   white-space: nowrap;
 }
+#header.scrolled .logo { color: #FFFFFF; }
 
-/* DESKTOP NAV */
 .nav-desktop {
   display: flex;
   align-items: center;
-  gap: 7px; /* --menu-items-main-axis-gap: 7px from source */
+  gap: 7px;
 }
-
 .nav-desktop a {
-  font-family: var(--font-body);
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 16px;
   font-weight: 400;
-  color: rgb(var(--color_11)); /* white */
+  color: #FFFFFF;
   padding: 6px 16px;
   border-radius: 4px;
   transition: color 0.2s ease;
   white-space: nowrap;
 }
+#header.scrolled .nav-desktop a { color: #FFFFFF; }
+.nav-desktop a:hover  { color: rgba(255,255,255,0.65); }
+.nav-desktop a.active { color: #FFFFFF; font-weight: 600; }
 
-.nav-desktop a:hover {
-  color: rgb(var(--color_18)); /* #3C3AFF */
-}
-
-/* HAMBURGER (mobile) */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -105,10 +97,11 @@ a { text-decoration: none; color: inherit; }
   display: block;
   width: 22px;
   height: 2px;
-  background: rgb(var(--color_11));
+  background: #FFFFFF;
   border-radius: 2px;
   transition: 0.3s;
 }
+#header.scrolled .hamburger span { background: #FFFFFF; }
 
 /* MOBILE OVERLAY */
 .nav-mobile-overlay {
@@ -140,9 +133,8 @@ a { text-decoration: none; color: inherit; }
   border-bottom: 1px solid rgba(0,0,0,0.08);
   transition: color 0.2s;
 }
-.nav-mobile-overlay a:hover {
-  color: #3C3AFF;
-}
+.nav-mobile-overlay a:hover  { color: #3C3AFF; }
+.nav-mobile-overlay a.active { color: #3C3AFF; }
 
 /* ══════════════════════════════════════════
    HERO SECTION
