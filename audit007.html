@@ -788,7 +788,13 @@
       .footer-copy        { font-size: 12px; }
     }
 
-  </style>
+  
+  /* iOS Safari autoplay fix */
+  video {
+    -webkit-playsinline: true;
+    playsinline: true;
+  }
+</style>
 </head>
 <body>
 
@@ -828,7 +834,7 @@
   <section id="hero">
 
     <!-- Video background -->
-    <video class="hero-video-bg" autoplay loop muted playsinline aria-hidden="true">
+    <video class="hero-video-bg" autoplay loop muted playsinline webkit-playsinline aria-hidden="true">
       <source src="https://cdn.jsdelivr.net/gh/h13digital/Image-Video@main/fx1-section-hero-audit007.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay"></div>
@@ -1114,5 +1120,21 @@
   </div><!-- /.footer-card -->
 </footer>
 
+<script>
+  /* ─── iOS video autoplay fix ─────────────────────────
+     iOS Safari requires explicit .play() call for bg videos
+  ──────────────────────────────────────────────────── */
+  (function() {
+    function playAllVideos() {
+      document.querySelectorAll('video').forEach(function(v) {
+        v.muted = true;
+        v.play().catch(function(){});
+      });
+    }
+    document.addEventListener('DOMContentLoaded', playAllVideos);
+    document.addEventListener('touchstart', playAllVideos, { once: true });
+    window.addEventListener('load', playAllVideos);
+  })();
+</script>
 </body>
 </html>

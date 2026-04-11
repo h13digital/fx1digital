@@ -1080,7 +1080,13 @@
       .footer-copy        { font-size: 12px; }
     }
 
-  </style>
+  
+  /* iOS Safari autoplay fix */
+  video {
+    -webkit-playsinline: true;
+    playsinline: true;
+  }
+</style>
 </head>
 <body>
 
@@ -1120,7 +1126,7 @@
     <!-- Video BG: 1d0679_e2e71b3e6d2341628f90c4646aa1d000 — INSERT URL -->
     <video
       class="hero-video"
-      autoplay loop muted playsinline
+      autoplay loop muted playsinline webkit-playsinline
       aria-hidden="true">
       <!-- <source src="YOUR_VIDEO_URL_HERE" type="video/mp4"> -->
       <source src="https://cdn.jsdelivr.net/gh/h13digital/Image-Video@main/fx1-about-hero-section.mp4" type="video/mp4">
@@ -1489,7 +1495,7 @@
     <!-- Video BG: 1d0679_b4f1eb9ef61544ba87d57dc31da2ec86 -->
     <video
       class="cta-video"
-      autoplay loop muted playsinline
+      autoplay loop muted playsinline webkit-playsinline
       aria-hidden="true">
       <!-- <source src="YOUR_CTA_VIDEO_URL" type="video/mp4"> -->
       <source src="https://cdn.jsdelivr.net/gh/h13digital/Image-Video@main/fx1-about-section-007.mp4" type="video/mp4">
@@ -1580,5 +1586,21 @@
   </div><!-- /.footer-card -->
 </footer>
 
+<script>
+  /* ─── iOS video autoplay fix ─────────────────────────
+     iOS Safari requires explicit .play() call for bg videos
+  ──────────────────────────────────────────────────── */
+  (function() {
+    function playAllVideos() {
+      document.querySelectorAll('video').forEach(function(v) {
+        v.muted = true;
+        v.play().catch(function(){});
+      });
+    }
+    document.addEventListener('DOMContentLoaded', playAllVideos);
+    document.addEventListener('touchstart', playAllVideos, { once: true });
+    window.addEventListener('load', playAllVideos);
+  })();
+</script>
 </body>
 </html>
