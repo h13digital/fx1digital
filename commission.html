@@ -178,7 +178,12 @@
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.35);
+      background: linear-gradient(
+        135deg,
+        rgba(7, 120, 165, 0.52) 0%,
+        rgba(11, 149, 205, 0.25) 60%,
+        rgba(10, 10, 20, 0.35) 100%
+      );
       z-index: 1;
     }
 
@@ -187,7 +192,7 @@
       z-index: 2;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       width: 100%;
       padding-top: max(0.5px, 10.547vw);
       padding-bottom: max(0.5px, 9.766vw);
@@ -215,7 +220,7 @@
       line-height: 1.6;
       letter-spacing: -0.01em;
       color: #FEE48A;
-      text-align: left;
+      text-align: center;
       width: 100%;
       margin-bottom: max(0.5px, 1.5835vw); /* 20px @ 1280px */
     }
@@ -246,8 +251,6 @@
       #hero         { padding: 75px 20px 0; min-height: 80svh; }
       .hero-h       { font-size: clamp(20px, 6vw, 32px); }
       .hero-sub     { font-size: clamp(14px, 4vw, 20px); }
-      .hero-tag     { font-size: clamp(13px, 3.5vw, 17px); }
-      .hero-sub     { text-align: left; }
     }
 
   
@@ -280,6 +283,9 @@
     }
     .tier-card.lavender { background: #BDBDFF; }
     .tier-card.gray     { background: #EDEDED; }
+    .tier-card.cyan     { background: #0B95CD; }
+    .tier-card.navy     { background: #0F2D51; }
+    .tier-card.red      { background: #EF3F3F; }
 
     /* Number label */
     .tier-num {
@@ -380,6 +386,51 @@
       margin-top: auto;
     }
     .tier-btn:hover { background: #3C3AFF; }
+
+    /* White text for dark background cards (cyan + navy) */
+    .tier-card.cyan .tier-num,
+    .tier-card.navy .tier-num,
+    .tier-card.red  .tier-num  { color: rgba(255,255,255,0.55); }
+
+    .tier-card.cyan .tier-name,
+    .tier-card.navy .tier-name,
+    .tier-card.red  .tier-name { color: #FFFFFF; }
+
+    .tier-card.cyan .tier-tag,
+    .tier-card.navy .tier-tag,
+    .tier-card.red  .tier-tag  { color: rgba(255,255,255,0.85); }
+
+    .tier-card.cyan .tier-ideal,
+    .tier-card.navy .tier-ideal,
+    .tier-card.red  .tier-ideal { color: rgba(255,255,255,0.8); border-bottom-color: rgba(255,255,255,0.2); }
+
+    .tier-card.cyan .tier-ideal strong,
+    .tier-card.navy .tier-ideal strong,
+    .tier-card.red  .tier-ideal strong { color: #FFFFFF; }
+
+    .tier-card.cyan .tier-item,
+    .tier-card.navy .tier-item,
+    .tier-card.red  .tier-item  { color: rgba(255,255,255,0.8); }
+
+    .tier-card.cyan .tier-item::before,
+    .tier-card.navy .tier-item::before,
+    .tier-card.red  .tier-item::before { color: #FFFFFF; }
+
+    .tier-card.cyan .tier-item strong,
+    .tier-card.navy .tier-item strong,
+    .tier-card.red  .tier-item strong  { color: #FFFFFF; }
+
+    .tier-card.cyan .tier-guarantee,
+    .tier-card.navy .tier-guarantee,
+    .tier-card.red  .tier-guarantee { color: #FFFFFF; border-top-color: rgba(255,255,255,0.2); }
+
+    .tier-card.cyan .tier-btn,
+    .tier-card.navy .tier-btn,
+    .tier-card.red  .tier-btn  { background: rgba(255,255,255,0.15); }
+
+    .tier-card.cyan .tier-btn:hover,
+    .tier-card.navy .tier-btn:hover,
+    .tier-card.red  .tier-btn:hover { background: rgba(255,255,255,0.3); }
 
     .tier-btn-label {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -912,7 +963,7 @@
     <div class="tiers-grid">
 
       <!-- ── TIER 01: STABLLY ── -->
-      <div class="tier-card lavender wix-motion">
+      <div class="tier-card cyan wix-motion">
         <div class="tier-num">01</div>
         <div class="tier-name">Stablly</div>
         <div class="tier-tag">Foundation Package · $10K–$80K/month</div>
@@ -936,7 +987,7 @@
       </div>
 
       <!-- ── TIER 02: RAPPIDLY ── -->
-      <div class="tier-card lavender wix-motion wix-motion-d1">
+      <div class="tier-card navy wix-motion wix-motion-d1">
         <div class="tier-num">02</div>
         <div class="tier-name">Rappidly</div>
         <div class="tier-tag">Performance Package · $50K+/month</div>
@@ -961,7 +1012,7 @@
       </div>
 
       <!-- ── TIER 03: UPGRADE PATH ── -->
-      <div class="tier-card gray wix-motion wix-motion-d2">
+      <div class="tier-card red wix-motion wix-motion-d2">
         <div class="tier-num">03</div>
         <div class="tier-name">Stablly → Rappidly</div>
         <div class="tier-tag">Upgrade Path — available from month 6</div>
