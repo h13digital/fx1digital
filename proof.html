@@ -565,7 +565,7 @@
        Padding: 0px (full bleed) · min-height 500px
     ══════════════════════════════════════════ */
     #live-metrics {
-      background: #FFFFFF;
+      background: linear-gradient(180deg, #FFFFFF 60%, #F0F0F0 100%);
       padding: 80px max(24px, 3.516vw) 0;
       display: flex;
       flex-direction: column;
@@ -906,7 +906,6 @@
       justify-content: center;
       overflow: hidden;
       background: #f0f0f0; /* fallback */
-      border-radius: 0 0 45px 45px;
     }
 
     /* Video layer — opacity 0.7, white overlay effect */
@@ -921,12 +920,16 @@
       z-index: 0;
     }
 
-    /* White overlay — dims video to near-white */
+    /* White overlay — gradient fades to white at bottom */
     #cta::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(255, 255, 255, 0.6);
+      background: linear-gradient(180deg,
+        rgba(255,255,255,0.5) 0%,
+        rgba(255,255,255,0.75) 60%,
+        rgba(255,255,255,1) 100%
+      );
       z-index: 1;
     }
 

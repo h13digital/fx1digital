@@ -1874,9 +1874,9 @@ a { text-decoration: none; color: inherit; }
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows:
-    minmax(167px, auto)   /* row 1: heading */
-    minmax(167px, auto)   /* row 2: button  */
-    minmax(167px, auto);  /* row 3: slot    */
+    minmax(167px, auto)
+    minmax(167px, auto)
+    minmax(167px, auto);
 }
 
 /* ── Row 1: Heading + Subtitle ─────────────
@@ -2030,13 +2030,12 @@ a { text-decoration: none; color: inherit; }
      Row 2: 5 SVG logos (flex-row center, 20% each, gap 20px)
    ══════════════════════════════════════════ */
 #section11 {
-  background: linear-gradient(0deg, #FFE58B 2.81%, #FFFFFF 100%);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFF8D6 50%, #FFFFFF 100%);
   padding: 40px;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto auto;
   row-gap: 0;
-  border-radius: 0 0 45px 45px;
 }
 
 /* ── Row 1: Heading ──────────────────────── */
