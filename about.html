@@ -196,7 +196,7 @@
     .hero-h1 {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 700;
-      font-size: max(12px, 4.7506vw); /* 0.0475059 × 1280 = 60.8px */
+      font-size: clamp(40px, 5.46vw, 70px); /* 70px at 1280px — synced with index */ /* 0.0475059 × 1280 = 60.8px */
       line-height: 1.1;
       letter-spacing: -0.01em;
       color: #C084FC;
@@ -231,12 +231,12 @@
       #header      { padding: 0 24px; }
       #hero { padding: 75px 32px 0; min-height: 400px; }
       .hero-content { width: 100%; padding-bottom: 60px; }
-      .hero-h1 { font-size: clamp(28px, 5vw, 48px); }
+      .hero-h1 { font-size: clamp(32px, 5.5vw, 56px); }
       .hero-sub { font-size: clamp(16px, 2.5vw, 24px); }
     }
     @media (max-width: 600px) {
       #hero { padding: 75px 20px 0; min-height: 320px; }
-      .hero-h1 { font-size: clamp(26px, 7vw, 36px); }
+      .hero-h1 { font-size: clamp(28px, 8vw, 44px); }
       .hero-sub { font-size: clamp(15px, 4vw, 20px); }
     }
 
@@ -1019,7 +1019,7 @@
     }
     @media (max-width: 600px) {
       #hero { padding: 75px 20px 0; min-height: 80svh; }
-      .hero-h1 { font-size: clamp(22px, 7vw, 36px); }
+      .hero-h1 { font-size: clamp(28px, 8vw, 44px); }
       .hero-sub { font-size: clamp(18px, 5.5vw, 28px); }
       /* team: 2col → 1col on small phones */
       .team-grid { grid-template-columns: 1fr; }

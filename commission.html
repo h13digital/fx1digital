@@ -202,7 +202,7 @@
     .hero-h {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 700;
-      font-size: max(12px, 3.125vw); /* 40px @ 1280px */
+      font-size: clamp(40px, 5.46vw, 70px); /* 70px at 1280px — synced with index */ /* 40px @ 1280px */
       line-height: 1.05;
       letter-spacing: -0.02em;
       color: #EF3F3F;
@@ -243,13 +243,13 @@
 
     @media (max-width: 900px) {
       #hero         { padding: 75px 32px 0; min-height: 80svh; }
-      .hero-h       { font-size: clamp(22px, 4vw, 36px); }
+      .hero-h       { font-size: clamp(32px, 5.5vw, 56px); }
       .hero-sub     { font-size: clamp(14px, 2.2vw, 22px); }
       .hero-tag     { font-size: clamp(13px, 1.8vw, 18px); }
     }
     @media (max-width: 600px) {
       #hero         { padding: 75px 20px 0; min-height: 80svh; }
-      .hero-h       { font-size: clamp(20px, 6vw, 32px); }
+      .hero-h       { font-size: clamp(28px, 8vw, 44px); }
       .hero-sub     { font-size: clamp(14px, 4vw, 20px); }
     }
 

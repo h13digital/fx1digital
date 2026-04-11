@@ -199,7 +199,7 @@
     .hero-h {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 700;
-      font-size: max(12px, 4.7506vw); /* 60.8px @ 1280px */
+      font-size: clamp(40px, 5.46vw, 70px); /* 70px at 1280px — synced with index */ /* 60.8px @ 1280px */
       line-height: 1.05;
       letter-spacing: -0.02em;
       color: #FFFFFF;
@@ -279,14 +279,14 @@
 
     @media (max-width: 900px) {
       #hero         { padding: 75px 32px 0; min-height: 80svh; }
-      .hero-h       { font-size: clamp(28px, 5.5vw, 52px); }
+      .hero-h       { font-size: clamp(32px, 5.5vw, 56px); }
       .hero-sub     { font-size: clamp(14px, 2.2vw, 22px); }
       .hero-btn     { min-width: 320px; }
       .hero-video-bg { object-position: 64% 50%; }
     }
     @media (max-width: 600px) {
       #hero         { padding: 75px 20px 0; min-height: 80svh; }
-      .hero-h       { font-size: clamp(24px, 8vw, 40px); }
+      .hero-h       { font-size: clamp(28px, 8vw, 44px); }
       .hero-sub     { font-size: clamp(13px, 4vw, 18px); }
       .hero-btn     { min-width: 300px; font-size: 13px; }
       .hero-video-bg { object-position: 64% 50%; }
