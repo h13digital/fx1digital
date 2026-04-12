@@ -1086,6 +1086,13 @@
     -webkit-playsinline: true;
     playsinline: true;
   }
+
+  /* ── Video fade-in on ready ── */
+  video {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  video.ready { opacity: 1; }
 </style>
   <link rel="preload" href="https://cdn.jsdelivr.net/gh/h13digital/Image-Video@main/fx1-about-hero-section.mp4" as="fetch" crossorigin="anonymous">
 </head>
@@ -1604,5 +1611,20 @@
     window.addEventListener('load', playAllVideos);
   })();
 </script>
+
+<script>
+  /* ── Fade video in when canplay fires ── */
+  document.querySelectorAll('video').forEach(function(v) {
+    function showVideo() { v.classList.add('ready'); }
+    if (v.readyState >= 3) {
+      showVideo();
+    } else {
+      v.addEventListener('canplay', showVideo, { once: true });
+      // Fallback: show after 800ms regardless
+      setTimeout(showVideo, 800);
+    }
+  });
+</script>
+
 </body>
 </html>
