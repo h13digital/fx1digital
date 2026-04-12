@@ -172,7 +172,7 @@ a { text-decoration: none; color: inherit; }
 /*
  * ════════════════════════════════════════
  *  VIDEO HERO — INSERT YOUR URL HERE
- *  Uncomment the <video autoplay playsinline webkit-playsinline loop muted> tag below
+ *  Uncomment the <video preload="auto" autoplay playsinline webkit-playsinline loop muted> tag below
  *  and replace YOUR_VIDEO_URL with the
  *  actual link (mp4 recommended).
  * ════════════════════════════════════════
@@ -2306,6 +2306,7 @@ a { text-decoration: none; color: inherit; }
     playsinline: true;
   }
 </style>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/h13digital/Image-Video@main/fx1-index-herosection.mp4" as="fetch" crossorigin="anonymous">
 </head>
 <body>
 
@@ -2360,7 +2361,7 @@ a { text-decoration: none; color: inherit; }
     Remove the comment below and replace YOUR_VIDEO_URL:
     ════════════════════════════════════════════
     -->
-    <video autoplay loop muted playsinline webkit-playsinline>
+    <video preload="auto" autoplay loop muted playsinline webkit-playsinline>
       <source src="https://cdn.jsdelivr.net/gh/h13digital/Image-Video@main/fx1-index-herosection.mp4" type="video/mp4">
     </video>
 
@@ -2799,7 +2800,7 @@ a { text-decoration: none; color: inherit; }
 
   <!-- Layer 1: Video background (opacity 0.85) -->
   <!-- VIDEO: 1d0679_66477643451944d78ec1ebb9a02aedfc — INSERT URL BELOW -->
-  <video
+  <video preload="auto"
     class="s7-video-bg"
     autoplay
     loop
