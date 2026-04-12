@@ -3268,19 +3268,56 @@ a { text-decoration: none; color: inherit; }
 </div><!-- /.white-wrapper -->
 
 <script>
-  /* ─── iOS video autoplay fix ─────────────────────────
-     iOS Safari requires explicit .play() call for bg videos
-  ──────────────────────────────────────────────────── */
+  /* ─── iOS video autoplay — robust fix ──────────────────
+     Fixes: dead DOMContentLoaded listener, no play() retry,
+     tab-switch pause, Low Power Mode, delayed video load.
+  ──────────────────────────────────────────────────────── */
   (function() {
-    function playAllVideos() {
-      document.querySelectorAll('video').forEach(function(v) {
-        v.muted = true;
-        v.play().catch(function(){});
-      });
+    function setupVideo(v) {
+      v.muted = true;
+      v.loop  = true;
+      v.setAttribute('playsinline', '');
+      v.setAttribute('webkit-playsinline', '');
+
+      function tryPlay() {
+        var p = v.play();
+        if (p && p.catch) {
+          p.catch(function() {
+            // play() blocked (Low Power Mode / policy) — retry on first touch
+            document.addEventListener('touchstart', function retry() {
+              v.play().catch(function(){});
+            }, { once: true, passive: true });
+          });
+        }
+      }
+
+      // If enough data already buffered, play now
+      if (v.readyState >= 2) {
+        tryPlay();
+      } else {
+        v.addEventListener('loadeddata', tryPlay, { once: true });
+      }
+      // Hard fallback: force-attempt after 1.5s regardless of readyState
+      setTimeout(tryPlay, 1500);
     }
-    document.addEventListener('DOMContentLoaded', playAllVideos);
-    document.addEventListener('touchstart', playAllVideos, { once: true });
-    window.addEventListener('load', playAllVideos);
+
+    // Resume all videos when user returns to this tab
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) {
+        document.querySelectorAll('video').forEach(function(v) {
+          if (v.paused) { v.play().catch(function(){}); }
+        });
+      }
+    });
+
+    // Re-play if iOS unexpectedly pauses a background video
+    document.addEventListener('pause', function(e) {
+      if (e.target && e.target.tagName === 'VIDEO' && !document.hidden) {
+        setTimeout(function(){ e.target.play().catch(function(){}); }, 200);
+      }
+    }, true);
+
+    document.querySelectorAll('video').forEach(setupVideo);
   })();
 </script>
 

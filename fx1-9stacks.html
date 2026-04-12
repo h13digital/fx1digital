@@ -1244,16 +1244,51 @@
     })();
   </script>
 <script>
+  /* ─── iOS video autoplay — robust fix ──────────────────
+     Fixes: dead DOMContentLoaded listener, no play() retry,
+     tab-switch pause, Low Power Mode, delayed video load.
+  ──────────────────────────────────────────────────────── */
   (function() {
-    function playAllVideos() {
-      document.querySelectorAll('video').forEach(function(v) {
-        v.muted = true;
-        v.play().catch(function(){});
-      });
+    function setupVideo(v) {
+      v.muted = true;
+      v.loop  = true;
+      v.setAttribute('playsinline', '');
+      v.setAttribute('webkit-playsinline', '');
+
+      function tryPlay() {
+        var p = v.play();
+        if (p && p.catch) {
+          p.catch(function() {
+            document.addEventListener('touchstart', function retry() {
+              v.play().catch(function(){});
+            }, { once: true, passive: true });
+          });
+        }
+      }
+
+      if (v.readyState >= 2) {
+        tryPlay();
+      } else {
+        v.addEventListener('loadeddata', tryPlay, { once: true });
+      }
+      setTimeout(tryPlay, 1500);
     }
-    document.addEventListener('DOMContentLoaded', playAllVideos);
-    document.addEventListener('touchstart', playAllVideos, { once: true });
-    window.addEventListener('load', playAllVideos);
+
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) {
+        document.querySelectorAll('video').forEach(function(v) {
+          if (v.paused) { v.play().catch(function(){}); }
+        });
+      }
+    });
+
+    document.addEventListener('pause', function(e) {
+      if (e.target && e.target.tagName === 'VIDEO' && !document.hidden) {
+        setTimeout(function(){ e.target.play().catch(function(){}); }, 200);
+      }
+    }, true);
+
+    document.querySelectorAll('video').forEach(setupVideo);
   })();
 </script>
 
@@ -1296,17 +1331,7 @@
     });
   })();
 
-  /* ── iOS video autoplay fix ── */
-  (function() {
-    function playAll() {
-      document.querySelectorAll('video').forEach(function(v) {
-        v.muted = true; v.play().catch(function(){});
-      });
-    }
-    document.addEventListener('DOMContentLoaded', playAll);
-    document.addEventListener('touchstart', playAll, { once: true });
-    window.addEventListener('load', playAll);
-  })();
+  /* ── iOS video autoplay — handled by robust fix above ── */
 </script>
 
 <script>
