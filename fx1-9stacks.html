@@ -879,12 +879,10 @@
     }
 
   
-  /* ── Video fade-in on ready ── */
+  /* ── Video: visible immediately, no fade delay ── */
   video {
-    opacity: 0;
-    transition: opacity 0.6s ease;
+    opacity: 1;
   }
-  video.ready { opacity: 1; }
 </style>
 </head>
 <body>
@@ -1312,17 +1310,7 @@
 </script>
 
 <script>
-  /* ── Fade video in when canplay fires ── */
-  document.querySelectorAll('video').forEach(function(v) {
-    function showVideo() { v.classList.add('ready'); }
-    if (v.readyState >= 3) {
-      showVideo();
-    } else {
-      v.addEventListener('canplay', showVideo, { once: true });
-      // Fallback: show after 800ms regardless
-      setTimeout(showVideo, 800);
-    }
-  });
+/* Video fade-in removed: video now visible immediately on load */
 </script>
 
 </body>
