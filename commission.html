@@ -14,7 +14,7 @@
        GLOBAL RESET
     ══════════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; scrollbar-gutter: stable; }
+    html { scroll-behavior: smooth; scrollbar-gutter: stable; background: #FFFFFF; }
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background: #FFFFFF;
@@ -712,15 +712,16 @@
 
      ══════════════════════════════════════════ */
 #site-footer {
-  background: transparent; /* card tự có bg */
-  padding: 0 20px 40px;    /* breathing room quanh card */
+  background: transparent;
+  padding: 0;
 }
 
 /* Dark rounded card */
 .footer-card {
   background: rgb(23, 23, 23); /* #171717 = color_15 */
-  border-radius: 35px;          /* 0.0273436 × 1280 */
+  border-radius: 35px;
   overflow: hidden;
+  margin: 0 20px 40px;         /* khoảng trắng lấy từ body background thay vì site-footer */
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows:
@@ -860,8 +861,8 @@
        FOOTER — MOBILE OPTIMIZATIONS
     ═══════════════════════════════════════════ */
     @media (max-width: 900px) {
-      #site-footer        { padding: 0 16px 32px; }
-      .footer-card        { border-radius: 24px; }
+      #site-footer        { padding: 0; }
+      .footer-card        { border-radius: 24px; margin: 0 16px 32px; }
       .footer-card        {
         grid-template-rows:
           minmax(240px, auto)  /* row1: logo+tagline */
@@ -877,8 +878,8 @@
     }
 
     @media (max-width: 600px) {
-      #site-footer        { padding: 0 12px 24px; }
-      .footer-card        { border-radius: 18px; }
+      #site-footer        { padding: 0; }
+      .footer-card        { border-radius: 18px; margin: 0 12px 24px; }
       .footer-card        {
         grid-template-rows:
           minmax(200px, auto)
