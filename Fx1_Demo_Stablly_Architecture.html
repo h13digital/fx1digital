@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stablly · Architecture Model · FX1</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;font-family:'DM Sans',system-ui,sans-serif;background:#060D18;color:#E2E8F0;overflow:hidden;-webkit-font-smoothing:antialiased;}
+
+/* ── CHROME ── */
+.chrome{background:#0C1B3E;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #1A56DB;height:48px;flex-shrink:0;}
+.cl{display:flex;align-items:center;gap:10px;}
+.fx1{background:#1A56DB;color:#fff;font-size:10px;font-weight:800;letter-spacing:2px;padding:3px 9px;border-radius:4px;}
+.stab-badge{background:linear-gradient(90deg,#0891B2,#1A56DB);color:#fff;font-size:9px;font-weight:800;letter-spacing:1.5px;padding:3px 11px;border-radius:20px;}
+.csep{width:1px;height:16px;background:#1E3A5F;}
+.ctitle{color:#93C5FD;font-size:12px;font-weight:700;}
+.cr{display:flex;align-items:center;gap:10px;}
+.commit{background:#0A1628;border:1px solid #1E3A5F;border-radius:20px;padding:3px 11px;font-size:10px;color:#64748B;font-weight:600;}
+.legend{display:flex;gap:12px;align-items:center;}
+.leg{display:flex;align-items:center;gap:4px;font-size:9.5px;color:#475569;font-weight:600;}
+.leg-dot{width:8px;height:8px;border-radius:50%;}
+
+/* ── MAIN LAYOUT ── */
+.main{display:flex;height:calc(100vh - 48px);overflow:hidden;}
+
+/* ── LEFT: ARCHITECTURE DIAGRAM ── */
+.arch{width:420px;flex-shrink:0;padding:16px 20px;display:flex;flex-direction:column;border-right:1px solid #1E2D4E;overflow-y:auto;background:#080F1E;}
+.arch::-webkit-scrollbar{width:3px;}
+.arch::-webkit-scrollbar-thumb{background:#1E2D4E;border-radius:2px;}
+
+/* External sources at top */
+.ext-sources{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
+.ext-node{background:#0A1628;border:1px solid #1E2D4E;border-radius:6px;padding:4px 9px;font-size:9.5px;color:#475569;font-weight:600;display:flex;align-items:center;gap:4px;}
+.ext-node.active{border-color:#1A56DB;color:#60A5FA;}
+
+/* Layer cards */
+.layer-card{border-radius:11px;border:2px solid;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.layer-card:hover{transform:translateX(3px);}
+.layer-card.selected{transform:translateX(5px);}
+.lc-inner{padding:12px 14px;}
+.lc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.lc-badge{display:flex;align-items:center;gap:7px;}
+.lc-num{font-size:11px;font-weight:800;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lc-name{font-size:12px;font-weight:800;color:#F1F5F9;}
+.lc-kpi{font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.lc-desc{font-size:10.5px;color:#64748B;line-height:1.5;margin-bottom:6px;}
+.lc-tags{display:flex;gap:4px;flex-wrap:wrap;}
+.lc-tag{font-size:8.5px;font-weight:700;padding:2px 6px;border-radius:4px;background:#0A1628;color:#475569;border:1px solid #1E2D4E;}
+
+/* Connector */
+.connector{display:flex;align-items:center;justify-content:center;height:24px;position:relative;}
+.conn-line{width:2px;height:100%;position:absolute;left:50%;transform:translateX(-50%);}
+.conn-dot{width:8px;height:8px;border-radius:50%;position:absolute;animation:flowDown 2s infinite;left:50%;transform:translateX(-50%);}
+@keyframes flowDown{0%{opacity:0;top:0;}40%{opacity:1;}100%{opacity:0;top:100%;}}
+.conn-label{font-size:8.5px;font-weight:700;padding:1px 8px;border-radius:10px;position:absolute;right:14px;white-space:nowrap;}
+
+/* External inputs alongside connectors */
+.ext-input{position:absolute;left:0;display:flex;align-items:center;gap:4px;}
+.ei-node{background:#0C1B3E;border:1px solid #1E3A5F;border-radius:5px;padding:3px 7px;font-size:8.5px;color:#4B6A85;font-weight:600;white-space:nowrap;}
+.ei-arrow{font-size:10px;color:#1E3A5F;}
+
+/* Stakeholder outputs at bottom */
+.stakeholders{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.sh-node{border-radius:7px;padding:5px 10px;font-size:9px;font-weight:700;display:flex;align-items:center;gap:5px;}
+
+/* ── RIGHT: DETAIL PANEL ── */
+.detail{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.detail-scroll{flex:1;overflow-y:auto;padding:20px 28px;}
+.detail-scroll::-webkit-scrollbar{width:4px;}
+.detail-scroll::-webkit-scrollbar-thumb{background:#1E2D4E;border-radius:2px;}
+
+/* INTRO screen */
+.intro{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;}
+.intro-icon{font-size:48px;margin-bottom:16px;}
+.intro-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:800;color:#F1F5F9;margin-bottom:8px;}
+.intro-sub{font-size:13px;color:#475569;max-width:400px;line-height:1.7;margin-bottom:28px;}
+.intro-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;}
+.if-chip{background:#0A1628;border:1px solid;border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;}
+.if-arrow{font-size:16px;color:#1E2D4E;}
+
+/* DETAIL content */
+.det-header{padding:20px 28px 0;border-bottom:1px solid #1E2D4E;padding-bottom:16px;margin-bottom:20px;display:flex;align-items:flex-start;justify-content:space-between;}
+.det-num{font-family:'Playfair Display',serif;font-size:56px;font-weight:800;line-height:1;margin-right:16px;flex-shrink:0;}
+.det-right{}
+.det-kicker{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.det-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:#F1F5F9;margin-bottom:4px;}
+.det-sub{font-size:12px;color:#64748B;}
+.det-kpi-row{display:flex;gap:10px;flex-wrap:wrap;}
+.det-kpi{border-radius:8px;padding:8px 12px;text-align:center;}
+.det-kpi-val{font-size:16px;font-weight:800;line-height:1;}
+.det-kpi-key{font-size:9px;font-weight:600;color:#94A3B8;letter-spacing:.5px;margin-top:2px;}
+
+/* Detail sections */
+.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.det-section{background:#0A1628;border-radius:10px;padding:14px;}
+.det-section.full{grid-column:1/3;}
+.ds-lbl{font-size:9px;font-weight:700;color:#475569;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+.ds-item{display:flex;gap:8px;margin-bottom:8px;align-items:flex-start;}
+.ds-icon{font-size:13px;flex-shrink:0;margin-top:1px;}
+.ds-text{font-size:11.5px;color:#CBD5E1;line-height:1.55;}
+.ds-text strong{color:#F1F5F9;}
+
+/* Flow diagram */
+.flow-row{display:flex;align-items:stretch;gap:0;}
+.flow-box{border-radius:8px;padding:9px 12px;font-size:11px;font-weight:700;flex:1;text-align:center;display:flex;align-items:center;justify-content:center;line-height:1.4;}
+.flow-arr{display:flex;align-items:center;padding:0 6px;font-size:16px;color:#334155;flex-shrink:0;}
+
+/* Tech stack pills */
+.tech-pills{display:flex;gap:5px;flex-wrap:wrap;}
+.tech-pill{background:#060D18;border:1px solid #1E2D4E;border-radius:5px;padding:3px 9px;font-size:10px;font-weight:700;font-family:'DM Mono',monospace;}
+
+/* Connection map */
+.conn-map{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.cm-item{background:#060D18;border-radius:8px;padding:9px 11px;border-left:3px solid;}
+.cmi-lbl{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.cmi-text{font-size:11px;color:#64748B;line-height:1.5;}
+
+/* Human-in-loop badge */
+.hil-badge{background:#1A1028;border:1px solid #7C3AED;border-radius:8px;padding:8px 12px;display:flex;gap:8px;align-items:center;margin-top:8px;}
+.hil-icon{font-size:16px;}
+.hil-text{font-size:11px;color:#A78BFA;line-height:1.5;}
+
+/* Colors */
+.s1{--c:#64748B;--cb:#1E2433;--ct:#94A3B8;}
+.s2{--c:#1A56DB;--cb:#0A1628;--ct:#60A5FA;}
+.s3{--c:#0891B2;--cb:#081F28;--ct:#22D3EE;}
+.s4{--c:#7C3AED;--cb:#14082A;--ct:#A78BFA;}
+.s5{--c:#D97706;--cb:#1C1208;--ct:#FCD34D;}
+</style>
+</head>
+<body>
+
+<!-- CHROME -->
+<div class="chrome">
+  <div class="cl">
+    <span class="fx1">FX1</span>
+    <span class="stab-badge">Stablly · Architecture</span>
+    <div class="csep"></div>
+    <span class="ctitle">S1 → S5 · How it works</span>
+  </div>
+  <div class="cr">
+    <div class="legend">
+      <div class="leg"><div class="leg-dot" style="background:#60A5FA;"></div>Data flow</div>
+      <div class="leg"><div class="leg-dot" style="background:#4ADE80;"></div>Live layer</div>
+      <div class="leg"><div class="leg-dot" style="background:#A78BFA;"></div>AI / automation</div>
+    </div>
+    <div class="commit">Sequential stack · S1 required before S2</div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ── LEFT: ARCHITECTURE ── -->
+<div class="arch">
+
+  <!-- External data sources at top -->
+  <div style="font-size:9px;font-weight:700;color:#334155;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">Data sources</div>
+  <div class="ext-sources">
+    <div class="ext-node active">👤 User actions</div>
+    <div class="ext-node active">📱 Meta Ads API</div>
+    <div class="ext-node active">🔍 Google Ads API</div>
+    <div class="ext-node">📧 Email platform</div>
+  </div>
+  <div style="display:flex;justify-content:center;margin:4px 0;">
+    <div style="font-size:16px;color:#1E2D4E;">↓</div>
+  </div>
+
+  <!-- S1 -->
+  <div class="layer-card s1 selected" id="card-s1" onclick="selectLayer('s1')"
+    style="border-color:#64748B;background:linear-gradient(135deg,#1E2433,#111827);">
+    <div class="lc-inner">
+      <div class="lc-top">
+        <div class="lc-badge">
+          <div class="lc-num" style="background:#64748B22;color:#94A3B8;border:1px solid #64748B;">S1</div>
+          <div class="lc-name">Data Foundation</div>
+        </div>
+        <div class="lc-kpi" style="background:#1E2433;color:#94A3B8;border:1px solid #64748B50;">+20–40% data</div>
+      </div>
+      <div class="lc-desc">Server-side tracking · Meta CAPI · GA4 · GTM · Deduplicate events</div>
+      <div class="lc-tags">
+        <div class="lc-tag">Meta CAPI</div>
+        <div class="lc-tag">GA4 SS</div>
+        <div class="lc-tag">GTM</div>
+        <div class="lc-tag">Week 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connector S1→S2 -->
+  <div class="connector">
+    <div class="conn-line" style="background:linear-gradient(#64748B,#1A56DB);"></div>
+    <div class="conn-dot" style="background:#60A5FA;animation-delay:.2s;"></div>
+    <div class="conn-dot" style="background:#60A5FA;animation-delay:1.1s;"></div>
+    <div class="conn-label" style="background:#0A1628;color:#60A5FA;border:1px solid #1A56DB;">Clean events →</div>
+  </div>
+
+  <!-- S2 -->
+  <div class="layer-card s2" id="card-s2" onclick="selectLayer('s2')"
+    style="border-color:#1A56DB;background:linear-gradient(135deg,#0A1628,#0D1F3A);">
+    <div class="lc-inner">
+      <div class="lc-top">
+        <div class="lc-badge">
+          <div class="lc-num" style="background:#1A56DB22;color:#60A5FA;border:1px solid #1A56DB;">S2</div>
+          <div class="lc-name">MarTech Execution</div>
+        </div>
+        <div class="lc-kpi" style="background:#0A1F3A;color:#60A5FA;border:1px solid #1A56DB50;">CPL −28%</div>
+      </div>
+      <div class="lc-desc">Campaigns · Landing pages · Email nurture · ICP channel selection</div>
+      <div class="lc-tags">
+        <div class="lc-tag">Meta Ads</div>
+        <div class="lc-tag">Google Ads</div>
+        <div class="lc-tag">Email</div>
+        <div class="lc-tag">Week 1–2</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connector S2→S3 -->
+  <div class="connector" style="position:relative;">
+    <div class="conn-line" style="background:linear-gradient(#1A56DB,#0891B2);"></div>
+    <div class="conn-dot" style="background:#22D3EE;animation-delay:.5s;"></div>
+    <div class="conn-dot" style="background:#22D3EE;animation-delay:1.4s;"></div>
+    <div class="conn-label" style="background:#081F28;color:#22D3EE;border:1px solid #0891B2;">Leads →</div>
+    <div style="position:absolute;left:0;display:flex;align-items:center;gap:4px;">
+      <div class="ei-node" style="border-color:#0891B2;color:#22D3EE;">💰 MT4/MT5 FTD</div>
+      <div style="font-size:10px;color:#0891B2;">→</div>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="layer-card s3" id="card-s3" onclick="selectLayer('s3')"
+    style="border-color:#0891B2;background:linear-gradient(135deg,#081F28,#0C2535);">
+    <div class="lc-inner">
+      <div class="lc-top">
+        <div class="lc-badge">
+          <div class="lc-num" style="background:#0891B222;color:#22D3EE;border:1px solid #0891B2;">S3</div>
+          <div class="lc-name">Revenue Operations</div>
+        </div>
+        <div class="lc-kpi" style="background:#081F28;color:#22D3EE;border:1px solid #0891B250;">FTD 4.1 days</div>
+      </div>
+      <div class="lc-desc">Lead scoring (12 signals) · CRM sync · FTD attribution · Deposit tracking</div>
+      <div class="lc-tags">
+        <div class="lc-tag">HubSpot/GHL</div>
+        <div class="lc-tag">Scoring API</div>
+        <div class="lc-tag">Attribution</div>
+        <div class="lc-tag">Week 2</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connector S3→S4 -->
+  <div class="connector">
+    <div class="conn-line" style="background:linear-gradient(#0891B2,#7C3AED);"></div>
+    <div class="conn-dot" style="background:#A78BFA;animation-delay:.8s;"></div>
+    <div class="conn-dot" style="background:#A78BFA;animation-delay:1.7s;"></div>
+    <div class="conn-label" style="background:#14082A;color:#A78BFA;border:1px solid #7C3AED;">FTD data →</div>
+  </div>
+
+  <!-- S4 -->
+  <div class="layer-card s4" id="card-s4" onclick="selectLayer('s4')"
+    style="border-color:#7C3AED;background:linear-gradient(135deg,#14082A,#1A1040);">
+    <div class="lc-inner">
+      <div class="lc-top">
+        <div class="lc-badge">
+          <div class="lc-num" style="background:#7C3AED22;color:#A78BFA;border:1px solid #7C3AED;">S4</div>
+          <div class="lc-name">AI Automation + Signal</div>
+        </div>
+        <div class="lc-kpi" style="background:#14082A;color:#A78BFA;border:1px solid #7C3AED50;">AM: 3h→30min</div>
+      </div>
+      <div class="lc-desc">Micro-Signal 4×/day · Weekly Digest (broker) · AI Report (AM) · n8n</div>
+      <div class="lc-tags">
+        <div class="lc-tag">Claude API</div>
+        <div class="lc-tag">n8n</div>
+        <div class="lc-tag">BigQuery</div>
+        <div class="lc-tag">Week 3</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connector S4→S5 -->
+  <div class="connector">
+    <div class="conn-line" style="background:linear-gradient(#7C3AED,#D97706);"></div>
+    <div class="conn-dot" style="background:#FCD34D;animation-delay:1.1s;"></div>
+    <div class="conn-dot" style="background:#FCD34D;animation-delay:2.0s;"></div>
+    <div class="conn-label" style="background:#1C1208;color:#FCD34D;border:1px solid #D97706;">Intelligence →</div>
+  </div>
+
+  <!-- S5 -->
+  <div class="layer-card s5" id="card-s5" onclick="selectLayer('s5')"
+    style="border-color:#D97706;background:linear-gradient(135deg,#1C1208,#221408);">
+    <div class="lc-inner">
+      <div class="lc-top">
+        <div class="lc-badge">
+          <div class="lc-num" style="background:#D9770622;color:#FCD34D;border:1px solid #D97706;">S5</div>
+          <div class="lc-name">Marketing Intelligence</div>
+        </div>
+        <div class="lc-kpi" style="background:#1C1208;color:#FCD34D;border:1px solid #D9770650;">100% visibility</div>
+      </div>
+      <div class="lc-desc">CEO Dashboard · PPC Dashboard · ICP refinement · Channel ROI</div>
+      <div class="lc-tags">
+        <div class="lc-tag">Looker Studio</div>
+        <div class="lc-tag">BigQuery</div>
+        <div class="lc-tag">Retool</div>
+        <div class="lc-tag">Week 3–4</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stakeholder outputs -->
+  <div style="display:flex;justify-content:center;margin:4px 0;">
+    <div style="font-size:16px;color:#1E2D4E;">↓</div>
+  </div>
+  <div style="font-size:9px;font-weight:700;color:#334155;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">Stakeholders</div>
+  <div class="stakeholders">
+    <div class="sh-node" style="background:#1C1208;border:1px solid #D97706;color:#FCD34D;">👤 CEO / Broker</div>
+    <div class="sh-node" style="background:#14082A;border:1px solid #7C3AED;color:#A78BFA;">📊 Account Manager</div>
+    <div class="sh-node" style="background:#081F28;border:1px solid #0891B2;color:#22D3EE;">📱 Marketer / PPC</div>
+  </div>
+
+</div><!-- /arch -->
+
+<!-- ── RIGHT: DETAIL PANEL ── -->
+<div class="detail" id="detail-panel">
+
+  <!-- INTRO (default) -->
+  <div class="intro" id="intro-screen">
+    <div class="intro-icon">⚡</div>
+    <div class="intro-title">Stablly · 5-Layer Stack</div>
+    <div class="intro-sub">Mỗi layer xây trên layer bên dưới. S1 phải live trước S2, S2 trước S3. Không thể bỏ qua bất kỳ layer nào. Click vào từng layer để xem chi tiết.</div>
+    <div class="intro-flow">
+      <div class="if-chip" style="border-color:#64748B;color:#94A3B8;">S1 Tracking</div>
+      <div class="if-arrow">→</div>
+      <div class="if-chip" style="border-color:#1A56DB;color:#60A5FA;">S2 Campaigns</div>
+      <div class="if-arrow">→</div>
+      <div class="if-chip" style="border-color:#0891B2;color:#22D3EE;">S3 Revenue</div>
+      <div class="if-arrow">→</div>
+      <div class="if-chip" style="border-color:#7C3AED;color:#A78BFA;">S4 AI Signal</div>
+      <div class="if-arrow">→</div>
+      <div class="if-chip" style="border-color:#D97706;color:#FCD34D;">S5 Intelligence</div>
+    </div>
+  </div>
+
+  <!-- DETAIL CONTENT (hidden by default) -->
+  <div id="detail-content" style="display:none;height:100%;overflow-y:auto;">
+    <div id="det-inner" style="padding:20px 28px;"></div>
+  </div>
+
+</div><!-- /detail -->
+</div><!-- /main -->
+
+<script>
+const LAYERS={
+  s1:{
+    num:"S1",name:"Data Foundation",kicker:"Foundation · Week 1 · No dependencies",
+    color:"#94A3B8",bg:"#1E2433",
+    desc:"Installs server-side tracking to recover 20–40% of conversion data lost to browser blocking and iOS privacy changes. Before S1 is live, every decision downstream is based on incomplete data.",
+    kpis:[
+      {val:"+20–40%",key:"Conversion data recovered",c:"#94A3B8"},
+      {val:"7 days",key:"Go-live target",c:"#94A3B8"},
+      {val:"95%+",key:"Event match quality",c:"#4ADE80"},
+    ],
+    what:[
+      {icon:"🔄",text:"<strong>Server-side event mirroring</strong> — every browser event is also sent directly from server to Meta CAPI and GA4, bypassing iOS blocking and cookie restrictions."},
+      {icon:"🔁",text:"<strong>Deduplication configured</strong> — same event is not double-counted between browser pixel and server-side. Match quality target: 95%+."},
+      {icon:"📍",text:"<strong>GTM container deployed</strong> on client subdomain — all tracking centralized, no developer dependency for future tag changes."},
+      {icon:"🔗",text:"<strong>LinkedIn CAPI</strong> added if LinkedIn is in scope. Schema.org markup on landing pages for organic attribution."},
+    ],
+    inputs:[
+      {icon:"👤",text:"<strong>User actions on landing pages</strong> — form submissions, page views, scroll depth, button clicks."},
+      {icon:"🌐",text:"<strong>Browser events</strong> — Meta pixel fires in browser simultaneously with server-side event."},
+    ],
+    outputs:[
+      {icon:"✅",text:"<strong>Clean conversion events to Meta Events Manager</strong> — algorithm sees 20–40% more real conversions."},
+      {icon:"✅",text:"<strong>Complete GA4 data</strong> — session data, UTM attribution, conversion funnel without iOS gaps."},
+      {icon:"✅",text:"<strong>UTM parameter data</strong> flowing to S3 for lead attribution."},
+    ],
+    tech:["Meta CAPI","GA4 Server-Side","Google Tag Manager","LinkedIn CAPI","Schema.org","Cloudflare Workers"],
+    connections:[
+      {label:"→ S2",text:"Clean conversion data enables Meta and Google algorithms to optimize on full data, not 60% of it.",c:"#1A56DB"},
+      {label:"→ S3",text:"UTM parameters captured server-side enable accurate multi-touch attribution of FTDs to source channels.",c:"#0891B2"},
+      {label:"→ S4",text:"Complete event data means AI Micro-Signal monitors on reliable numbers — no false signals from missing events.",c:"#7C3AED"},
+      {label:"→ S5",text:"Dashboard numbers are accurate. Without S1, dashboard shows artificially low conversion rates.",c:"#D97706"},
+    ],
+    hil:null,
+    brokerSees:"Nothing changes visibly in your account. Under the hood, conversion data completeness increases by 20–40%. The first visible effect: Meta's CPL starts declining within 2–4 weeks as the algorithm re-optimises on complete data."
+  },
+  s2:{
+    num:"S2",name:"MarTech Execution",kicker:"Campaigns · Week 1–2 · Requires S1",
+    color:"#60A5FA",bg:"#0A1628",
+    desc:"Selects and activates only the channels that match the broker's ICP and GEO — not all of them. Builds three intent-based acquisition pipelines: awareness, consideration, and conversion.",
+    kpis:[
+      {val:"CPL −28%",key:"Average after 60 days",c:"#60A5FA"},
+      {val:"3",key:"Intent pipelines built",c:"#60A5FA"},
+      {val:"5-email",key:"Nurture sequence",c:"#4ADE80"},
+    ],
+    what:[
+      {icon:"🎯",text:"<strong>ICP-driven channel selection</strong> — not all channels. If ICP is desktop 35–44 UK, Meta interest targeting and Google branded search are selected. TikTok is not."},
+      {icon:"📊",text:"<strong>3 intent pipelines</strong> — awareness (reach new ICP), consideration (retarget visitors), conversion (retarget form starters). Each has its own budget, creative angle, and bid strategy."},
+      {icon:"📧",text:"<strong>5-email nurture sequence</strong> — for leads who submit but don't convert immediately. Triggered automatically from S3 on form submission."},
+      {icon:"🏠",text:"<strong>Landing page structure</strong> — ICP-matched pages, form optimised for conversion intent, A/B test framework configured."},
+    ],
+    inputs:[
+      {icon:"📡",text:"<strong>S1 clean events</strong> — conversion signals that Meta/Google algorithm can actually optimise on."},
+      {icon:"🎯",text:"<strong>ICP data</strong> — age, device, GEO, interests derived from initial broker brief and first-week data."},
+    ],
+    outputs:[
+      {icon:"👥",text:"<strong>Leads → S3</strong> — form submissions with full UTM attribution, flowing to scoring microservice via webhook."},
+      {icon:"📊",text:"<strong>Campaign performance data → S4/S5</strong> — spend, CPL, impressions, CTR per campaign and channel."},
+    ],
+    tech:["Meta Marketing API","Google Ads API","Klaviyo / ActiveCampaign","Unbounce / WordPress","GTM","A/B testing via VWO"],
+    connections:[
+      {label:"← S1",text:"Needs clean conversion data before launching campaigns. Without S1, Meta algorithm optimises on ~65% of real conversions.",c:"#64748B"},
+      {label:"→ S3",text:"Every form submission triggers a webhook POST to S3 scoring microservice within 0 seconds.",c:"#0891B2"},
+      {label:"← S4",text:"AM uses S4 insights to adjust campaigns — pause underperformers, scale winners, change bid strategy.",c:"#7C3AED"},
+      {label:"→ S5",text:"Spend, CPL, CTR, impression share data feeds into Channel ROI dashboard in S5.",c:"#D97706"},
+    ],
+    hil:"S4 → AM → S2: When S4 detects CPA spike or underperforming campaign, it alerts AM. AM manually pauses or adjusts in S2. This is human-in-loop — unlike Rappidly where R5 executes directly.",
+    brokerSees:"Campaigns go live. Lead volume starts. You see spend, CPL, and lead count in S5 dashboard. CPL typically declines 20–28% in first 60 days as the algorithm calibrates on clean S1 data."
+  },
+  s3:{
+    num:"S3",name:"Revenue Operations",kicker:"Lead Scoring + FTD Attribution · Week 2 · Requires S1 + S2",
+    color:"#22D3EE",bg:"#081F28",
+    desc:"Scores every lead in real-time using 12 signals, syncs to CRM, attributes every FTD to its full channel journey, and connects deposit data from the trading platform.",
+    kpis:[
+      {val:"4.1 days",key:"Lead-to-FTD average",c:"#22D3EE"},
+      {val:"<60s",key:"CRM sync latency",c:"#22D3EE"},
+      {val:"100%",key:"FTD attribution",c:"#4ADE80"},
+    ],
+    what:[
+      {icon:"🧠",text:"<strong>Rule-based lead scoring — 12 signals</strong> — GEO tier, IP quality, time on page, UTM source, device type, time of day, form completion time, email domain, deposit intent, referral source, language match, return visitor. Score 0–100 → Tier A/B/C/D."},
+      {icon:"⚡",text:"<strong>Tier A → sales rep in &lt;4h</strong> — CRM creates contact, assigns to senior rep, triggers notification via email or Slack. Fully automated, 0 manual entry."},
+      {icon:"🔗",text:"<strong>Multi-touch FTD attribution</strong> — maps every FTD to the full channel journey (first impression → page visit → form → email click → FTD), not just last click."},
+      {icon:"💰",text:"<strong>MT4/MT5 back-office connection</strong> — when broker deposits, FTD webhook fires → S3 maps deposit to channel journey → ROAS becomes calculable in S5."},
+    ],
+    inputs:[
+      {icon:"📡",text:"<strong>S1 UTM data</strong> — full channel journey parameters for multi-touch attribution."},
+      {icon:"👥",text:"<strong>S2 leads</strong> — form submission webhooks firing to scoring microservice in real-time."},
+      {icon:"💰",text:"<strong>Broker MT4/MT5</strong> — FTD confirmation webhooks from trading platform back-office. Broker must grant API access."},
+    ],
+    outputs:[
+      {icon:"📋",text:"<strong>Scored + attributed leads → CRM</strong> — Tier A/B/C/D with full context, auto-assigned to sales queue."},
+      {icon:"📊",text:"<strong>FTD data with channel attribution → S4</strong> — which campaign generated which FTD, what deposit amount. S4 can then calculate ROAS."},
+      {icon:"📈",text:"<strong>Lead quality metrics → S5</strong> — Tier A%, close rate by channel, lead-to-FTD conversion rate, CPA by attribution model."},
+    ],
+    tech:["Webhook microservice (Python FastAPI)","HubSpot / GoHighLevel / Salesforce","MT4 API / MT5 API","Clearbit (enrichment)","BigQuery","Klaviyo (nurture)"],
+    connections:[
+      {label:"← S1",text:"UTM parameters captured by S1 enable accurate attribution. Without S1, UTM data is often lost in browser redirects.",c:"#64748B"},
+      {label:"← S2",text:"S2 generates the leads. S3 scores, routes, and tracks them. They are inseparable — leads without scoring = untreated pipeline.",c:"#1A56DB"},
+      {label:"→ S4",text:"FTD data + deposit amounts + lead quality distribution feed S4's AI analysis and anomaly detection.",c:"#7C3AED"},
+      {label:"→ S5",text:"Lead quality data (Tier A%, close rate, CPA by channel) enables Channel ROI and Campaign Quality Bridge in S5 dashboard.",c:"#D97706"},
+    ],
+    hil:null,
+    brokerSees:"Every lead is scored automatically and appears in your CRM within 60 seconds of form submit. Tier A leads are already assigned to your sales team before they open your CRM. When an FTD is made, you see it attributed to the exact campaign that acquired it — in real time."
+  },
+  s4:{
+    num:"S4",name:"AI Automation + Signal",kicker:"3-Tier Signal System · Week 3 · Requires S1–S3",
+    color:"#A78BFA",bg:"#14082A",
+    desc:"Runs a 3-tier AI signal system: Micro-Signal every 4h for anomaly detection, Weekly AI Report for the AM, Weekly Digest for the broker. Plus ongoing automation (nurture, chatbot, content).",
+    kpis:[
+      {val:"<4h",key:"Anomaly detection",c:"#A78BFA"},
+      {val:"−60min",key:"AM analysis time saved/week",c:"#A78BFA"},
+      {val:"60%",key:"Repetitive tasks automated",c:"#4ADE80"},
+    ],
+    what:[
+      {icon:"⚡",text:"<strong>Tier 1 — AI Micro-Signal (4×/day)</strong> — Checks CPA, spend pace, lead volume, Tier A response time at 08:00, 12:00, 16:00, 20:00 UTC. Fires only on threshold breach. Silence = all clear."},
+      {icon:"📊",text:"<strong>Tier 2 — Weekly AI Report (AM only)</strong> — Monday morning deep analysis for the AM: 7-day trends, 3–5 prioritised actions, budget reallocation recommendations. Uses Claude API for narrative."},
+      {icon:"📧",text:"<strong>Tier 3 — Weekly Digest (broker-facing)</strong> — Monday 07:00 UTC auto-generated email: spend, leads, FTDs, ROAS, 2 wins, 2 flags with AM handling status."},
+      {icon:"🤖",text:"<strong>Ongoing automation</strong> — lead nurture sequences (n8n), AI chatbot on landing pages, content repurposing. AM time: 3h/week → 30min/week."},
+    ],
+    inputs:[
+      {icon:"📡",text:"<strong>All S1–S3 data via BigQuery</strong> — spend, CPL, leads, FTDs, deposits, tier distribution, attribution data."},
+      {icon:"🤖",text:"<strong>Claude API</strong> — narrative generation for Weekly Digest and Oracle+ (add-on). Micro-Signal is rule-based, no AI needed."},
+    ],
+    outputs:[
+      {icon:"📱",text:"<strong>AI Micro-Signal → AM</strong> — Slack or Telegram alert when CPA spike, lead volume drop, or spend overpace detected."},
+      {icon:"📧",text:"<strong>Weekly Digest → Broker</strong> — Monday 07:00 UTC email with data summary and AM handling status."},
+      {icon:"📋",text:"<strong>Weekly AI Report → AM</strong> — deep analysis and action plan for the coming week."},
+    ],
+    tech:["n8n (workflow automation)","Claude API (narrative)","BigQuery (data warehouse)","SendGrid (email delivery)","Slack API / Telegram Bot API","Redis (queue)"],
+    connections:[
+      {label:"← S3",text:"Needs FTD + deposit + lead quality data to detect anomalies and calculate ROAS accurately.",c:"#0891B2"},
+      {label:"→ S2 (via AM)",text:"S4 detects issue → alerts AM → AM executes in S2 (pause campaign, reallocate budget). Human-in-loop. Not automated like Rappidly.",c:"#1A56DB"},
+      {label:"→ S5",text:"S4 insights and alert history are visible in S5 dashboard — CEO sees what was flagged and how it was handled.",c:"#D97706"},
+    ],
+    hil:"S4 detects. AM decides. AM executes in S2. This is the fundamental difference from Rappidly: Stablly uses AI to detect and surface information — humans execute. Rappidly uses AI to detect AND execute autonomously.",
+    brokerSees:"Every Monday at 07:00, you receive the Weekly Digest in your inbox — no login required, no questions needed. If something goes wrong during the week, your AM gets an alert within 4 hours and handles it. You don't need to check dashboards daily to know if something is wrong."
+  },
+  s5:{
+    num:"S5",name:"Marketing Intelligence",kicker:"Dashboard · Week 3–4 · Requires S1–S4",
+    color:"#FCD34D",bg:"#1C1208",
+    desc:"Two purpose-built dashboards: CEO/Founder view (strategic decisions, Channel ROI, Priority Actions) and Marketing Manager/PPC view (campaign execution, keyword performance, landing pages).",
+    kpis:[
+      {val:"100%",key:"Founder visibility — no AM needed",c:"#FCD34D"},
+      {val:"4h",key:"Dashboard refresh cycle",c:"#FCD34D"},
+      {val:"−15%",key:"CPL after 60 days ICP refinement",c:"#4ADE80"},
+    ],
+    what:[
+      {icon:"👔",text:"<strong>CEO Dashboard — Command Center</strong> — Engine Health, Priority Actions (3 items), Budget Reallocation map, Month Forecast, AI Brief. CEO sees business-level decisions, not keyword-level data."},
+      {icon:"📱",text:"<strong>Marketing Manager Dashboard — PPC View</strong> — 7 tabs: This Week checklist, Overview (Campaign Quality Bridge + ICP Profile), Google Ads (keywords, QS), Meta Ads (ToFu/MoFu/BoFu), Landing Pages, Email, Attribution."},
+      {icon:"🔄",text:"<strong>ICP Refinement loop</strong> — each week of data tightens the ICP model. Age, device, GEO, source pattern confirmed from actual depositors, not industry averages. Feeds back into S2 targeting."},
+      {icon:"📊",text:"<strong>Channel ROI by close rate</strong> — not just CPA. Shows Total Deposits + ROAS per channel and campaign, not just leads and CPL."},
+    ],
+    inputs:[
+      {icon:"📡",text:"<strong>All S1–S4 data via BigQuery</strong> — every metric from every layer aggregated and visualised."},
+      {icon:"📊",text:"<strong>S4 AI Signal history</strong> — what anomalies were detected, what was resolved, what is pending."},
+    ],
+    outputs:[
+      {icon:"👔",text:"<strong>CEO Dashboard → Broker</strong> — strategic view, priority decisions, financial performance."},
+      {icon:"📱",text:"<strong>PPC Dashboard → Marketer/AM</strong> — execution view, campaign details, optimisation actions."},
+    ],
+    tech:["Looker Studio","BigQuery","Retool","Metabase","Supermetrics","GA4"],
+    connections:[
+      {label:"← S4",text:"S4 alert history, digest content, and AI analysis feed into dashboard panels (Priority Actions, Engine Health).",c:"#7C3AED"},
+      {label:"← S1–S3",text:"All tracking, campaign, revenue, and lead data aggregated into a single BigQuery data warehouse before reaching S5.",c:"#64748B"},
+      {label:"→ S2 (insight loop)",text:"CEO or marketer sees dashboard insight → makes budget or targeting decision → executes in S2. Intelligence → action loop.",c:"#1A56DB"},
+    ],
+    hil:null,
+    brokerSees:"Full visibility into your marketing engine without needing to log in to Meta, Google, or ask your AM. CEO dashboard: 5 KPI cards, 3 priority actions, month forecast. Marketer dashboard: 7 tabs with full campaign, keyword, landing page, email, and attribution data. Both update every 4 hours automatically."
+  }
+};
+
+function selectLayer(id){
+  // Update card selection
+  ['s1','s2','s3','s4','s5'].forEach(s=>{
+    const c=document.getElementById('card-'+s);
+    if(s===id) c.classList.add('selected');
+    else c.classList.remove('selected');
+  });
+
+  const L=LAYERS[id];
+  const color=L.color;
+
+  // Build detail HTML
+  const kpiHtml=L.kpis.map(k=>`
+    <div class="det-kpi" style="background:${L.bg};border:1px solid ${color}40;flex:1;min-width:80px;">
+      <div class="det-kpi-val" style="color:${k.c};">${k.val}</div>
+      <div class="det-kpi-key">${k.key}</div>
+    </div>`).join('');
+
+  const whatHtml=L.what.map(i=>`
+    <div class="ds-item">
+      <div class="ds-icon">${i.icon}</div>
+      <div class="ds-text">${i.text}</div>
+    </div>`).join('');
+
+  const inputHtml=L.inputs.map(i=>`
+    <div class="ds-item">
+      <div class="ds-icon">${i.icon}</div>
+      <div class="ds-text">${i.text}</div>
+    </div>`).join('');
+
+  const outputHtml=L.outputs.map(i=>`
+    <div class="ds-item">
+      <div class="ds-icon">${i.icon}</div>
+      <div class="ds-text">${i.text}</div>
+    </div>`).join('');
+
+  const techHtml=L.tech.map(t=>`<div class="tech-pill" style="border-color:${color}40;color:${color};">${t}</div>`).join('');
+
+  const connHtml=L.connections.map(c=>`
+    <div class="cm-item" style="border-left-color:${c.c};">
+      <div class="cmi-lbl" style="color:${c.c};">${c.label}</div>
+      <div class="cmi-text">${c.text}</div>
+    </div>`).join('');
+
+  const hilHtml=L.hil?`
+    <div class="hil-badge">
+      <div class="hil-icon">👤</div>
+      <div class="hil-text"><strong>Human-in-loop:</strong> ${L.hil}</div>
+    </div>`:'';
+
+  document.getElementById('det-inner').innerHTML=`
+    <div style="display:flex;align-items:flex-start;gap:0;padding:0 0 16px;border-bottom:1px solid #1E2D4E;margin-bottom:18px;">
+      <div class="det-num" style="color:${color}40;">${L.num}</div>
+      <div style="flex:1;">
+        <div class="det-kicker" style="color:${color};">${L.kicker}</div>
+        <div class="det-title">${L.name}</div>
+        <div class="det-sub" style="margin-bottom:12px;">${L.desc}</div>
+        <div class="det-kpi-row">${kpiHtml}</div>
+      </div>
+    </div>
+
+    <div class="det-grid">
+      <div class="det-section">
+        <div class="ds-lbl">What it does</div>
+        ${whatHtml}
+      </div>
+      <div class="det-section">
+        <div class="ds-lbl">Inputs</div>
+        ${inputHtml}
+        <div class="ds-lbl" style="margin-top:12px;">Outputs</div>
+        ${outputHtml}
+      </div>
+      <div class="det-section">
+        <div class="ds-lbl">Tech stack</div>
+        <div class="tech-pills">${techHtml}</div>
+      </div>
+      <div class="det-section">
+        <div class="ds-lbl">Layer connections</div>
+        <div class="conn-map">${connHtml}</div>
+        ${hilHtml}
+      </div>
+      <div class="det-section full" style="border-left:4px solid ${color};background:${L.bg};">
+        <div class="ds-lbl" style="color:${color};">What broker sees at this layer</div>
+        <div style="font-size:12.5px;color:#CBD5E1;line-height:1.75;">${L.brokerSees}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('intro-screen').style.display='none';
+  document.getElementById('detail-content').style.display='block';
+}
+
+// Auto-select S1 on load
+selectLayer('s1');
+</script>
+</body>
+</html>
