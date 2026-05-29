@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>AI Micro-Signal · Telegram · FX1</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',system-ui,sans-serif;background:#111827;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 0 40px;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  .header{text-align:center;margin-bottom:14px;padding:0 16px;}
+  .badges{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;}
+  .badge{font-size:9px;font-weight:800;letter-spacing:1.5px;padding:3px 10px;border-radius:20px;text-transform:uppercase;}
+  .b1{background:#1A56DB;color:#fff;}
+  .b2{background:#1E293B;color:#64748B;border:1px solid #334155;}
+  .b3{background:#0F2744;color:#2AABEE;border:1px solid #1A4A7A;}
+  .title{font-size:17px;font-weight:800;color:#F1F5F9;}
+
+  .phone{width:310px;background:#1C1C1E;border-radius:42px;padding:9px;box-shadow:0 0 0 1.5px #3A3A3C,0 32px 64px rgba(0,0,0,.7);}
+  .screen{background:#0E1621;border-radius:34px;overflow:hidden;display:flex;flex-direction:column;height:600px;}
+
+  .sbar{background:#17212B;padding:11px 18px 5px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+  .sbar-t{font-size:13px;font-weight:700;color:#fff;}
+  .sbar-r{display:flex;align-items:center;gap:4px;color:#fff;font-size:10px;}
+  .bars{display:flex;align-items:flex-end;gap:1px;}
+  .bar{background:#fff;border-radius:1px;width:2px;}
+
+  .tg-head{background:#17212B;padding:5px 12px 9px;display:flex;align-items:center;gap:9px;border-bottom:1px solid #1C2B3A;flex-shrink:0;}
+  .back{color:#2AABEE;font-size:19px;line-height:1;}
+  .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1A56DB,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+  .cnt{flex:1;min-width:0;}
+  .cname{font-size:13px;font-weight:700;color:#fff;}
+  .cst{font-size:10px;color:#7B9AB8;display:flex;align-items:center;gap:3px;}
+  .don{width:5px;height:5px;border-radius:50%;background:#4ADE80;}
+  .menu{color:#7B9AB8;font-size:17px;}
+
+  .chat{flex:1;overflow-y:auto;padding:8px 9px 5px;display:flex;flex-direction:column;gap:3px;background:#0E1621;scroll-behavior:smooth;}
+  .chat::-webkit-scrollbar{width:0;}
+
+  .dc{text-align:center;margin:7px 0 3px;}
+  .dc span{background:#182533;color:#7B9AB8;font-size:9.5px;font-weight:600;padding:3px 9px;border-radius:18px;}
+
+  .row{display:flex;}
+  .row.in{justify-content:flex-start;}
+  .row.out{justify-content:flex-end;margin-bottom:2px;}
+  .bub{max-width:86%;border-radius:14px;padding:6px 9px;word-break:break-word;}
+  .bub.in{background:#1E2D3D;border-radius:3px 14px 14px 14px;}
+  .bub.out{background:#2B5278;border-radius:14px 3px 14px 14px;}
+  .bub.sys{background:#182533;border-radius:9px;padding:4px 9px;border:1px solid #1E3A5F;}
+  .bub.crit{background:#2D1515;border-left:3px solid #DC2626;}
+  .bub.warn{background:#2D1E0F;border-left:3px solid #D97706;}
+  .bub.ok{background:#0F2D1B;border-left:3px solid #059669;}
+
+  .from{font-size:10px;font-weight:700;color:#2AABEE;margin-bottom:2px;}
+  .em{font-size:15px;line-height:1;}
+  .hl{font-size:12px;font-weight:800;color:#F1F5F9;margin:2px 0 1px;line-height:1.3;}
+  .sb{font-size:9.5px;color:#7B9AB8;margin-bottom:5px;}
+  .hr{height:1px;background:#1C3048;margin:5px 0;}
+
+  .rf{display:flex;align-items:baseline;gap:3px;margin-bottom:2px;}
+  .fk{font-size:9.5px;color:#7B9AB8;font-weight:600;min-width:68px;flex-shrink:0;}
+  .fv{font-size:10.5px;color:#E2E8F0;}
+  .fv.r{color:#F87171;font-weight:800;}
+  .fv.g{color:#4ADE80;font-weight:700;}
+  .fv.a{color:#FCD34D;font-weight:700;}
+
+  .cb{background:#0D1E2D;border-radius:4px;padding:5px 7px;margin:4px 0;font-family:monospace;font-size:9px;color:#93C5FD;line-height:1.5;}
+
+  .ab{border-radius:6px;padding:6px 8px;margin-top:4px;}
+  .ab.c{background:#1A0808;}
+  .ab.w{background:#1A1208;}
+  .ab.o{background:#0A1F10;}
+  .abl{font-size:8.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:2px;}
+  .abl.r{color:#EF4444;}
+  .abl.a{color:#F59E0B;}
+  .abl.g{color:#4ADE80;}
+  .at2{font-size:10px;color:#CBD5E1;line-height:1.5;}
+  .nc{font-size:9px;color:#4B6A85;margin-top:4px;}
+
+  .btns{margin-top:6px;display:flex;flex-direction:column;gap:2px;}
+  .tbtn{background:#1A3A5C;border:none;border-radius:6px;padding:6px 9px;color:#2AABEE;font-size:10.5px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;text-align:center;transition:background .15s;width:100%;}
+  .tbtn:hover{background:#1E4570;}
+  .tbtn.done{background:#0F2D1B;color:#4ADE80;cursor:default;}
+
+  .am-t{font-size:11px;color:#E2E8F0;line-height:1.5;}
+  .ts{font-size:9px;color:#4B6A85;text-align:right;margin-top:2px;display:flex;align-items:center;justify-content:flex-end;gap:2px;}
+  .ticks{color:#2AABEE;}
+
+  .ck-row{display:flex;align-items:center;gap:4px;padding:1px 0;}
+  .ck{font-size:10px;}
+  .ct{font-size:9.5px;color:#CBD5E1;flex:1;}
+  .cv{font-size:9px;color:#4ADE80;font-family:monospace;}
+
+  .silence{display:flex;flex-direction:column;align-items:center;padding:16px 10px;text-align:center;gap:7px;}
+  .si{font-size:32px;}
+  .st{font-size:12px;font-weight:800;color:#4ADE80;}
+  .ss{font-size:10px;color:#4B6A85;line-height:1.6;}
+
+  .ibar{background:#17212B;padding:6px 9px;display:flex;align-items:center;gap:7px;border-top:1px solid #1C2B3A;flex-shrink:0;}
+  .ii{color:#7B9AB8;font-size:16px;}
+  .inp{flex:1;background:#1E2D3D;border:none;border-radius:16px;padding:6px 11px;color:#7B9AB8;font-size:11px;font-family:'DM Sans',sans-serif;outline:none;}
+  .home{background:#17212B;padding:4px 0 10px;display:flex;justify-content:center;flex-shrink:0;}
+  .hb{width:90px;height:3px;background:#3A3A3C;border-radius:2px;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badges">
+    <span class="badge b1">FX1</span>
+    <span class="badge b2">Stablly S4</span>
+    <span class="badge b3">Telegram</span>
+  </div>
+  <div class="title">AI Micro-Signal Alert</div>
+</div>
+
+<div class="phone"><div class="screen">
+
+  <div class="sbar">
+    <span class="sbar-t">09:14</span>
+    <div class="sbar-r">
+      <div class="bars">
+        <div class="bar" style="height:3px;"></div>
+        <div class="bar" style="height:5px;"></div>
+        <div class="bar" style="height:7px;"></div>
+        <div class="bar" style="height:9px;"></div>
+      </div>
+      <span>WiFi 🔋</span>
+    </div>
+  </div>
+
+  <div class="tg-head">
+    <div class="back">‹</div>
+    <div class="av">⚡</div>
+    <div class="cnt">
+      <div class="cname">Stablly S4</div>
+      <div class="cst"><div class="don"></div>bot · always active</div>
+    </div>
+    <div class="menu">⋮</div>
+  </div>
+
+  <div class="chat" id="chat">
+
+    <!-- MON 14 JUL -->
+    <div class="dc"><span>Monday, 14 July 2025</span></div>
+
+    <div class="row in">
+      <div class="bub sys">
+        <div style="font-size:9.5px;color:#4ADE80;">✅ 08:00 · All clear · All 7 metrics OK</div>
+        <div class="ts">08:00</div>
+      </div>
+    </div>
+
+    <div class="row in">
+      <div class="bub sys">
+        <div style="font-size:9.5px;color:#4ADE80;">✅ 12:00 · All clear · All 7 metrics OK</div>
+        <div class="ts">12:00</div>
+      </div>
+    </div>
+
+    <div class="row in">
+      <div class="bub crit">
+        <div class="from">Stablly S4</div>
+        <div class="em">🔴</div>
+        <div class="hl">CRITICAL — CPA Spike</div>
+        <div class="sb">Prime Markets · 16:00 UTC · Mon 14 Jul</div>
+        <div class="hr"></div>
+        <div class="rf"><span class="fk">Channel</span><span class="fv">Meta Broad Interest</span></div>
+        <div class="rf"><span class="fk">Current CPA</span><span class="fv r">$2,890</span></div>
+        <div class="rf"><span class="fk">Target CPA</span><span class="fv">$1,190</span></div>
+        <div class="rf"><span class="fk">Breach</span><span class="fv r">+142.9% above target</span></div>
+        <div class="rf"><span class="fk">Duration</span><span class="fv r">2 cycles · 6 hours</span></div>
+        <div class="rf"><span class="fk">Spend today</span><span class="fv">$480 · 0 FTDs</span></div>
+        <div class="cb">CPA($2,890) > target($1,190) × 1.5
+AND duration ≥ 2 cycles
+→ WARNING escalated → CRITICAL</div>
+        <div class="ab c">
+          <div class="abl r">⚡ Suggested action</div>
+          <div class="at2">Pause Meta Broad Interest immediately. Reallocate to Retargeting (CPA $600). Expected: CPA returns to target by 20:00 check.</div>
+        </div>
+        <div class="nc">⏱ Next check: 20:00 UTC (3h 47m)</div>
+        <div class="btns">
+          <button class="tbtn" id="btn-handled" onclick="markHandled()">✅ Mark as Handled</button>
+          <button class="tbtn">📊 View Dashboard</button>
+        </div>
+        <div class="ts">16:00</div>
+      </div>
+    </div>
+
+    <div class="row out" id="am-reply" style="display:none;">
+      <div class="bub out">
+        <div class="am-t">✅ Handled. Paused at 16:09. Reallocating $480 to Retargeting. Back at 20:00.</div>
+        <div class="ts">16:09 <span class="ticks">✓✓</span></div>
+      </div>
+    </div>
+
+    <div class="row in" id="resolved" style="display:none;">
+      <div class="bub ok">
+        <div class="from">Stablly S4</div>
+        <div class="em">✅</div>
+        <div class="hl">RESOLVED — 20:00 Check</div>
+        <div class="sb">Prime Markets · Mon 14 Jul</div>
+        <div class="hr"></div>
+        <div class="rf"><span class="fk">Portfolio CPA</span><span class="fv g">$1,210 · within target ✓</span></div>
+        <div class="rf"><span class="fk">Meta Broad</span><span class="fv g">Paused · $0 since 16:09</span></div>
+        <div class="rf"><span class="fk">Retargeting</span><span class="fv g">+$160 reallocated · 1 new lead</span></div>
+        <div class="nc">Resolved within 4h 09m of detection ✓</div>
+        <div class="ts">20:00</div>
+      </div>
+    </div>
+
+    <!-- TUE 15 JUL -->
+    <div class="dc"><span>Tuesday, 15 July 2025</span></div>
+
+    <div class="row in">
+      <div class="bub sys">
+        <div style="font-size:9.5px;color:#4ADE80;">✅ 08:00 · All clear</div>
+        <div class="ts">08:00</div>
+      </div>
+    </div>
+
+    <div class="row in">
+      <div class="bub warn">
+        <div class="from">Stablly S4</div>
+        <div class="em">🟠</div>
+        <div class="hl">WARNING — Lead Volume Low</div>
+        <div class="sb">Prime Markets · 12:00 UTC · Tue 15 Jul</div>
+        <div class="hr"></div>
+        <div class="rf"><span class="fk">Leads today</span><span class="fv a">8 leads by 12:00</span></div>
+        <div class="rf"><span class="fk">Daily target</span><span class="fv">18 leads</span></div>
+        <div class="rf"><span class="fk">Pacing</span><span class="fv a">44% at midday</span></div>
+        <div class="ab w">
+          <div class="abl a">⚠️ Suggested action</div>
+          <div class="at2">Check landing page + ad delivery. If OK: monitor until 16:00 — AU peak starts ~14:00.</div>
+        </div>
+        <div class="nc">⏱ Next check: 16:00 UTC</div>
+        <div class="btns">
+          <button class="tbtn">🔍 Checking now</button>
+        </div>
+        <div class="ts">12:00</div>
+      </div>
+    </div>
+
+    <div class="row out">
+      <div class="bub out">
+        <div class="am-t">Pages OK, ads delivering. AU lag. Monitoring til 16:00.</div>
+        <div class="ts">12:14 <span class="ticks">✓✓</span></div>
+      </div>
+    </div>
+
+    <div class="row in">
+      <div class="bub ok">
+        <div class="from">Stablly S4</div>
+        <div class="em">✅</div>
+        <div class="hl">RECOVERED — 16:00 Check</div>
+        <div class="sb">Prime Markets · Tue 15 Jul</div>
+        <div class="hr"></div>
+        <div class="rf"><span class="fk">Leads today</span><span class="fv g">16 leads · 89% of target ✓</span></div>
+        <div class="rf"><span class="fk">Recovery</span><span class="fv g">+8 leads via AU afternoon peak</span></div>
+        <div class="nc">No action required.</div>
+        <div class="ts">16:00</div>
+      </div>
+    </div>
+
+    <div class="row in">
+      <div class="bub sys">
+        <div style="font-size:9.5px;color:#4ADE80;">✅ 20:00 · All clear</div>
+        <div class="ts">20:00</div>
+      </div>
+    </div>
+
+    <!-- WED 16 JUL -->
+    <div class="dc"><span>Wednesday, 16 July 2025</span></div>
+
+    <div class="silence">
+      <div class="si">🔇</div>
+      <div class="st">No messages today</div>
+      <div class="ss">4 checks ran · All 7 metrics OK<br><strong style="color:#4ADE80;">Silence = account running normally.</strong></div>
+    </div>
+
+    <div class="row in">
+      <div class="bub ok">
+        <div class="from">Stablly S4</div>
+        <div style="font-size:10px;font-weight:700;color:#4ADE80;margin-bottom:5px;">✅ All 4 checks passed · Wed 16 Jul</div>
+        <div class="ck-row"><span class="ck">✅</span><span class="ct">CPA</span><span class="cv">$1,170 ✓</span></div>
+        <div class="ck-row"><span class="ck">✅</span><span class="ct">Spend pace</span><span class="cv">79% ✓</span></div>
+        <div class="ck-row"><span class="ck">✅</span><span class="ct">Lead volume</span><span class="cv">23 leads ✓</span></div>
+        <div class="ck-row"><span class="ck">✅</span><span class="ct">Tier A response</span><span class="cv">52 min ✓</span></div>
+        <div class="ck-row"><span class="ck">✅</span><span class="ct">Creative frequency</span><span class="cv">Max 2.1× ✓</span></div>
+        <div class="ck-row"><span class="ck">✅</span><span class="ct">Landing pages</span><span class="cv">All &lt;3s ✓</span></div>
+        <div style="margin-top:5px;font-size:8.5px;color:#2D5A40;">In production: nothing sent when all clear.</div>
+        <div class="ts">20:00</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ibar">
+    <div class="ii">📎</div>
+    <input class="inp" placeholder="Message" readonly>
+    <div class="ii">🎤</div>
+  </div>
+  <div class="home"><div class="hb"></div></div>
+
+</div></div>
+
+<script>
+function markHandled(){
+  var btn=document.getElementById('btn-handled');
+  btn.className='tbtn done';
+  btn.textContent='✅ Handled';
+  btn.onclick=null;
+  document.getElementById('am-reply').style.display='flex';
+  setTimeout(function(){
+    document.getElementById('resolved').style.display='flex';
+    var c=document.getElementById('chat');
+    c.scrollTop=c.scrollHeight;
+  },600);
+  var c=document.getElementById('chat');
+  c.scrollTop=c.scrollHeight;
+}
+</script>
+</body>
+</html>
